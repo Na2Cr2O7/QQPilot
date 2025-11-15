@@ -44,8 +44,13 @@ VisionQQ 是一个基于计算机视觉（CV）与 OCR 技术的 QQ 聊天机器
 会自动安装：`easyocr,pillow,pyautogui,pyperclip,requests,ollama,colorama,pyautogui` 等依赖包。
 步骤三：配置模型
 推荐安装 [Ollama](https://ollama.com/) 并拉取模型：
+
+
 ```bash
-ollama pull huihui_ai/gemma3-abliterated:1b```
+ollama pull huihui_ai/gemma3-abliterated:1b
+```
+
+
 或修改 config.ini 指向本地模型服务地址（支持 HTTP API 接口）
 步骤四：设置参数
 运行 `设置.exe` 配置
@@ -89,4 +94,5 @@ ollama pull huihui_ai/gemma3-abliterated:1b```
 
 
 欢迎提交 Issue 或 Pull Request！
+
 
