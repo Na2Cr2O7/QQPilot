@@ -32,9 +32,9 @@ VisionQQ 是一个基于计算机视觉（CV）与 OCR 技术的 QQ 聊天机器
 将识别出的消息传入本地大语言模型（如 Ollama 运行的 Llama3、Qwen 等）
 获取回复文本
 7. 自动发送：
-将回复文本粘贴至 QQ 输入框
+将回复文本粘贴至 QQ 输入框并发送随机表情包(.\Images)
 模拟回车键发送消息
-8. 清理会话：发送后关闭当前聊天窗口，准备下一轮监听。
+9. 清理会话：发送后关闭当前聊天窗口，准备下一轮监听。
 
 📦 安装指南
 步骤一：下载项目
@@ -44,19 +44,19 @@ VisionQQ 是一个基于计算机视觉（CV）与 OCR 技术的 QQ 聊天机器
 会自动安装：`easyocr,pillow,pyautogui,pyperclip,requests,ollama,colorama,pyautogui` 等依赖包。
 步骤三：配置模型
 推荐安装 [Ollama](https://ollama.com/) 并拉取模型：
-bash
-ollama pull huihui_ai/gemma3-abliterated:1b
+```bash
+ollama pull huihui_ai/gemma3-abliterated:1b```
 或修改 config.ini 指向本地模型服务地址（支持 HTTP API 接口）
 步骤四：设置参数
 运行 `设置.exe` 配置
 
 ▶️ 使用方法
-
+0. 准备表情包放在`.\Image`文件夹下。
 1. 打开 QQ 客户端并登录账号。
 2. 确保 QQ 主界面可见（不要最小化）。
 3. 双击运行 run.bat 启动主程序。
 4. 程序将自动监控未读消息并回复。
-💡 建议保持 QQ 窗口不被遮挡，避免多显示器错位问题。
+💡 保持 QQ 窗口不被遮挡。
 
 ⚠️ 使用注意事项
 
@@ -71,8 +71,8 @@ ollama pull huihui_ai/gemma3-abliterated:1b
 
 ## 编译
 本项目使用 `Python 3.13` 编写，依赖包见 `requirements.txt`。
-同时，你还需要用C++编译器编译 `FocusqqWindow.exe` 和 `ScaleToINI.exe`。
-接着是用 Visual Studio 2022 编译 `Opt.cs`。
+同时，你还需要用C++编译器编译 `FocusqqWindow.exe` , `ScaleToINI.exe` , `uploadFile.dll`。
+接着是用 Visual Studio 2026 编译 `Opt.cs`。
 
 
 📌 参考图示：
@@ -89,3 +89,4 @@ ollama pull huihui_ai/gemma3-abliterated:1b
 
 
 欢迎提交 Issue 或 Pull Request！
+
