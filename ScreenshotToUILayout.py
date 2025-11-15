@@ -64,7 +64,13 @@ def sendTextWithoutClick(text:str):
     time.sleep(.2)
     pyautogui.hotkey('ctrl', 'v')
         
-        
+import ctypes
+import os
+def uploadFile():
+    dll=ctypes.CDLL(os.path.abspath('uploadFile.dll'))
+    # extern "C" int __declspec(dllexport) upload()
+    dll.upload()
+    print('\n')
     
 
 
@@ -89,8 +95,14 @@ if __name__ == '__main__':
     config=configparser.ConfigParser()
     config.read('config.ini',encoding='utf-8')
     size: tuple[int, int]=int(config.get('general','width')),int(config.get('general','height'))
+
     scale=float(config.get('general','scale'))
     scrollTries=int(config.get('general','scroll'))
+    withImage=config.get('general','withImage')
+    if withImage=='True':
+        withImage=True
+    else:
+        withImage=False
     size=(int(size[0]*scale),int(size[1]*scale))
 
     logging.debug(f"size with scale: {size}, scale: {scale}")
@@ -116,6 +128,10 @@ if __name__ == '__main__':
 
     exitConversationActualSize: tuple[int, int, int, int]=positions.toActualSize(positions.EXIT_CONVERSATION_BBOX_RELATIVE_SIZE,size)
     logging.debug(f"exitConversationActualSize: {exitConversationActualSize}")
+
+    sendImageActualSize: tuple[int, int, int, int]=positions.toActualSize(positions.SEND_IMAGE_BBOX_RELATIVE_SIZE,size)
+    logging.debug(f"sendImageActualSize: {sendImageActualSize}")
+
 
     while True:
         im=screenshot(positionRect)
@@ -168,6 +184,15 @@ if __name__ == '__main__':
                 print(result)
                 sendTextWithoutClick(result)
             print(Fore.RESET)
+
+            # upload image
+            if withImage:
+                click(sendImageActualSize[0]+((sendImageActualSize[2]-sendImageActualSize[0])//2),sendImageActualSize[1]+((sendImageActualSize[3]-sendImageActualSize[1])//2))
+
+                time.sleep(6)
+
+                uploadFile()
+                time.sleep(2)
 
 
             # click "send" button
