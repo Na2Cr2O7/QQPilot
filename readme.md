@@ -66,6 +66,8 @@ ollama pull huihui_ai/gemma3-abliterated:1b
 ⚠️ 使用注意事项
 
 为了提高识别准确率，请按如下设置 QQ：
+
+
 ----------------
 |设置项| 推荐值|
 -------- --------
@@ -94,5 +96,6 @@ ollama pull huihui_ai/gemma3-abliterated:1b
 
 
 欢迎提交 Issue 或 Pull Request！
+
 
 
