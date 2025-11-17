@@ -75,13 +75,15 @@ def clickTexts(imagePath:str, text:str) -> bool:
 import subprocess
 import ctypes
 
-def focus():
-    subprocess.run('focusqqwindow.exe')
 # def focus():
-#     dll=ctypes.CDLL(os.path.abspath('FocusQQWindow2.dll'))
-#     # extern "C" int __declspec(dllexport) focus()
-#     dll.focus()
+#     subprocess.run('focusqqwindow.exe')
+def focus():
+    dll=ctypes.CDLL(os.path.abspath('FocusQQWindow2.dll'))
+    # extern "C" int __declspec(dllexport) focus()
+    dll.focus()
 if __name__ == '__main__':
-    pass
+    while True: 
+        input("Press Enter to continue...")
+        focus()
 
 
