@@ -68,13 +68,12 @@ ollama pull huihui_ai/gemma3-abliterated:1b
 为了提高识别准确率，请按如下设置 QQ：
 
 
-----------------
 |设置项| 推荐值|
--------- --------
 |联系人面板宽度 |拉到最窄（便于红点定位）|
 |字体大小| 调至“最小”|
 |聊天背景| 建议使用默认白色背景|
 |系统缩放 |推荐 100% 或 125%，避免过高缩放导致坐标偏移|
+|发送|Ctrl+Enter|
 
 ## 编译
 本项目使用 `Python 3.13` 编写，依赖包见 `requirements.txt`。
@@ -96,6 +95,7 @@ ollama pull huihui_ai/gemma3-abliterated:1b
 
 
 欢迎提交 Issue 或 Pull Request！
+
 
 
 
