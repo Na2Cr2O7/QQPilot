@@ -13,9 +13,7 @@ import positions
 
 from PIL.ImageFile import ImageFile
 
-import pyautogui
-import pytweening
-import pyperclip
+
 # import getWindowScale
 # getWindowScale.setInIWindowScale()
 
@@ -24,53 +22,15 @@ import configparser
 # logging.debug("importing easyocr")
 
 import numpy as np
-
+import threading
 import answer
 import enhance
 logging.info("importing ocr")
 import ocr
 
-# import subprocess
-# subprocess.run("FocusqqWindow.exe")
-
-# logging.debug("initializing reader")
-
-def click(x: int, y: int):
-    print(x,y)
-    pyautogui.moveTo(x, y,duration=1, tween=pytweening.easeInOutQuad)
-    pyautogui.click()
-def goto(x: int, y: int):
-    pyautogui.moveTo(x, y,duration=1, tween=pytweening.easeInOutQuad)
-def scrollUp(length: int = 120):
-    for i in range(4):
-        pyautogui.scroll(length)
-        time.sleep(.1)
-def scrollDown(length: int = 120):
-    for i in range(4):
-        pyautogui.scroll(-length)
-        time.sleep(.1)
-def sendTextWithoutClick(text:str):
-    temp=''
-    for i in text:
-        if i=='\n':
-            pyperclip.copy(temp)
-            time.sleep(.2)
-            temp=''
-            pyautogui.hotkey('ctrl', 'v')
-            pyautogui.press('enter')
-            continue
-        temp+=i
-    pyperclip.copy(temp)
-    time.sleep(.2)
-    pyautogui.hotkey('ctrl', 'v')
+from GUIOperation import click,goto,scrollUp,scrollDown,sendTextWithoutClick,uploadFile,focus,clickTexts
         
-import ctypes
-import os
-def uploadFile():
-    dll=ctypes.CDLL(os.path.abspath('uploadFile.dll'))
-    # extern "C" int __declspec(dllexport) upload()
-    dll.upload()
-    print('\n')
+
     
 
 
@@ -90,7 +50,18 @@ def screenshot(positionRect: tuple[int, int, int, int]) -> Image.Image:
     logging.debug(f"screenshotting {ImageGrab.grab(bbox=positionRect)}")
     return ImageGrab.grab(bbox=positionRect)
 logging.info("Successfully imported all modules")
+
+autoFocusShouldRun=True
+def autoFocus():
+    global autoFocusShouldRun
+    while autoFocusShouldRun:
+        focus()
+        time.sleep(4)
+
+
 if __name__ == '__main__':
+    focus()
+    time.sleep(1)
 
     config=configparser.ConfigParser()
     config.read('config.ini',encoding='utf-8')
@@ -99,10 +70,41 @@ if __name__ == '__main__':
     scale=float(config.get('general','scale'))
     scrollTries=int(config.get('general','scroll'))
     withImage=config.get('general','withImage')
+    autoLogin=config.get('general','autoLogin')
+    autoFocusing=config.get('general','autoFocusing')
+    t=None
+    if autoFocusing=='True':
+        logging.info("Auto focusing is enabled")
+        t=threading.Thread(target=autoFocus)
+        t.start()
+    if autoLogin=='True':
+        logging.info("Auto login is enabled")
+       
+
+        while True:
+            isLogin=False
+            for i in range(4):
+                logging.info("Waiting for login button")
+                ImageGrab.grab().save('login.png')
+                if clickTexts('login.png',"登录"):
+                    isLogin=True
+                    break
+                time.sleep(1)
+            if isLogin:
+                break
+            if input("如果已经登录，请输入'A'继续,否则按回车继续登录:").capitalize()=='A':
+                break
+
+
+
+    
     if withImage=='True':
         withImage=True
     else:
         withImage=False
+
+    
+    
     size=(int(size[0]*scale),int(size[1]*scale))
 
     logging.debug(f"size with scale: {size}, scale: {scale}")
@@ -134,82 +136,81 @@ if __name__ == '__main__':
 
 
     while True:
-        im=screenshot(positionRect)
-        im.save("screenshot.png")
-        chatList: Image.Image=im.crop(chatListActualSize)
-        del im
+        try:
+            im=screenshot(positionRect)
+            im.save("screenshot.png")
+            chatList: Image.Image=im.crop(chatListActualSize)
+            del im
 
-        contain: tuple[int, int] | Literal[False]=containsRedDot(chatList)
-        if contain :
-            click(contain[0]+chatListActualSize[0],contain[1]+chatListActualSize[1])
-            time.sleep(2)
-            
-
-            # conversation
-            goto(conversationActualSize[0]+((conversationActualSize[2]-conversationActualSize[0])//2),conversationActualSize[1]+((conversationActualSize[3]-conversationActualSize[1])//2))
-            for _ in range(scrollTries):
-                scrollUp()
-            conversationText=set()
-            for scrollTry in range(scrollTries):
-                
-                im=screenshot(positionRect)
-                
-
-                conversation=im.crop(conversationActualSize)
-                del im
-
-                # conversationTexts=getAllTextWithBoxesDrawn("conversation.png")
-                # print(conversationTexts)
-                fn=f"conversation{scrollTry}.png"
-                conversation.save(fn)
-
-
-                conversation=enhance.getConversation(fn)
-
-
-                for i in ocr.getAllTextWithBoxesDrawn(conversation):
-                    conversationText.add(i)
-                scrollDown()
-
-            
-            #send answer
-            click(commentSectionActualSize[0]+((commentSectionActualSize[2]-commentSectionActualSize[0])//2),commentSectionActualSize[1]+((commentSectionActualSize[3]-commentSectionActualSize[1])//2))
-
-
-            logging.info(f"{Fore.CYAN}{conversationText}{Fore.RESET}")
-
-            result=answer.getAnswer('\n'.join(list(conversationText)))
-            print(Fore.CYAN)
-            if type(result)==str:
-                print(result)
-                sendTextWithoutClick(result)
-            print(Fore.RESET)
-
-            # upload image
-            if withImage:
-                click(sendImageActualSize[0]+((sendImageActualSize[2]-sendImageActualSize[0])//2),sendImageActualSize[1]+((sendImageActualSize[3]-sendImageActualSize[1])//2))
-
-                time.sleep(6)
-
-                uploadFile()
+            contain: tuple[int, int] | Literal[False]=containsRedDot(chatList)
+            if contain :
+                click(contain[0]+chatListActualSize[0],contain[1]+chatListActualSize[1])
                 time.sleep(2)
+                
+
+                # conversation
+                goto(conversationActualSize[0]+((conversationActualSize[2]-conversationActualSize[0])//2),conversationActualSize[1]+((conversationActualSize[3]-conversationActualSize[1])//2))
+                for _ in range(scrollTries):
+                    scrollUp()
+                conversationText=set()
+                for scrollTry in range(scrollTries):
+                    
+                    im=screenshot(positionRect)
+                    
+
+                    conversation=im.crop(conversationActualSize)
+                    del im
+
+                    # conversationTexts=getAllTextWithBoxesDrawn("conversation.png")
+                    # print(conversationTexts)
+                    fn=f"conversation{scrollTry}.png"
+                    conversation.save(fn)
 
 
-            # click "send" button
-            click(sendButtonActualSize[0]+((sendButtonActualSize[2]-sendButtonActualSize[0])//2)
-                      ,sendButtonActualSize[1]+((sendButtonActualSize[3]-sendButtonActualSize[1])//2))
-            
-            time.sleep(.1)
+                    conversation=enhance.getConversation(fn)
 
-            # exit conversation
-            click(exitConversationActualSize[0],exitConversationActualSize[1])
 
-            
+                    for i in ocr.getAllTextWithBoxesDrawn(conversation):
+                        conversationText.add(i)
+                    scrollDown()
 
-    im.save("screenshot_result.png")
+                
+                #send answer
+                click(commentSectionActualSize[0]+((commentSectionActualSize[2]-commentSectionActualSize[0])//2),commentSectionActualSize[1]+((commentSectionActualSize[3]-commentSectionActualSize[1])//2))
 
-    conversationTexts=getAllTextWithBoxesDrawn("conversation.png")
 
+                logging.info(f"{Fore.CYAN}{conversationText}{Fore.RESET}")
+
+                result=answer.getAnswer('\n'.join(list(conversationText)))
+                print(Fore.CYAN)
+                if type(result)==str:
+                    print(result)
+                    sendTextWithoutClick(result)
+                print(Fore.RESET)
+
+                # upload image
+                if withImage:
+                    click(sendImageActualSize[0]+((sendImageActualSize[2]-sendImageActualSize[0])//2),sendImageActualSize[1]+((sendImageActualSize[3]-sendImageActualSize[1])//2))
+
+                    time.sleep(6)
+
+                    uploadFile()
+                    time.sleep(2)
+
+
+                # click "send" button
+                click(sendButtonActualSize[0]+((sendButtonActualSize[2]-sendButtonActualSize[0])//2)
+                        ,sendButtonActualSize[1]+((sendButtonActualSize[3]-sendButtonActualSize[1])//2))
+                
+                time.sleep(.1)
+
+                # exit conversation
+                click(exitConversationActualSize[0],exitConversationActualSize[1])
+        except KeyboardInterrupt:
+            logging.error("KeyboardInterrupt")
+            autoFocusShouldRun=False
+            if t:
+                t.join()
 
 
 # im=py
