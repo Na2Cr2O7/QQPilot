@@ -26,12 +26,12 @@ static bool stringInString(const std::wstring& text, const std::wstring& search)
 }
 extern "C" int __declspec(dllexport) upload()
 {
-	srand(static_cast<size_t>(time(NULL)));
 
 
 	const wchar_t* imageExts[] = { L".gif",L".png",L".jpg",L".jpeg",L".webp",L".avif",L".bmp" };
 	//列出所有文件
 	WIN32_FIND_DATA findFileData;
+	
 	HANDLE hFind = INVALID_HANDLE_VALUE;
 	WCHAR pathwithastar[MAX_PATH];
 	WCHAR path[MAX_PATH];
@@ -88,8 +88,9 @@ extern "C" int __declspec(dllexport) upload()
 	{
 		std::wcout << image << std::endl;
 	}
-
-	selectedImage = std::wstring(path, std::wcslen(pathwithastar) - 1) + images[rand() % (images.size() - 1)];
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+	std::shuffle(images.begin(), images.end(), std::default_random_engine(seed));
+	selectedImage = std::wstring(path, std::wcslen(pathwithastar) - 1) + images[0];
 
 	// 上传文件
 	EnumWindows(uploadFile, NULL);

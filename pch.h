@@ -6,19 +6,19 @@
 
 #ifndef PCH_H
 #define PCH_H
-#define _CRT_SECURE_NO_WARNINGS
+
 // 添加要在此处预编译的标头
+#define _CRT_SECURE_NO_WARNINGS
 #include "framework.h"
 
-
 #include <iostream>
-#include<Windows.h>
-#include <strsafe.h>
-#include<cstdlib>
-#include <memory>
-#include<algorithm>
+#include <Windows.h>
+#include <tchar.h>
+#include "inicpp.hpp"
 #include<vector>
-#include<ctime>
-#include<chrono>
-#include<random>
+#include<memory>
+
+#include <string>
+
+
 #endif //PCH_H
