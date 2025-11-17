@@ -78,7 +78,7 @@ ollama pull huihui_ai/gemma3-abliterated:1b
 
 ## 编译
 本项目使用 `Python 3.13` 编写，依赖包见 `requirements.txt`。
-同时，你还需要用C++编译器编译 `FocusqqWindow.exe` , `ScaleToINI.exe` , `uploadFile.dll`。
+同时，你还需要用C++编译器编译 `FocusqqWindow2.dll` , `ScaleToINI.exe` , `uploadFile.dll`。
 接着是用 Visual Studio 2026 编译 `Opt.cs`。
 
 
@@ -96,6 +96,7 @@ ollama pull huihui_ai/gemma3-abliterated:1b
 
 
 欢迎提交 Issue 或 Pull Request！
+
 
 
 
