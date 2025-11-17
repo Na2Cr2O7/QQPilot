@@ -21,7 +21,10 @@ namespace Opt
             string apikey = data["general"]["api_key"];
             string serverURL = data["general"]["server_url"];
             string systemPrompt = data["general"]["system"];
-            string scroll= data["general"]["scroll"];
+            string scroll = data["general"]["scroll"];
+            string withImage = data["general"]["withImage"];
+            string autoLogin = data["general"]["autoLogin"];
+            string autoFocusing = data["general"]["autoFocusing"];
             //parser.WriteFile("Configuration.ini", data);
 
 
@@ -40,6 +43,19 @@ namespace Opt
             {
                 checkBox1.Checked = true;
             }
+            if (withImage == "True")
+            {
+                checkBox2.Checked = true;
+            }
+            if (autoLogin == "True")
+            {
+                checkBox3.Checked = true;
+            }
+            if(autoFocusing == "True")
+            {
+                checkBox4.Checked = true;
+            }
+
 
         }
 
@@ -58,7 +74,11 @@ namespace Opt
             data["general"]["api_key"] = textBox4.Text;
             data["general"]["server_url"] = textBox5.Text;
             data["general"]["system"] = textBox6.Text;
-            data["general"]["scroll"]=textBox7.Text;
+            data["general"]["scroll"] = textBox7.Text;
+            data["general"]["withImage"] = checkBox2.Checked ? "True" : "False";
+            data["general"]["autoLogin"]= checkBox3.Checked? "True" : "False";
+
+
             parser.WriteFile("config.ini", data, new System.Text.UTF8Encoding(false));
 
 
@@ -148,10 +168,20 @@ namespace Opt
 
         private void textBox7_TextChanged(object sender, EventArgs e)
         {
-            if(!isnumeric(textBox7.Text))
+            if (!isnumeric(textBox7.Text))
             {
                 textBox7.Text = 4.ToString();
             }
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

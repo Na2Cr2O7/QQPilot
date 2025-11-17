@@ -47,6 +47,10 @@
             button4 = new Button();
             textBox7 = new TextBox();
             label7 = new Label();
+            checkBox2 = new CheckBox();
+            label8 = new Label();
+            checkBox3 = new CheckBox();
+            checkBox4 = new CheckBox();
             SuspendLayout();
             // 
             // label1
@@ -146,17 +150,17 @@
             // 
             // textBox6
             // 
-            textBox6.Location = new Point(158, 275);
+            textBox6.Location = new Point(529, 92);
             textBox6.Multiline = true;
             textBox6.Name = "textBox6";
-            textBox6.Size = new Size(333, 207);
+            textBox6.Size = new Size(366, 207);
             textBox6.TabIndex = 12;
             textBox6.TextChanged += textBox6_TextChanged;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(56, 278);
+            label6.Location = new Point(529, 40);
             label6.Name = "label6";
             label6.Size = new Size(96, 28);
             label6.TabIndex = 11;
@@ -164,7 +168,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(56, 553);
+            button1.Location = new Point(529, 384);
             button1.Name = "button1";
             button1.Size = new Size(118, 42);
             button1.TabIndex = 13;
@@ -174,7 +178,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(180, 553);
+            button2.Location = new Point(653, 384);
             button2.Name = "button2";
             button2.Size = new Size(118, 42);
             button2.TabIndex = 14;
@@ -184,7 +188,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(304, 553);
+            button3.Location = new Point(777, 384);
             button3.Name = "button3";
             button3.Size = new Size(118, 42);
             button3.TabIndex = 15;
@@ -194,7 +198,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(56, 488);
+            button4.Location = new Point(529, 319);
             button4.Name = "button4";
             button4.Size = new Size(242, 42);
             button4.TabIndex = 16;
@@ -219,11 +223,56 @@
             label7.TabIndex = 17;
             label7.Text = "滚动次数";
             // 
+            // checkBox2
+            // 
+            checkBox2.AutoSize = true;
+            checkBox2.Location = new Point(56, 282);
+            checkBox2.Name = "checkBox2";
+            checkBox2.Size = new Size(122, 32);
+            checkBox2.TabIndex = 19;
+            checkBox2.Text = "包含图片";
+            checkBox2.UseVisualStyleBackColor = true;
+            checkBox2.CheckedChanged += checkBox2_CheckedChanged;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(217, 283);
+            label8.Name = "label8";
+            label8.Size = new Size(274, 28);
+            label8.TabIndex = 20;
+            label8.Text = "图片放置在Images文件夹下";
+            // 
+            // checkBox3
+            // 
+            checkBox3.AutoSize = true;
+            checkBox3.Location = new Point(56, 325);
+            checkBox3.Name = "checkBox3";
+            checkBox3.Size = new Size(181, 32);
+            checkBox3.TabIndex = 21;
+            checkBox3.Text = "自动点击“登录\"";
+            checkBox3.UseVisualStyleBackColor = true;
+            checkBox3.CheckedChanged += checkBox3_CheckedChanged;
+            // 
+            // checkBox4
+            // 
+            checkBox4.AutoSize = true;
+            checkBox4.Location = new Point(56, 363);
+            checkBox4.Name = "checkBox4";
+            checkBox4.Size = new Size(227, 32);
+            checkBox4.TabIndex = 22;
+            checkBox4.Text = "持续将窗口置于最前";
+            checkBox4.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(13F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(537, 609);
+            ClientSize = new Size(905, 451);
+            Controls.Add(checkBox4);
+            Controls.Add(checkBox3);
+            Controls.Add(label8);
+            Controls.Add(checkBox2);
             Controls.Add(textBox7);
             Controls.Add(label7);
             Controls.Add(button4);
@@ -277,5 +326,9 @@
         private Button button4;
         private TextBox textBox7;
         private Label label7;
+        private CheckBox checkBox2;
+        private Label label8;
+        private CheckBox checkBox3;
+        private CheckBox checkBox4;
     }
 }
