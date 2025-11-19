@@ -1,31 +1,26 @@
 from typing import Any, Generator, Literal
+
 from PIL import ImageGrab, Image,ImageDraw
 
 from colorama import Fore
 
-
-
 import logging
-logging.basicConfig(level=logging.INFO,format='%(asctime)s %(levelname)s %(message)s',datefmt='%Y-%m-%d %H:%M:%S')
+logging.basicConfig(level=logging.INFO,format='%(asctime)s [%(levelname)s] %(message)s',datefmt='%Y-%m-%d %H:%M:%S')
 
-
-import positions
 
 from PIL.ImageFile import ImageFile
 
-
-# import getWindowScale
-# getWindowScale.setInIWindowScale()
-
 import time
 import configparser
-# logging.debug("importing easyocr")
 
 import numpy as np
 import threading
+
+
+import positions
 import answer
 import enhance
-logging.info("importing ocr")
+logging.debug("importing ocr")
 import ocr
 
 from GUIOperation import click,goto,scrollUp,scrollDown,sendTextWithoutClick,uploadFile,focus,clickTexts
@@ -37,25 +32,23 @@ from GUIOperation import click,goto,scrollUp,scrollDown,sendTextWithoutClick,upl
 def containsRedDot(image: Image.Image):
     size=image.size
     RED_DOT_COLOR=(247,76,48)
-    # newImage=Image.new("RGB",size,(255,255,255))
     for x in range(size[0]):
         for y in range(size[1]):
             pixel=image.getpixel((x,y))
             if pixel==RED_DOT_COLOR:
                 return (x,y)
-                newImage.putpixel((x,y),(0,0,0))
-    # return newImage
     return False
 def screenshot(positionRect: tuple[int, int, int, int]) -> Image.Image:
     logging.debug(f"screenshotting {ImageGrab.grab(bbox=positionRect)}")
     return ImageGrab.grab(bbox=positionRect)
-logging.info("Successfully imported all modules")
+logging.info(f"{Fore.GREEN}准备开始运行{Fore.RESET}")
 
 autoFocusShouldRun=True
 def autoFocus():
     global autoFocusShouldRun
     while autoFocusShouldRun:
         focus()
+        logging.debug("Focusing...")
         time.sleep(4)
 
 
@@ -73,18 +66,19 @@ if __name__ == '__main__':
     autoLogin=config.get('general','autoLogin')
     autoFocusing=config.get('general','autoFocusing')
     t=None
+
     if autoFocusing=='True':
-        logging.info("Auto focusing is enabled")
+        logging.info("自动聚焦功能已开启")
         t=threading.Thread(target=autoFocus)
         t.start()
     if autoLogin=='True':
-        logging.info("Auto login is enabled")
+        logging.info("自动登录功能已开启")
        
 
         while True:
             isLogin=False
             for i in range(4):
-                logging.info("Waiting for login button")
+                logging.info("正在尝试登录...")
                 ImageGrab.grab().save('login.png')
                 if clickTexts('login.png',"登录"):
                     isLogin=True
@@ -92,7 +86,7 @@ if __name__ == '__main__':
                 time.sleep(1)
             if isLogin:
                 break
-            if input("如果已经登录，请输入'A'继续,否则按回车继续登录:").capitalize()=='A':
+            if input(f"{Fore.RED}如果已经登录，请输入'A'继续,否则按回车继续登录:{Fore.RESET}").capitalize()=='A':
                 break
 
 
@@ -114,25 +108,25 @@ if __name__ == '__main__':
     positionRect: tuple[Literal[0], Literal[0], int, int]=(0,0,*size)
 
 
-    logging.debug(f"positionRect: {positionRect}")
+    logging.debug(f"QQ窗口位置: {positionRect}")
 
     chatListActualSize: tuple[int, int, int, int]=positions.toActualSize(positions.CHAT_LIST_BBOX_RELATIVE_SIZE,size)
-    logging.debug(f"chatListActualSize: {chatListActualSize}")
+    logging.debug(f"聊天列表实际大小: {chatListActualSize}")
 
     conversationActualSize: tuple[int, int, int, int]=positions.toActualSize(positions.CONVERSATION_BBOX_RELATIVE_SIZE,size)
-    logging.debug(f"conversationActualSize: {conversationActualSize}")
+    logging.debug(f"聊天区域实际大小: {conversationActualSize}")
 
     commentSectionActualSize: tuple[int, int, int, int]=positions.toActualSize(positions.COMMENT_SECTION_BBOX_RELATIVE_SIZE,size)
-    logging.debug(f"commentSectionActualSize: {commentSectionActualSize}")
+    logging.debug(f"输入框实际大小: {commentSectionActualSize}")
 
     sendButtonActualSize: tuple[int, int, int, int]=positions.toActualSize(positions.SEND_BUTTON_BBOX_RELATIVE_SIZE,size)
-    logging.debug(f"sendButtonActualSize: {sendButtonActualSize}")
+    logging.debug(f"发送按钮实际大小: {sendButtonActualSize}")
 
     exitConversationActualSize: tuple[int, int, int, int]=positions.toActualSize(positions.EXIT_CONVERSATION_BBOX_RELATIVE_SIZE,size)
-    logging.debug(f"exitConversationActualSize: {exitConversationActualSize}")
+    logging.debug(f"退出会话按钮实际大小: {exitConversationActualSize}")
 
     sendImageActualSize: tuple[int, int, int, int]=positions.toActualSize(positions.SEND_IMAGE_BBOX_RELATIVE_SIZE,size)
-    logging.debug(f"sendImageActualSize: {sendImageActualSize}")
+    logging.debug(f"发送图片按钮实际大小: {sendImageActualSize}")
 
 
     while True:
@@ -143,7 +137,10 @@ if __name__ == '__main__':
             del im
 
             contain: tuple[int, int] | Literal[False]=containsRedDot(chatList)
+
             if contain :
+                logging.info(f"发现红点: {contain}")
+
                 click(contain[0]+chatListActualSize[0],contain[1]+chatListActualSize[1])
                 time.sleep(2)
                 
@@ -179,17 +176,18 @@ if __name__ == '__main__':
                 click(commentSectionActualSize[0]+((commentSectionActualSize[2]-commentSectionActualSize[0])//2),commentSectionActualSize[1]+((commentSectionActualSize[3]-commentSectionActualSize[1])//2))
 
 
-                logging.info(f"{Fore.CYAN}{conversationText}{Fore.RESET}")
+                logging.info(f"{Fore.CYAN}{'\n'.join(list(conversationText))}{Fore.RESET}")
 
                 result=answer.getAnswer('\n'.join(list(conversationText)))
-                print(Fore.CYAN)
+                
                 if type(result)==str:
-                    print(result)
+                    logging.info(f"{Fore.GREEN}回答: {result}{Fore.RESET}")
                     sendTextWithoutClick(result)
-                print(Fore.RESET)
 
                 # upload image
                 if withImage:
+
+                    logging.info("上传图片")
                     click(sendImageActualSize[0]+((sendImageActualSize[2]-sendImageActualSize[0])//2),sendImageActualSize[1]+((sendImageActualSize[3]-sendImageActualSize[1])//2))
 
                     time.sleep(6)
@@ -199,44 +197,18 @@ if __name__ == '__main__':
 
 
                 # click "send" button
+                logging.info("发送消息")
                 click(sendButtonActualSize[0]+((sendButtonActualSize[2]-sendButtonActualSize[0])//2)
                         ,sendButtonActualSize[1]+((sendButtonActualSize[3]-sendButtonActualSize[1])//2))
                 
                 time.sleep(.1)
 
                 # exit conversation
+                logging.info("退出会话")
                 click(exitConversationActualSize[0],exitConversationActualSize[1])
         except KeyboardInterrupt:
-            logging.error("KeyboardInterrupt")
+            logging.error(f"{Fore.RED}KeyboardInterrupt{Fore.RESET}")
             autoFocusShouldRun=False
             if t:
                 t.join()
 
-
-# im=py
-
-
-
-# im.save("screenshot.png")
-# result=reader.readtext("screenshot.png")
-# draw0: ImageFile=Image.open("screenshot.png")
-# draw: ImageDraw.ImageDraw=ImageDraw.Draw(draw0)
-# for r in result:
-#     pos1,pos2,pos3,pos4=r[0] # type: ignore
-#     x=[pos1[0],pos2[0],pos3[0],pos4[0]]
-#     y=[pos1[1],pos2[1],pos3[1],pos4[1]]
-#     minX=int(min(x))
-#     maxX=int(max(x))
-#     minY=int(min(y))
-#     maxY=int(max(y))
-#     print((minX,minY),(maxX,maxY))
-
-
-#     draw.rectangle(((minX,minY),(maxX,maxY)),outline="red")
-    
-    
-#     # print(r[1]) 
-
-# draw0.save("screenshot_result2.png")
-
-# im.save("screenshot_result.png")

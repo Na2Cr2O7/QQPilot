@@ -1,3 +1,5 @@
+# 包含了QQ聊天窗口的各个元素的坐标信息，包括聊天列表、聊天窗口、发送按钮、评论区、退出按钮、发送图片按钮等。
+
 DEFAULT_SIZE=(2240,1260)
 # chatListBBoxAbsoluteSize=(362,221,362+32,221+594)
 chatListBBoxAbsoluteSize=(105,154,105+305,154+1055)
@@ -17,10 +19,13 @@ EXIT_CONVERSATION_BBOX_RELATIVE_SIZE=(exitConversationBBoxAbsoluteSize[0]/DEFAUL
 SEND_IMAGE_BBOX_RELATIVE_SIZE=(sendImageBBoxAbsoluteSize[0]/DEFAULT_SIZE[0],sendImageBBoxAbsoluteSize[1]/DEFAULT_SIZE[1],sendImageBBoxAbsoluteSize[2]/DEFAULT_SIZE[0],sendImageBBoxAbsoluteSize[3]/DEFAULT_SIZE[1])
 
 import logging
-logging.info("chatListBBoxRelativeSize: "+str(CHAT_LIST_BBOX_RELATIVE_SIZE))
-logging.info("conversationBBoxRelativeSize: "+str(CONVERSATION_BBOX_RELATIVE_SIZE))
-logging.info("sendButtonBBoxRelativeSize: "+str(SEND_BUTTON_BBOX_RELATIVE_SIZE))
-logging.info("commentSectionBBoxRelativeSize: "+str(COMMENT_SECTION_BBOX_RELATIVE_SIZE))
+logging.debug("chatListBBoxRelativeSize: "+str(CHAT_LIST_BBOX_RELATIVE_SIZE))
+logging.debug("conversationBBoxRelativeSize: "+str(CONVERSATION_BBOX_RELATIVE_SIZE))
+logging.debug("sendButtonBBoxRelativeSize: "+str(SEND_BUTTON_BBOX_RELATIVE_SIZE))
+logging.debug("commentSectionBBoxRelativeSize: "+str(COMMENT_SECTION_BBOX_RELATIVE_SIZE))
+logging.debug("exitConversationBBoxRelativeSize: "+str(EXIT_CONVERSATION_BBOX_RELATIVE_SIZE))
+logging.debug("sendImageBBoxRelativeSize: "+str(SEND_IMAGE_BBOX_RELATIVE_SIZE))
+
 
 
 def toActualSize(relativeSize: tuple[float, float, float, float],size: tuple[int, int]):
