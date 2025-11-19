@@ -1,6 +1,0 @@
-﻿  dllmain.cpp
-D:\Viv\uploadFile\dllmain.cpp(29,32): warning C4267: “参数”: 从“size_t”转换到“unsigned int”，可能丢失数据
-  (编译源文件“/dllmain.cpp”)
-  
-    正在创建库 D:\Viv\uploadFile\x64\Debug\uploadFile.lib 和对象 D:\Viv\uploadFile\x64\Debug\uploadFile.exp
-  uploadFile.vcxproj -> D:\Viv\uploadFile\x64\Debug\uploadFile.dll
