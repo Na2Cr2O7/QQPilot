@@ -1,21 +1,24 @@
 import pyautogui
 import pytweening
 import pyperclip
-
+import configparser
 import time
 
+config = configparser.ConfigParser()
+config.read('config.ini',encoding='utf-8')
+scroll=config.getint('general','scroll')
 def click(x: int, y: int):
     print(x,y)
-    pyautogui.moveTo(x, y,duration=1, tween=pytweening.easeInOutQuad)
+    pyautogui.moveTo(x, y,duration=.1, tween=pytweening.easeInOutQuad)
     pyautogui.click()
 def goto(x: int, y: int):
-    pyautogui.moveTo(x, y,duration=1, tween=pytweening.easeInOutQuad)
+    pyautogui.moveTo(x, y,duration=.1, tween=pytweening.easeInOutQuad)
 def scrollUp(length: int = 120):
-    for i in range(4):
+    for i in range(scroll):
         pyautogui.scroll(length)
         time.sleep(.1)
 def scrollDown(length: int = 120):
-    for i in range(4):
+    for i in range(scroll):
         pyautogui.scroll(-length)
         time.sleep(.1)
 def sendTextWithoutClick(text:str):
@@ -39,7 +42,11 @@ import os
 def uploadFile():
     dll=ctypes.CDLL(os.path.abspath('uploadFile.dll'))
     # extern "C" int __declspec(dllexport) upload()
-    dll.upload()
+    success=dll.upload()
+    if success!=0:
+        print('Upload failed')
+        time.sleep(.5)
+        pyautogui.press('esc')
     print('\n')
 
 import ocr
