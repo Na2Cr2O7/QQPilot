@@ -51,6 +51,15 @@
             label8 = new Label();
             checkBox3 = new CheckBox();
             checkBox4 = new CheckBox();
+            sendImagePossibly = new TrackBar();
+            label9 = new Label();
+            Vs = new Label();
+            checkBox5 = new CheckBox();
+            button5 = new Button();
+            label10 = new Label();
+            folderBrowserDialog1 = new FolderBrowserDialog();
+            textBox8 = new TextBox();
+            ((System.ComponentModel.ISupportInitialize)sendImagePossibly).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -105,7 +114,7 @@
             // 
             // textBox4
             // 
-            textBox4.Location = new Point(158, 135);
+            textBox4.Location = new Point(158, 280);
             textBox4.Name = "textBox4";
             textBox4.PasswordChar = '·';
             textBox4.Size = new Size(333, 34);
@@ -114,7 +123,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(56, 138);
+            label4.Location = new Point(56, 283);
             label4.Name = "label4";
             label4.Size = new Size(84, 28);
             label4.TabIndex = 6;
@@ -122,7 +131,7 @@
             // 
             // textBox5
             // 
-            textBox5.Location = new Point(158, 182);
+            textBox5.Location = new Point(158, 327);
             textBox5.Name = "textBox5";
             textBox5.Size = new Size(220, 34);
             textBox5.TabIndex = 9;
@@ -131,7 +140,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(56, 185);
+            label5.Location = new Point(56, 330);
             label5.Name = "label5";
             label5.Size = new Size(75, 28);
             label5.TabIndex = 8;
@@ -140,7 +149,7 @@
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(384, 184);
+            checkBox1.Location = new Point(384, 329);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(107, 32);
             checkBox1.TabIndex = 10;
@@ -150,10 +159,10 @@
             // 
             // textBox6
             // 
-            textBox6.Location = new Point(529, 92);
+            textBox6.Location = new Point(529, 71);
             textBox6.Multiline = true;
             textBox6.Name = "textBox6";
-            textBox6.Size = new Size(366, 207);
+            textBox6.Size = new Size(541, 566);
             textBox6.TabIndex = 12;
             textBox6.TextChanged += textBox6_TextChanged;
             // 
@@ -168,7 +177,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(529, 384);
+            button1.Location = new Point(56, 564);
             button1.Name = "button1";
             button1.Size = new Size(118, 42);
             button1.TabIndex = 13;
@@ -178,7 +187,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(653, 384);
+            button2.Location = new Point(180, 564);
             button2.Name = "button2";
             button2.Size = new Size(118, 42);
             button2.TabIndex = 14;
@@ -188,7 +197,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(777, 384);
+            button3.Location = new Point(304, 564);
             button3.Name = "button3";
             button3.Size = new Size(118, 42);
             button3.TabIndex = 15;
@@ -198,26 +207,26 @@
             // 
             // button4
             // 
-            button4.Location = new Point(529, 319);
+            button4.Location = new Point(56, 621);
             button4.Name = "button4";
             button4.Size = new Size(242, 42);
             button4.TabIndex = 16;
-            button4.Text = "清理图片文件";
+            button4.Text = "清理图片缓存";
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
             // textBox7
             // 
-            textBox7.Location = new Point(158, 228);
+            textBox7.Location = new Point(158, 373);
             textBox7.Name = "textBox7";
-            textBox7.Size = new Size(220, 34);
+            textBox7.Size = new Size(89, 34);
             textBox7.TabIndex = 18;
             textBox7.TextChanged += textBox7_TextChanged;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(56, 231);
+            label7.Location = new Point(56, 376);
             label7.Name = "label7";
             label7.Size = new Size(96, 28);
             label7.TabIndex = 17;
@@ -226,7 +235,7 @@
             // checkBox2
             // 
             checkBox2.AutoSize = true;
-            checkBox2.Location = new Point(56, 282);
+            checkBox2.Location = new Point(56, 426);
             checkBox2.Name = "checkBox2";
             checkBox2.Size = new Size(122, 32);
             checkBox2.TabIndex = 19;
@@ -237,7 +246,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(217, 283);
+            label8.Location = new Point(203, 426);
             label8.Name = "label8";
             label8.Size = new Size(274, 28);
             label8.TabIndex = 20;
@@ -246,7 +255,7 @@
             // checkBox3
             // 
             checkBox3.AutoSize = true;
-            checkBox3.Location = new Point(56, 325);
+            checkBox3.Location = new Point(56, 526);
             checkBox3.Name = "checkBox3";
             checkBox3.Size = new Size(181, 32);
             checkBox3.TabIndex = 21;
@@ -257,18 +266,91 @@
             // checkBox4
             // 
             checkBox4.AutoSize = true;
-            checkBox4.Location = new Point(56, 363);
+            checkBox4.Location = new Point(264, 376);
             checkBox4.Name = "checkBox4";
             checkBox4.Size = new Size(227, 32);
             checkBox4.TabIndex = 22;
             checkBox4.Text = "持续将窗口置于最前";
             checkBox4.UseVisualStyleBackColor = true;
             // 
+            // sendImagePossibly
+            // 
+            sendImagePossibly.Location = new Point(243, 478);
+            sendImagePossibly.Maximum = 100;
+            sendImagePossibly.Minimum = 1;
+            sendImagePossibly.Name = "sendImagePossibly";
+            sendImagePossibly.Size = new Size(248, 80);
+            sendImagePossibly.TabIndex = 23;
+            sendImagePossibly.TickStyle = TickStyle.None;
+            sendImagePossibly.Value = 1;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(56, 476);
+            label9.Name = "label9";
+            label9.Size = new Size(138, 28);
+            label9.TabIndex = 24;
+            label9.Text = "发送图片概率";
+            // 
+            // Vs
+            // 
+            Vs.AutoSize = true;
+            Vs.Location = new Point(812, 40);
+            Vs.Name = "Vs";
+            Vs.Size = new Size(26, 28);
+            Vs.TabIndex = 25;
+            Vs.Text = "V";
+            // 
+            // checkBox5
+            // 
+            checkBox5.AutoSize = true;
+            checkBox5.Location = new Point(56, 155);
+            checkBox5.Name = "checkBox5";
+            checkBox5.Size = new Size(122, 32);
+            checkBox5.TabIndex = 26;
+            checkBox5.Text = "视觉模型";
+            checkBox5.UseVisualStyleBackColor = true;
+            checkBox5.CheckedChanged += checkBox5_CheckedChanged;
+            // 
+            // button5
+            // 
+            button5.Location = new Point(184, 150);
+            button5.Name = "button5";
+            button5.Size = new Size(194, 40);
+            button5.TabIndex = 27;
+            button5.Text = "选择nt_data目录";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(56, 206);
+            label10.Name = "label10";
+            label10.Size = new Size(447, 56);
+            label10.TabIndex = 28;
+            label10.Text = "VisionQQ需要通过ntdata内的图片文件获取新\r\n收到的图片，这个目录一般与QQ号有关";
+            // 
+            // textBox8
+            // 
+            textBox8.Location = new Point(384, 153);
+            textBox8.Name = "textBox8";
+            textBox8.Size = new Size(107, 34);
+            textBox8.TabIndex = 29;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(13F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(905, 451);
+            ClientSize = new Size(1109, 686);
+            Controls.Add(textBox8);
+            Controls.Add(label10);
+            Controls.Add(button5);
+            Controls.Add(checkBox5);
+            Controls.Add(Vs);
+            Controls.Add(label9);
+            Controls.Add(sendImagePossibly);
             Controls.Add(checkBox4);
             Controls.Add(checkBox3);
             Controls.Add(label8);
@@ -301,6 +383,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "设置";
             Load += Form1_Load;
+            ((System.ComponentModel.ISupportInitialize)sendImagePossibly).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -330,5 +413,13 @@
         private Label label8;
         private CheckBox checkBox3;
         private CheckBox checkBox4;
+        private TrackBar sendImagePossibly;
+        private Label label9;
+        private Label Vs;
+        private CheckBox checkBox5;
+        private Button button5;
+        private Label label10;
+        private FolderBrowserDialog folderBrowserDialog1;
+        private TextBox textBox8;
     }
 }

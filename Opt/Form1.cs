@@ -13,8 +13,16 @@ namespace Opt
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            var splashForm = new splash
+            {
+                SizeofForm = this.Size,
+                LocationofForm = new System.Numerics.Vector2(this.Location.X, this.Location.Y)
+            };
+            splashForm.Show();
+
+
             FileIniDataParser parser = new();
-            IniData data = parser.ReadFile("Config.ini", Encoding.UTF8);
+            IniData data = parser.ReadFile("Config.ini", new System.Text.UTF8Encoding(false));
             string width = data["general"]["width"];
             string height = data["general"]["height"];
             string modelName = data["general"]["modelname"];
@@ -25,6 +33,15 @@ namespace Opt
             string withImage = data["general"]["withImage"];
             string autoLogin = data["general"]["autoLogin"];
             string autoFocusing = data["general"]["autoFocusing"];
+            string sendImagePossiblity = data["general"]["sendImagePossibility"];
+            string version = data["general"]["version"];
+            string isVisionModel = data["general"]["isVisionModel"];
+            string nt_data = data["general"]["nt_data"];
+
+            Vs.Text = version;
+
+            sendImagePossibly.Value = int.Parse(sendImagePossiblity);
+
             //parser.WriteFile("Configuration.ini", data);
 
 
@@ -39,6 +56,7 @@ namespace Opt
             textBox5.Text = serverURL;
             textBox6.Text = systemPrompt;
             textBox7.Text = scroll;
+            textBox8.Text = nt_data; 
             if (textBox5.Text == "Ollama")
             {
                 checkBox1.Checked = true;
@@ -51,11 +69,15 @@ namespace Opt
             {
                 checkBox3.Checked = true;
             }
-            if(autoFocusing == "True")
+            if (autoFocusing == "True")
             {
                 checkBox4.Checked = true;
             }
+            if(isVisionModel=="True")
+            {
+                checkBox5.Checked = true;
 
+            }
 
         }
 
@@ -76,7 +98,11 @@ namespace Opt
             data["general"]["system"] = textBox6.Text;
             data["general"]["scroll"] = textBox7.Text;
             data["general"]["withImage"] = checkBox2.Checked ? "True" : "False";
-            data["general"]["autoLogin"]= checkBox3.Checked? "True" : "False";
+            data["general"]["autoLogin"] = checkBox3.Checked ? "True" : "False";
+            data["general"]["autoFocusing"] = checkBox4.Checked ? "True" : "False";
+            data["general"]["sendImagePossibility"] = sendImagePossibly.Value.ToString();
+            data["general"]["isVisionModel"]=checkBox5.Checked ? "True" : "False";
+            data["general"]["nt_data"] = textBox8.Text;
 
 
             parser.WriteFile("config.ini", data, new System.Text.UTF8Encoding(false));
@@ -181,6 +207,21 @@ namespace Opt
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void checkBox5_CheckedChanged(object sender, EventArgs e)
+        {
+            button5.Enabled = checkBox5.Checked;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            DialogResult result=this.folderBrowserDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                textBox8.Text = folderBrowserDialog1.SelectedPath.ToString();
+            }
 
         }
     }
