@@ -6,7 +6,7 @@ from PIL import ImageGrab, Image,ImageDraw
 from colorama import Fore
 
 import logging
-logging.basicConfig(level=logging.DEBUG,format='%(asctime)s [%(levelname)s] %(message)s',datefmt='%Y-%m-%d %H:%M:%S')
+logging.basicConfig(level=logging.INFO,format='%(asctime)s [%(levelname)s] %(message)s',datefmt='%Y-%m-%d %H:%M:%S')
 import load
 load.startLoading(Fore.GREEN,"正在初始化")
 
@@ -145,6 +145,7 @@ if __name__ == '__main__':
         while True:
             try:
                 im=screenshot(positionRect)
+                
                 im.save("screenshot.png")
                 chatList: Image.Image=im.crop(chatListActualSize)
                 del im
@@ -162,7 +163,7 @@ if __name__ == '__main__':
                     goto(conversationActualSize[0]+((conversationActualSize[2]-conversationActualSize[0])//2),conversationActualSize[1]+((conversationActualSize[3]-conversationActualSize[1])//2))
                     for _ in range(scrollTries):
                         scrollUp()
-                    conversationText=set()
+                    conversationText=[]
 
                     for scrollTry in range(scrollTries):
                         
@@ -182,7 +183,8 @@ if __name__ == '__main__':
 
 
                         for i in ocr.getAllTextWithBoxesDrawn(conversation):
-                            conversationText.add(i)
+                            if i not in conversationText:
+                                conversationText.append(i)
                         scrollDown()
 
                     
@@ -196,6 +198,7 @@ if __name__ == '__main__':
                     print(f"{Fore.CYAN}{'\n'.join(list(conversationText))}{Fore.RESET}")
                     if isVisionModel and images:
                         result=answer.getAnswer('\n'.join(list(conversationText)),images)
+                        conversationImages.removeImages(images)
                     else:
                         result=answer.getAnswer('\n'.join(list(conversationText)))
                     
@@ -228,6 +231,8 @@ if __name__ == '__main__':
                 # else:
                 #     if isVisionModel:
                 #         conversationImages.findImageBegin()
+                else:
+                    time.sleep(2) # 防止截图过快对硬盘损伤大
             except KeyboardInterrupt:
                 logging.error(f"{Fore.RED}KeyboardInterrupt{Fore.RESET}")
                 autoFocusShouldRun=False
