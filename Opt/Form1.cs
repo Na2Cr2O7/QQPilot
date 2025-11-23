@@ -37,6 +37,7 @@ namespace Opt
             string version = data["general"]["version"];
             string isVisionModel = data["general"]["isVisionModel"];
             string nt_data = data["general"]["nt_data"];
+            string maxImageCount = data["general"]["maxImageCount"];
 
             Vs.Text = version;
 
@@ -56,7 +57,8 @@ namespace Opt
             textBox5.Text = serverURL;
             textBox6.Text = systemPrompt;
             textBox7.Text = scroll;
-            textBox8.Text = nt_data; 
+            textBox8.Text = nt_data;
+            textBox9.Text = maxImageCount;
             if (textBox5.Text == "Ollama")
             {
                 checkBox1.Checked = true;
@@ -73,7 +75,7 @@ namespace Opt
             {
                 checkBox4.Checked = true;
             }
-            if(isVisionModel=="True")
+            if (isVisionModel == "True")
             {
                 checkBox5.Checked = true;
 
@@ -101,9 +103,9 @@ namespace Opt
             data["general"]["autoLogin"] = checkBox3.Checked ? "True" : "False";
             data["general"]["autoFocusing"] = checkBox4.Checked ? "True" : "False";
             data["general"]["sendImagePossibility"] = sendImagePossibly.Value.ToString();
-            data["general"]["isVisionModel"]=checkBox5.Checked ? "True" : "False";
+            data["general"]["isVisionModel"] = checkBox5.Checked ? "True" : "False";
             data["general"]["nt_data"] = textBox8.Text;
-
+            data["general"]["maxImageCount"] = textBox9.Text;
 
             parser.WriteFile("config.ini", data, new System.Text.UTF8Encoding(false));
 
@@ -217,12 +219,20 @@ namespace Opt
 
         private void button5_Click(object sender, EventArgs e)
         {
-            DialogResult result=this.folderBrowserDialog1.ShowDialog();
+            DialogResult result = this.folderBrowserDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
                 textBox8.Text = folderBrowserDialog1.SelectedPath.ToString();
             }
 
+        }
+
+        private void textBox9_TextChanged(object sender, EventArgs e)
+        {
+            if (!isnumeric(textBox9.Text))
+            {
+                textBox9.Text = 1.ToString();
+            }
         }
     }
 }

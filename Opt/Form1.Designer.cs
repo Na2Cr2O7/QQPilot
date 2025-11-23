@@ -59,6 +59,9 @@
             label10 = new Label();
             folderBrowserDialog1 = new FolderBrowserDialog();
             textBox8 = new TextBox();
+            textBox9 = new TextBox();
+            label11 = new Label();
+            label12 = new Label();
             ((System.ComponentModel.ISupportInitialize)sendImagePossibly).BeginInit();
             SuspendLayout();
             // 
@@ -114,7 +117,7 @@
             // 
             // textBox4
             // 
-            textBox4.Location = new Point(158, 280);
+            textBox4.Location = new Point(158, 358);
             textBox4.Name = "textBox4";
             textBox4.PasswordChar = '·';
             textBox4.Size = new Size(333, 34);
@@ -123,7 +126,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(56, 283);
+            label4.Location = new Point(56, 361);
             label4.Name = "label4";
             label4.Size = new Size(84, 28);
             label4.TabIndex = 6;
@@ -131,7 +134,7 @@
             // 
             // textBox5
             // 
-            textBox5.Location = new Point(158, 327);
+            textBox5.Location = new Point(158, 405);
             textBox5.Name = "textBox5";
             textBox5.Size = new Size(220, 34);
             textBox5.TabIndex = 9;
@@ -140,7 +143,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(56, 330);
+            label5.Location = new Point(56, 408);
             label5.Name = "label5";
             label5.Size = new Size(75, 28);
             label5.TabIndex = 8;
@@ -149,7 +152,7 @@
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(384, 329);
+            checkBox1.Location = new Point(384, 407);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(107, 32);
             checkBox1.TabIndex = 10;
@@ -162,7 +165,7 @@
             textBox6.Location = new Point(529, 71);
             textBox6.Multiline = true;
             textBox6.Name = "textBox6";
-            textBox6.Size = new Size(541, 566);
+            textBox6.Size = new Size(541, 429);
             textBox6.TabIndex = 12;
             textBox6.TextChanged += textBox6_TextChanged;
             // 
@@ -177,7 +180,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(56, 564);
+            button1.Location = new Point(529, 530);
             button1.Name = "button1";
             button1.Size = new Size(118, 42);
             button1.TabIndex = 13;
@@ -187,7 +190,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(180, 564);
+            button2.Location = new Point(653, 530);
             button2.Name = "button2";
             button2.Size = new Size(118, 42);
             button2.TabIndex = 14;
@@ -197,7 +200,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(304, 564);
+            button3.Location = new Point(777, 530);
             button3.Name = "button3";
             button3.Size = new Size(118, 42);
             button3.TabIndex = 15;
@@ -207,7 +210,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(56, 621);
+            button4.Location = new Point(529, 594);
             button4.Name = "button4";
             button4.Size = new Size(242, 42);
             button4.TabIndex = 16;
@@ -217,7 +220,7 @@
             // 
             // textBox7
             // 
-            textBox7.Location = new Point(158, 373);
+            textBox7.Location = new Point(158, 451);
             textBox7.Name = "textBox7";
             textBox7.Size = new Size(89, 34);
             textBox7.TabIndex = 18;
@@ -226,7 +229,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(56, 376);
+            label7.Location = new Point(56, 454);
             label7.Name = "label7";
             label7.Size = new Size(96, 28);
             label7.TabIndex = 17;
@@ -235,7 +238,7 @@
             // checkBox2
             // 
             checkBox2.AutoSize = true;
-            checkBox2.Location = new Point(56, 426);
+            checkBox2.Location = new Point(56, 504);
             checkBox2.Name = "checkBox2";
             checkBox2.Size = new Size(122, 32);
             checkBox2.TabIndex = 19;
@@ -246,7 +249,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(203, 426);
+            label8.Location = new Point(203, 504);
             label8.Name = "label8";
             label8.Size = new Size(274, 28);
             label8.TabIndex = 20;
@@ -255,7 +258,7 @@
             // checkBox3
             // 
             checkBox3.AutoSize = true;
-            checkBox3.Location = new Point(56, 526);
+            checkBox3.Location = new Point(66, 604);
             checkBox3.Name = "checkBox3";
             checkBox3.Size = new Size(181, 32);
             checkBox3.TabIndex = 21;
@@ -266,7 +269,7 @@
             // checkBox4
             // 
             checkBox4.AutoSize = true;
-            checkBox4.Location = new Point(264, 376);
+            checkBox4.Location = new Point(264, 454);
             checkBox4.Name = "checkBox4";
             checkBox4.Size = new Size(227, 32);
             checkBox4.TabIndex = 22;
@@ -275,7 +278,7 @@
             // 
             // sendImagePossibly
             // 
-            sendImagePossibly.Location = new Point(243, 478);
+            sendImagePossibly.Location = new Point(243, 556);
             sendImagePossibly.Maximum = 100;
             sendImagePossibly.Minimum = 1;
             sendImagePossibly.Name = "sendImagePossibly";
@@ -287,7 +290,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(56, 476);
+            label9.Location = new Point(56, 554);
             label9.Name = "label9";
             label9.Size = new Size(138, 28);
             label9.TabIndex = 24;
@@ -326,7 +329,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(56, 206);
+            label10.Location = new Point(56, 193);
             label10.Name = "label10";
             label10.Size = new Size(447, 56);
             label10.TabIndex = 28;
@@ -339,11 +342,40 @@
             textBox8.Size = new Size(107, 34);
             textBox8.TabIndex = 29;
             // 
+            // textBox9
+            // 
+            textBox9.Location = new Point(179, 264);
+            textBox9.Name = "textBox9";
+            textBox9.Size = new Size(89, 34);
+            textBox9.TabIndex = 31;
+            textBox9.TextChanged += textBox9_TextChanged;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(56, 264);
+            label11.Name = "label11";
+            label11.Size = new Size(117, 28);
+            label11.TabIndex = 30;
+            label11.Text = "解析图片数";
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(56, 308);
+            label12.Name = "label12";
+            label12.Size = new Size(334, 28);
+            label12.TabIndex = 32;
+            label12.Text = "本地模型解析>1张图片时速度极慢";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(13F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1109, 686);
+            Controls.Add(label12);
+            Controls.Add(textBox9);
+            Controls.Add(label11);
             Controls.Add(textBox8);
             Controls.Add(label10);
             Controls.Add(button5);
@@ -421,5 +453,8 @@
         private Label label10;
         private FolderBrowserDialog folderBrowserDialog1;
         private TextBox textBox8;
+        private TextBox textBox9;
+        private Label label11;
+        private Label label12;
     }
 }
