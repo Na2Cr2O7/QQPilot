@@ -1,0 +1,9 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="FocusQQWindow2/FocusQQWindow2.vcxproj" />
+  <Project Path="ScaleToINI/ScaleToINI.vcxproj" />
+  <Project Path="uploadFile/uploadFile.vcxproj" />
+</Solution>
