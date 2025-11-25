@@ -1,6 +1,8 @@
 import threading
-from time import sleep
+from time import sleep,time
+
 loading=False
+startTime=0
 def load(color,text):
     l=['|','/','-','\\']
     while loading:
@@ -9,13 +11,16 @@ def load(color,text):
             sleep(0.1)
         
 def startLoading(color,text):
-    global loading
+    global loading,startTime
+    startTime=time()
+
     loading=True
     t=threading.Thread(target=load,args=(color,text))
     t.start()
 
 def stopLoading():
-    global loading
+    global loading,startTime
     loading=False
+    print(f'\n用时:{time()-startTime:.2f}s')
     print('\n')
     

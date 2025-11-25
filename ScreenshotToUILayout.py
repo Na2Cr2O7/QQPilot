@@ -14,7 +14,7 @@ from PIL.ImageFile import ImageFile
 
 import time
 import configparser
-
+from conversationStyleExtract import * 
 import numpy as np
 import threading
 
@@ -22,10 +22,9 @@ import threading
 import positions
 import answer
 import enhance
-logging.debug("importing ocr")
-import ocr
-import conversationImages
-from GUIOperation import click,goto,scrollUp,scrollDown,sendTextWithoutClick,uploadFile,focus,clickTexts
+import pyperclip
+
+from GUIOperation import click,goto,scrollUp,scrollDown,sendTextWithoutClick,uploadFile,focus,clickTexts,dragFromTo
         
 
     
@@ -76,8 +75,6 @@ if __name__ == '__main__':
 
         print(f"{Fore.YELLOW}{config.get('general','version')}{Fore.RESET}")
         sendImagePossibility=int(sendImagePossibility)
-        if isVisionModel:
-            conversationImages.findImageBegin()
 
 
         if autoFocusing=='True':
@@ -141,6 +138,9 @@ if __name__ == '__main__':
         sendImageActualSize: tuple[int, int, int, int]=positions.toActualSize(positions.SEND_IMAGE_BBOX_RELATIVE_SIZE,size)
         logging.debug(f"发送图片按钮实际大小: {sendImageActualSize}")
 
+        copyButtonActualSize: tuple[int, int, int, int]=positions.toActualSize(positions.COPY_BUTTON_BBOX_RELATIVE_SIZE,size)
+        logging.debug(f"复制按钮实际大小: {copyButtonActualSize}")
+
 
         while True:
             try:
@@ -160,49 +160,35 @@ if __name__ == '__main__':
                     
 
                     # conversation
-                    goto(conversationActualSize[0]+((conversationActualSize[2]-conversationActualSize[0])//2),conversationActualSize[1]+((conversationActualSize[3]-conversationActualSize[1])//2))
-                    for _ in range(scrollTries):
-                        scrollUp()
+                    # goto(conversationActualSize[0]+((conversationActualSize[2]-conversationActualSize[0])//2),conversationActualSize[1]+((conversationActualSize[3]-conversationActualSize[1])//2))
                     conversationText=[]
+                    dragFromTo(*positions.startDraggingAbsolutePosition,*positions.endDraggingAbsolutePosition)
 
-                    for scrollTry in range(scrollTries):
-                        
-                        im=screenshot(positionRect)
-                        
-
-                        conversation=im.crop(conversationActualSize)
-                        del im
-
-                        # conversationTexts=getAllTextWithBoxesDrawn("conversation.png")
-                        # print(conversationTexts)
-                        fn=f"conversation{scrollTry}.png"
-                        conversation.save(fn)
-
-
-                        conversation=enhance.getConversation(fn)
-
-
-                        for i in ocr.getAllTextWithBoxesDrawn(conversation):
-                            if i not in conversationText:
-                                conversationText.append(i)
-                        scrollDown()
-
+                    click(copyButtonActualSize[0]+((copyButtonActualSize[2]-copyButtonActualSize[0])//2),copyButtonActualSize[1]+((copyButtonActualSize[3]-copyButtonActualSize[1])//2))
+                    
+                    time.sleep(4)
+                    
+                    CharContents=extract(pyperclip.paste())
+                    images=[]
+                    for text in CharContents:
+                        for imagePath in text.imagePaths:
+                            if os.path.exists(imagePath):
+                                images.append(imagePath)
+                    conversationText=[str(text) for text in CharContents]
                     
                     #send answer
                     click(commentSectionActualSize[0]+((commentSectionActualSize[2]-commentSectionActualSize[0])//2),commentSectionActualSize[1]+((commentSectionActualSize[3]-commentSectionActualSize[1])//2))
 
-                    images=[]
-                    if isVisionModel:
-                        images=conversationImages.findImageEnd()
+
 
                     print(f"{Fore.CYAN}{'\n'.join(list(conversationText))}{Fore.RESET}")
                     if isVisionModel and images:
-                        result=answer.getAnswer('\n'.join(list(conversationText)),images)
-                        conversationImages.removeImages(images)
+                        result=answer.getAnswer(CharContents,images)
                     else:
-                        result=answer.getAnswer('\n'.join(list(conversationText)))
+                        result=answer.getAnswer(CharContents)
                     
                     if type(result)==str:
+                        result+=indentificationString
                         # logging.info(f"{Fore.GREEN}回答: {result}{Fore.RESET}")
                         sendTextWithoutClick(result)
 

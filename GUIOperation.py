@@ -13,11 +13,21 @@ def click(x: int, y: int):
     pyautogui.click()
 def goto(x: int, y: int):
     pyautogui.moveTo(x, y,duration=.1, tween=pytweening.easeInOutQuad)
+
+def dragFromTo(x1: int, y1: int, x2: int, y2: int):
+    pyautogui.moveTo(x1, y1)
+    pyautogui.mouseDown()
+    pyautogui.moveTo(x2, y2, duration=.1)
+    time.sleep(scroll)
+    pyautogui.mouseUp()
+
 def scrollUp(length: int = 120):
+    Warning("deprecated")
     for i in range(scroll):
         pyautogui.scroll(length)
         time.sleep(.1)
 def scrollDown(length: int = 120):
+    Warning("deprecated")
     for i in range(scroll):
         pyautogui.scroll(-length)
         time.sleep(.1)
@@ -37,6 +47,7 @@ def sendTextWithoutClick(text:str):
     pyautogui.hotkey('ctrl', 'v')
 
 
+
 import ctypes
 import os
 def uploadFile():
@@ -49,8 +60,9 @@ def uploadFile():
         pyautogui.press('esc')
     print('\n')
 
-import ocr
+
 def clickText(imagePath:str, text:str) -> bool:
+    raise NotImplementedError()
     result=ocr.OCR(imagePath)
     for i in result:
         if text in i[1]: # type: ignore
@@ -63,6 +75,7 @@ def clickText(imagePath:str, text:str) -> bool:
             return True
     return False
 def clickTexts(imagePath:str, text:str) -> bool:
+    raise NotImplementedError("2.0后不再使用OCR功能")
     result=ocr.OCR(imagePath)
     success=False
     for i in result:

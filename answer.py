@@ -10,6 +10,7 @@ from typing import List, Optional
 import time
 from openai import OpenAI
 import httpx
+from conversationStyleExtract import ChatContent
 config = configparser.ConfigParser()
 config.read('config.ini', encoding='utf-8')
 modelName: str = config['general']['modelName']
@@ -115,87 +116,22 @@ def isTime(text):
             valid_times.append(f"{hour:02d}:{minute:02d}")
     
     return len(valid_times) > 0, valid_times
-def getAnswer_(text: str,imageList=None):
-    start_time = time.time()
-    message=[
-                {
-                    'role': 'system',
-                    'content': config.get('general', 'system') if config.get('general', 'system') != 'None' else ''
-                },
-                {
-                    'role': 'user',
-                    'content': text
-                }
-            ]
-    if isVisionModel and imageList:
-        message.append({
-            'role': 'image',
-            'content': imageList
-        })
-    
-    if useOllama:
-        response = ollama.chat( # type: ignore
-            model=modelName,
-            messages=message,
-            stream=True
-        )
-        result = ''
-        length=0
-        for chunk in response:
-            result += chunk['message']['content']
-            length+=len(chunk['message']['content'])
-            if length>=MAX_LENGTH:
-                break
-            print(chunk['message']['content'], end='')
-        endTime = time.time()
-        print(f"Ollama request time: {endTime - start_time:.2f}s")
-        return result
-    else:
-        # 兼容 OpenAI 及类 OpenAI API 的通用调用
-        headers = {
-            "Authorization": f"Bearer {API_KEY}",
-            "Content-Type": "application/json"
-        }
 
-        # 构建消息
-        messages = message
 
-        data = {
-            "model": modelName,
-            "messages": messages
-        }
-
-        try:
-            response = requests.post(server_url, headers=headers, json=data, timeout=30)
-
-            if response.status_code == 200:
-                json_resp = response.json()
-                # 大多数类 OpenAI 接口都返回 choices[0].message.content
-                content = json_resp["choices"][0]["message"]["content"]
-                print(content)
-                endTime = time.time()
-                print(f"API request time: {endTime - start_time:.2f}s")
-                return content[:MAX_LENGTH]
-            else:
-                print(f"API Error: {response.status_code} - {response.text}")
-                return None
-        except Exception as e:
-            print(f"Request failed: {e}")
-            return None
-    
-        
-
-def concatenateText(text:str,images):
+def concatenateText(text:list[ChatContent],images):
     message=[]
-    textList=text.split('\n')
+    textList=text
     for t in textList[:-1]:
-        message.append({"role": "user", "content": t})
+        if not t.ownByMyself:
+            message.append({"role": "user", "content": str(t)})
+        else:
+            message.append({"role": "assistant", "content": str(t)})
     if isVisionModel and images:
-        message.append({"role": "user", "content":textList[-1], "images": [p for p in images if os.path.exists(p)]})
+        message.append({"role": "user", "content":str(textList[-1]), "images": [p for p in images if os.path.exists(p)]})
     else:
-        message.append({"role": "user", "content":textList[-1]})
+        message.append({"role": "user", "content":str(textList[-1])})
     return message
-def getAnswer(text: str, imageList: Optional[List[str]] = None) -> Optional[str]:
+def getAnswer(text:list[ChatContent], imageList: Optional[List[str]] = None) -> Optional[str]:
     """
     调用 AI 模型获取回答（支持纯文本或图文输入）。
     
@@ -256,8 +192,14 @@ def getAnswer(text: str, imageList: Optional[List[str]] = None) -> Optional[str]
                 messages = []
                 if system_prompt:
                     messages.append({"role": "system", "content": system_prompt})
+                text2=''
+                for t in text:
+                    if t.ownByMyself:
 
-                user_content: List[dict] = [{"type": "text", "text": text}]
+                        text2+='[你]'+str(t)
+                    else:
+                        text2+=str(t)
+                user_content: List[dict] = [{"type": "text", "text":text2 }]
 
                 # 如果是 Vision 模型且提供了图像，则添加图像
                 if isVisionModel and imageList:
@@ -294,9 +236,28 @@ def getAnswer(text: str, imageList: Optional[List[str]] = None) -> Optional[str]
                 
 
 if __name__ == '__main__':
-    import conversationImages
-    s=conversationImages.findImageEnd()
-    answer=getAnswer('解释图片\n2\n3\n4\n5',s )
+    c=ChatContent(
+        username='',
+        imagePaths=[],
+        text='解释图片\n2\n3\n4\n5',
+        time='',
+        ownByMyself=False
+    )
+    c2=ChatContent(
+        username='',
+        imagePaths=[],
+        text='12345',
+        time='',
+        ownByMyself=True
+    )
+    c3=ChatContent(
+        username='',
+        imagePaths=[],
+        text='678910',
+        time='',
+        ownByMyself=False
+    )
+    answer=getAnswer([c,c2,c3] )
 # messages = _build_messages_OpenAI(
 #             text=text,
 #             system_prompt=system_prompt,
