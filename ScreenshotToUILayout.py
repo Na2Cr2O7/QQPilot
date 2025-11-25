@@ -15,7 +15,7 @@ from PIL.ImageFile import ImageFile
 import time
 import configparser
 from conversationStyleExtract import * 
-import numpy as np
+# import numpy as np
 import threading
 
 
