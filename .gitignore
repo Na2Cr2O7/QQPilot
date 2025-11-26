@@ -1,3 +1,5 @@
 update/bin
 update/obj
 test
+build
+.vscode
