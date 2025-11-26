@@ -11,13 +11,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. 设置 .NET SDK（runner 已预装，但这里确保版本）
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v5.0.1
-        with:
-          dotnet-version: '10.0.x'
-          cache: false   # 禁用缓存，避免缺少 packages.lock.json 文件的错误
-
       # 3. 设置 MSBuild（Windows runner 已预装）
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2.0.0
@@ -45,7 +38,7 @@ jobs:
         run: |
           cmake -S VisionQQ_C/FocusQQWindow2 -B build_FocusQQWindow2 -DCMAKE_BUILD_TYPE=Release
           cmake --build build_FocusQQWindow2 --config Release
-          if not exist artifacts mkdir artifacts
+          if (!(Test-Path artifacts)) { mkdir artifacts }
           copy build_FocusQQWindow2\Release\*.dll artifacts\
 
       - name: Build C++ ScaleToINI
