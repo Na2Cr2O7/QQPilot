@@ -24,7 +24,7 @@ import answer
 import enhance
 import pyperclip
 
-from GUIOperation import click,goto,scrollUp,scrollDown,sendTextWithoutClick,uploadFile,focus,clickTexts,dragFromTo
+from GUIOperation import click,goto,scrollUp,scrollDown,sendTextWithoutClick,uploadFile,focus,dragFromTo
         
 
     
@@ -42,6 +42,14 @@ def containsRedDot(image: Image.Image):
             if pixel==RED_DOT_COLOR:
                 return (x,y)
     return False
+def containsBlue(image: Image.Image):
+    BLUE=(0, 153, 255)
+    for x in range(0,image.width,10):
+        for y in range(0,image.height,10):
+            pixel=image.getpixel((x,y))
+            if pixel==BLUE:
+                yield (x,y)
+    return False
 def screenshot(positionRect: tuple[int, int, int, int]) -> Image.Image:
     logging.debug(f"screenshotting {ImageGrab.grab(bbox=positionRect)}")
     return ImageGrab.grab(bbox=positionRect)
@@ -56,6 +64,7 @@ def autoFocus():
         time.sleep(4)
 
 t=None
+
 if __name__ == '__main__':
     try:
         focus()
@@ -83,21 +92,14 @@ if __name__ == '__main__':
             t.start()
         if autoLogin=='True':
             logging.info("自动登录功能已开启")
-        
-
-            while True:
-                isLogin=False
-                for i in range(4):
-                    logging.info("正在尝试登录...")
-                    ImageGrab.grab().save('login.png')
-                    if clickTexts('login.png',"登录"):
-                        isLogin=True
-                        break
-                    time.sleep(1)
-                if isLogin:
-                    break
-                if input(f"{Fore.RED}如果已经登录，请输入'A'继续,否则按回车继续登录:{Fore.RESET}").capitalize()=='A':
-                    break
+            for i in range(4):
+                logging.info("正在尝试登录...")
+                for i in containsBlue(ImageGrab.grab()):
+                    click(*i)
+                    time.sleep(.01)
+                time.sleep(1)
+                
+            
 
 
 

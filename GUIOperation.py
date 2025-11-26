@@ -60,38 +60,6 @@ def uploadFile():
         pyautogui.press('esc')
     print('\n')
 
-
-def clickText(imagePath:str, text:str) -> bool:
-    raise NotImplementedError()
-    result=ocr.OCR(imagePath)
-    for i in result:
-        if text in i[1]: # type: ignore
-            pos1,pos2,pos3,pos4=i[0]  # type: ignore
-            x=[pos1[0],pos2[0],pos3[0],pos4[0]]
-            y=[pos1[1],pos2[1],pos3[1],pos4[1]]
-            x.sort()
-            y.sort()
-            click(int(x[1]),int(y[1])) 
-            return True
-    return False
-def clickTexts(imagePath:str, text:str) -> bool:
-    raise NotImplementedError("2.0后不再使用OCR功能")
-    result=ocr.OCR(imagePath)
-    success=False
-    for i in result:
-        if text in i[1]: # type: ignore
-            pos1,pos2,pos3,pos4=i[0]  # type: ignore
-            x=[pos1[0],pos2[0],pos3[0],pos4[0]]
-            y=[pos1[1],pos2[1],pos3[1],pos4[1]]
-            minX=int(min(x))
-            maxX=int(max(x))
-            minY=int(min(y))
-            maxY=int(max(y))
-
-            click((minX+maxX)//2, (minY+maxY)//2) 
-            success=True
-    return success
-
 import subprocess
 import ctypes
 
