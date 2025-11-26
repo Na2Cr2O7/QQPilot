@@ -3,7 +3,6 @@ ollama
 colorama
 pyautogui
 pyperclip
-requests
 flask
 openai
 numpy
