@@ -11,24 +11,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. 设置 CMake（runner 已预装，但这里确保版本）
-      - name: Setup CMake
-        uses: jwlawson/actions-setup-cmake@v2.0.2
-        with:
-          cmake-version: '3.24'
-
-      # 3. 设置 .NET SDK（runner 已预装，但这里确保版本）
+      # 2. 设置 .NET SDK（runner 已预装，但这里确保版本）
       - name: Setup .NET
         uses: actions/setup-dotnet@v5.0.1
         with:
           dotnet-version: '10.0.x'
-          cache: true   # ✅ 启用缓存，加快后续运行
+          cache: false   # 禁用缓存，避免缺少 packages.lock.json 文件的错误
 
-      # 4. 设置 MSBuild（Windows runner 已预装）
+      # 3. 设置 MSBuild（Windows runner 已预装）
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2.0.0
 
-      # 5. 缓存 CMake 构建目录
+      # 4. 缓存 CMake 构建目录
       - name: Cache CMake Build
         uses: actions/cache@v4
         with:
@@ -39,14 +33,14 @@ jobs:
             build_uploadFile
           key: ${{ runner.os }}-cmake-${{ hashFiles('VisionQQ_C/FocusQQWindow2/CMakeLists.txt', 'VisionQQ_C/ScaleToINI/CMakeLists.txt', 'VisionQQ_C/Vimage/CMakeLists.txt', 'VisionQQ_C/uploadFile/CMakeLists.txt') }}
 
-      # 6. 缓存 NuGet 包（C# 项目依赖）
+      # 5. 缓存 NuGet 包（C# 项目依赖）
       - name: Cache NuGet
         uses: actions/cache@v4
         with:
           path: ~\.nuget\packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.slnx', '**/*.sln', '**/*.csproj') }}
 
-      # 7. 构建多个 C++ 项目
+      # 6. 构建多个 C++ 项目
       - name: Build C++ FocusQQWindow2
         run: |
           cmake -S VisionQQ_C/FocusQQWindow2 -B build_FocusQQWindow2 -DCMAKE_BUILD_TYPE=Release
@@ -72,7 +66,7 @@ jobs:
           cmake --build build_uploadFile --config Release
           copy build_uploadFile\Release\*.dll artifacts\
 
-      # 8. 构建多个 .slnx 项目
+      # 7. 构建多个 .slnx 项目
       - name: Build C# Solution A
         run: |
           msbuild Opt\Opt.sln /p:Configuration=Release
@@ -85,19 +79,19 @@ jobs:
           copy update\bin\Release\net10.0-windows\*.dll artifacts\
           copy update\bin\Release\net10.0-windows\*.exe artifacts\
 
-      # 9. 收集 Python 脚本和其他文件
+      # 8. 收集 Python 脚本和其他文件
       - name: Collect Scripts
         run: |
           copy *.py artifacts\
           copy *.cmd artifacts\
           copy *.bat artifacts\
 
-      # 10. 打包成 7z
+      # 9. 打包成 7z
       - name: Package Artifacts
         run: |
           7z a artifacts.7z artifacts\*
 
-      # 11. 上传构建产物
+      # 10. 上传构建产物
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
