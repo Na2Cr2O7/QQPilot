@@ -13,13 +13,13 @@ jobs:
 
       # 2. 设置 CMake（runner 已预装，但这里确保版本）
       - name: Setup CMake
-        uses: jwlawson/actions-setup-cmake
+        uses: jwlawson/actions-setup-cmake@v2.0.2
         with:
           cmake-version: '3.24'
 
       # 3. 设置 .NET SDK（runner 已预装，但这里确保版本）
       - name: Setup .NET
-        uses: actions/setup-dotnet
+        uses: actions/setup-dotnet@v5.0.1
         with:
           dotnet-version: '10.0.x'
           cache: true   # ✅ 启用缓存，加快后续运行
