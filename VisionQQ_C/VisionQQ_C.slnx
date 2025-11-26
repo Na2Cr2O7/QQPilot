@@ -3,7 +3,8 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="FocusQQWindow2/FocusQQWindow2.vcxproj" />
-  <Project Path="ScaleToINI/ScaleToINI.vcxproj" />
-  <Project Path="uploadFile/uploadFile.vcxproj" />
+  <Project Path="FocusQQWindow2/FocusQQWindow2.vcxproj" Id="92a5f2dc-82d6-4511-995d-853d782b1c7a" />
+  <Project Path="ScaleToINI/ScaleToINI.vcxproj" Id="0c76a433-d76d-456b-9b4f-d24f05845967" />
+  <Project Path="uploadFile/uploadFile.vcxproj" Id="7bf54da3-9781-4781-ad30-2e0df178f894" />
+  <Project Path="Vimage/Vimage.vcxproj" Id="ac512d12-3665-49ac-afd1-149b900bcc3d" />
 </Solution>
