@@ -1,23 +1,18 @@
-```
-oooooo     oooo  o8o            o8o                               .oooooo.        .oooooo.      
- `888.     .8'   `"'            `"'                              d8P'  `Y8b      d8P'  `Y8b     
-  `888.   .8'   oooo   .oooo.o oooo   .ooooo.  ooo. .oo.        888      888    888      888    
-   `888. .8'    `888  d88(  "8 `888  d88' `88b `888P"Y88b       888      888    888      888    
-    `888.8'      888  `"Y88b.   888  888   888  888   888       888      888    888      888    
-     `888'       888  o.  )88b  888  888   888  888   888       `88b    d88b    `88b    d88b    
-      `8'       o888o 8""888P' o888o `Y8bod8P' o888o o888o       `Y8bood8P'Ybd'  `Y8bood8P'Ybd' 
- ```                                                                                              
-                                                                                                
-                                                                                                
-# VisionQQ
+
+# VisionQQ - 基于窗口自动化的 QQ 自动回复机器人
+
 [![示例截图](./VisionQQ.jpeg)](./VisionQQ.jpeg)
-# - 基于窗口自动化的 QQ 自动回复机器人
 
 > 使用纯视觉 + 窗口自动化实现 QQ 消息自动回复，**零 API 依赖、零注入、低封号风险**。  
 > ⚠️ **仅支持 Windows 系统（需桌面 GUI 环境）**
 
-
 ---
+
+## 🎉 新功能（1.5.2 版本）
+
+引入了内置，开箱即用的语言模型TinyLangJaccard
+
+[详细信息](tinyLangJaccardReadme.md)
 
 ## 📢 重要提示（1.5+ 版本）
 
@@ -201,6 +196,4 @@ ollama pull huihui_ai/qwen3-vl-abliterated:latest
 - 💡 想改进功能？ → 提交 Pull Request  
 - 🌍 有新语言/模型建议？ → 欢迎讨论！
 
-
 让我们一起打造更安全、智能的视觉自动化工具！
-
