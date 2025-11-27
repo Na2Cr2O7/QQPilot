@@ -1,8 +1,6 @@
-pillow
 ollama
 colorama
 pyautogui
 pyperclip
 flask
 openai
-numpy

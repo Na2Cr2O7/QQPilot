@@ -24,6 +24,7 @@ API_KEY=config['general']['API_KEY']
 if API_KEY=='None':
     API_KEY=None
 useOllama=False
+builtInLanguageModel=False
 ollama=None
 
 MAX_LENGTH=5000
@@ -31,7 +32,9 @@ MAX_LENGTH=5000
 if server_url=='Ollama':
     ollama=importlib.import_module('ollama')
     useOllama=True
-
+if server_url=='builtin':
+    builtInLanguageModel=True
+    tinylm=importlib.import_module('TinyLangJaccard')
 # check the model is exist or not
 print('Model:',modelName)
 if useOllama:
@@ -47,7 +50,6 @@ if useOllama:
 
 import base64
 import os
-import base64
 
 def _imageToBase64(path: str) -> str:
     with open(path, "rb") as f:
@@ -148,7 +150,13 @@ def getAnswer(text:list[ChatContent], imageList: Optional[List[str]] = None) -> 
         system_prompt = ''
     
     # 构建消息
-
+    if builtInLanguageModel:
+        for t in text[::-1]:
+            if t.text == '':
+                continue
+            if t.ownByMyself:
+                continue
+            return tinylm.answer(t.text)
     
     if useOllama:
         messages = []
