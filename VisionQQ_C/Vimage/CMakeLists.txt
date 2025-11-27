@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 3.24)
 project(Vimage LANGUAGES CXX)
+include(FetchContent)
 
+FetchContent_Declare(
+    cimg
+    URL https://github.com/GreycLab/CImg/blob/master/CImg.h
+)
+
+FetchContent_MakeAvailable(cimg)
 
 add_library(Vimage SHARED
     dllmain.cpp
