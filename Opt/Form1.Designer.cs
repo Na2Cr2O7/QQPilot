@@ -38,7 +38,7 @@
             label4 = new Label();
             textBox5 = new TextBox();
             label5 = new Label();
-            checkBox1 = new CheckBox();
+            ollama = new CheckBox();
             textBox6 = new TextBox();
             label6 = new Label();
             button1 = new Button();
@@ -62,6 +62,7 @@
             label11 = new Label();
             label12 = new Label();
             label10 = new Label();
+            builtin = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)sendImagePossibly).BeginInit();
             SuspendLayout();
             // 
@@ -149,16 +150,16 @@
             label5.TabIndex = 8;
             label5.Text = "服务器";
             // 
-            // checkBox1
+            // ollama
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(384, 348);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(107, 32);
-            checkBox1.TabIndex = 10;
-            checkBox1.Text = "ollama";
-            checkBox1.UseVisualStyleBackColor = true;
-            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            ollama.AutoSize = true;
+            ollama.Location = new Point(384, 348);
+            ollama.Name = "ollama";
+            ollama.Size = new Size(107, 32);
+            ollama.TabIndex = 10;
+            ollama.Text = "ollama";
+            ollama.UseVisualStyleBackColor = true;
+            ollama.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // textBox6
             // 
@@ -370,11 +371,23 @@
             label10.TabIndex = 33;
             label10.Text = "s";
             // 
+            // builtin
+            // 
+            builtin.AutoSize = true;
+            builtin.Location = new Point(384, 391);
+            builtin.Name = "builtin";
+            builtin.Size = new Size(122, 32);
+            builtin.TabIndex = 34;
+            builtin.Text = "内置模型";
+            builtin.UseVisualStyleBackColor = true;
+            builtin.CheckedChanged += checkBox6_CheckedChanged;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(13F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1109, 598);
+            Controls.Add(builtin);
             Controls.Add(label10);
             Controls.Add(label12);
             Controls.Add(textBox9);
@@ -395,7 +408,7 @@
             Controls.Add(button1);
             Controls.Add(textBox6);
             Controls.Add(label6);
-            Controls.Add(checkBox1);
+            Controls.Add(ollama);
             Controls.Add(textBox5);
             Controls.Add(label5);
             Controls.Add(textBox4);
@@ -434,7 +447,7 @@
         private Label label4;
         private TextBox textBox5;
         private Label label5;
-        private CheckBox checkBox1;
+        private CheckBox ollama;
         private TextBox textBox6;
         private Label label6;
         private Button button1;
@@ -458,5 +471,6 @@
         private Label label11;
         private Label label12;
         private Label label10;
+        private CheckBox builtin;
     }
 }

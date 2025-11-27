@@ -61,7 +61,11 @@ namespace Opt
             textBox9.Text = maxImageCount;
             if (textBox5.Text == "Ollama")
             {
-                checkBox1.Checked = true;
+                ollama.Checked = true;
+            }
+            if (textBox5.Text == "builtin")
+            {
+                builtin.Checked = true;
             }
             if (withImage == "True")
             {
@@ -119,9 +123,10 @@ namespace Opt
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            textBox5.Visible = !checkBox1.Checked;
-            textBox4.Visible = !checkBox1.Checked;
-            if (checkBox1.Checked)
+            builtin.Checked = false;
+            textBox5.Visible = !ollama.Checked;
+            textBox4.Visible = !ollama.Checked;
+            if (ollama.Checked)
             {
                 textBox5.Text = "Ollama";
                 textBox4.Text = "None";
@@ -172,7 +177,7 @@ namespace Opt
         private void button4_Click(object sender, EventArgs e)
         {
             string currentWorkingDirectory = Directory.GetCurrentDirectory();
-            string[] deleteExt = { "*.png", "*.jpg" };
+            string[] deleteExt = { "*.png", "*.jpg" ,"*.bmp"};
             foreach (string ext in deleteExt)
             {
                 string[] files = Directory.GetFiles(currentWorkingDirectory, ext);
@@ -232,6 +237,18 @@ namespace Opt
             if (!isnumeric(textBox9.Text))
             {
                 textBox9.Text = 1.ToString();
+            }
+        }
+
+        private void checkBox6_CheckedChanged(object sender, EventArgs e)
+        {
+            ollama.Checked = false;
+            textBox5.Visible = !builtin.Checked;
+            textBox4.Visible = !builtin.Checked;
+            if (builtin.Checked)
+            {
+                textBox5.Text = "builtin";
+                textBox4.Text = "None";
             }
         }
     }
