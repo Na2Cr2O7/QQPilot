@@ -20,8 +20,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            build_FocusQQWindow2
-            build_ScaleToINI
+            build_FocusQQWindow2            build_ScaleToINI
             build_Vimage
             build_uploadFile
           key: ${{ runner.os }}-cmake-${{ hashFiles('VisionQQ_C/FocusQQWindow2/CMakeLists.txt', 'VisionQQ_C/ScaleToINI/CMakeLists.txt', 'VisionQQ_C/Vimage/CMakeLists.txt', 'VisionQQ_C/uploadFile/CMakeLists.txt') }}
@@ -62,12 +61,14 @@ jobs:
       # 7. 构建多个 .slnx 项目
       - name: Build C# Solution A
         run: |
+          dotnet restore Opt\Opt.sln
           msbuild Opt\Opt.sln /p:Configuration=Release
           copy Opt\bin\Release\net9.0-windows7.0\*.dll artifacts\
           copy Opt\bin\Release\net9.0-windows7.0\*.exe artifacts\
 
       - name: Build C# Solution B
         run: |
+          dotnet restore update\update.slnx
           msbuild update\update.slnx /p:Configuration=Release
           copy update\bin\Release\net10.0-windows\*.dll artifacts\
           copy update\bin\Release\net10.0-windows\*.exe artifacts\
