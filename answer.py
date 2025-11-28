@@ -33,6 +33,7 @@ if server_url=='Ollama':
 if server_url=='builtin':
     builtInLanguageModel=True
     tinylm=importlib.import_module('TinyLangJaccard')
+
 # check the model is exist or not
 print('Model:',modelName)
 if useOllama:
@@ -155,6 +156,7 @@ def getAnswer(text:list[ChatContent], imageList: Optional[List[str]] = None) -> 
             if t.ownByMyself:
                 continue
             return tinylm.answer(t.text)
+        return ''
     
     if useOllama:
         messages = []

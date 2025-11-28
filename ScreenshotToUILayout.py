@@ -221,7 +221,7 @@ if __name__ == '__main__':
 
                         # click(sendImageActualSize[0]+((sendImageActualSize[2]-sendImageActualSize[0])//2),sendImageActualSize[1]+((sendImageActualSize[3]-sendImageActualSize[1])//2))
 
-                        # time.sleep(6)
+                        time.sleep(6)
 
                         # uploadFile()
                         # time.sleep(2)
