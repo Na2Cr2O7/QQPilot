@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Opt/Opt.csproj" />
+  <Project Path="update/update.csproj" />
+</Solution>

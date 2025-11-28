@@ -1,0 +1,255 @@
+
+using IniParser;
+using IniParser.Model;
+using System.Text;
+namespace Opt
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            var splashForm = new splash
+            {
+                SizeofForm = this.Size,
+                LocationofForm = new System.Numerics.Vector2(this.Location.X, this.Location.Y)
+            };
+            splashForm.Show();
+
+
+            FileIniDataParser parser = new();
+            IniData data = parser.ReadFile("Config.ini", new System.Text.UTF8Encoding(false));
+            string width = data["general"]["width"];
+            string height = data["general"]["height"];
+            string modelName = data["general"]["modelname"];
+            string apikey = data["general"]["api_key"];
+            string serverURL = data["general"]["server_url"];
+            string systemPrompt = data["general"]["system"];
+            string scroll = data["general"]["scroll"];
+            string withImage = data["general"]["withImage"];
+            string autoLogin = data["general"]["autoLogin"];
+            string autoFocusing = data["general"]["autoFocusing"];
+            string sendImagePossiblity = data["general"]["sendImagePossibility"];
+            string version = data["general"]["version"];
+            string isVisionModel = data["general"]["isVisionModel"];
+            string nt_data = data["general"]["nt_data"];
+            string maxImageCount = data["general"]["maxImageCount"];
+
+            Vs.Text = version;
+
+            sendImagePossibly.Value = int.Parse(sendImagePossiblity);
+
+            //parser.WriteFile("Configuration.ini", data);
+
+
+            //var ini = new IniFile("config.ini");
+            // string width = ini.Read("general", "width");
+
+
+            textBox1.Text = width;
+            textBox2.Text = height;
+            textBox3.Text = modelName;
+            textBox4.Text = apikey;
+            textBox5.Text = serverURL;
+            textBox6.Text = systemPrompt;
+            textBox7.Text = scroll;
+            textBox8.Text = nt_data;
+            textBox9.Text = maxImageCount;
+            if (textBox5.Text == "Ollama")
+            {
+                ollama.Checked = true;
+            }
+            if (textBox5.Text == "builtin")
+            {
+                builtin.Checked = true;
+            }
+            if (withImage == "True")
+            {
+                checkBox2.Checked = true;
+            }
+            if (autoLogin == "True")
+            {
+                checkBox3.Checked = true;
+            }
+            if (autoFocusing == "True")
+            {
+                checkBox4.Checked = true;
+            }
+            if (isVisionModel == "True")
+            {
+                checkBox5.Checked = true;
+
+            }
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Apply();
+
+        }
+        private void Apply()
+        {
+            FileIniDataParser parser = new();
+            IniData data = parser.ReadFile("config.ini", new System.Text.UTF8Encoding(false));
+            data["general"]["width"] = textBox1.Text;
+            data["general"]["height"] = textBox2.Text;
+            data["general"]["modelname"] = textBox3.Text;
+            data["general"]["api_key"] = textBox4.Text;
+            data["general"]["server_url"] = textBox5.Text;
+            data["general"]["system"] = textBox6.Text;
+            data["general"]["scroll"] = textBox7.Text;
+            data["general"]["withImage"] = checkBox2.Checked ? "True" : "False";
+            data["general"]["autoLogin"] = checkBox3.Checked ? "True" : "False";
+            data["general"]["autoFocusing"] = checkBox4.Checked ? "True" : "False";
+            data["general"]["sendImagePossibility"] = sendImagePossibly.Value.ToString();
+            data["general"]["isVisionModel"] = checkBox5.Checked ? "True" : "False";
+            data["general"]["nt_data"] = textBox8.Text;
+            data["general"]["maxImageCount"] = textBox9.Text;
+
+            parser.WriteFile("config.ini", data, new System.Text.UTF8Encoding(false));
+
+
+
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            builtin.Checked = false;
+            textBox5.Visible = !ollama.Checked;
+            textBox4.Visible = !ollama.Checked;
+            if (ollama.Checked)
+            {
+                textBox5.Text = "Ollama";
+                textBox4.Text = "None";
+            }
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+            textBox6.Text = textBox6.Text.Replace("\n", "");
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        private bool isnumeric(string s)
+        {
+            try
+            {
+                int.Parse(s);
+                return true;
+            }
+            catch { return false; }
+        }
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (!isnumeric(textBox1.Text))
+            {
+                textBox1.Text = 1280.ToString();
+            }
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            if (!isnumeric(textBox2.Text))
+            {
+                textBox2.Text = 720.ToString();
+
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Apply();
+            Close();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            string currentWorkingDirectory = Directory.GetCurrentDirectory();
+            string[] deleteExt = {"*.bmp"};
+            foreach (string ext in deleteExt)
+            {
+                string[] files = Directory.GetFiles(currentWorkingDirectory, ext);
+                foreach (string file in files)
+                {
+                    try
+                    {
+                        File.Delete(file);
+                        Console.WriteLine($"deleted{file}");
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"failed{file}{ex}");
+                    }
+                }
+
+
+            }
+        }
+
+        private void textBox7_TextChanged(object sender, EventArgs e)
+        {
+            if (!isnumeric(textBox7.Text))
+            {
+                textBox7.Text = 4.ToString();
+            }
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox5_CheckedChanged(object sender, EventArgs e)
+        {
+            button5.Enabled = checkBox5.Checked;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            DialogResult result = this.folderBrowserDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                textBox8.Text = folderBrowserDialog1.SelectedPath.ToString();
+            }
+
+        }
+
+        private void textBox9_TextChanged(object sender, EventArgs e)
+        {
+            if (!isnumeric(textBox9.Text))
+            {
+                textBox9.Text = 1.ToString();
+            }
+        }
+
+        private void checkBox6_CheckedChanged(object sender, EventArgs e)
+        {
+            ollama.Checked = false;
+            textBox5.Visible = !builtin.Checked;
+            textBox4.Visible = !builtin.Checked;
+            if (builtin.Checked)
+            {
+                textBox5.Text = "builtin";
+                textBox4.Text = "None";
+            }
+        }
+    }
+}
