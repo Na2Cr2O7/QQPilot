@@ -1,0 +1,21 @@
+[
+{
+    "description":"QQ",
+    "filename":"QQ_9.9.23_251124_x64_01.exe",
+    "url":"https://dldir1v6.qq.com/qqfile/qq/QQNT/Windows/QQ_9.9.23_251124_x64_01.exe"
+},
+{
+    "description":"NET 10 运行时 \n 用于启动'设置'和'升级助手'",
+    "filename":"runtime-10.0.0-windows-x64-installer.exe",
+    "url":"https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.0/dotnet-runtime-10.0.0-win-x64.exe"
+
+}   ,
+{
+    "description":"Ollama用于使用离线LLM模型进行推理",
+    "filename":"OllamaSetup.exe",
+    "url":"https://ollama.com/download/OllamaSetup.exe"
+
+}
+
+
+]
