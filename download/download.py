@@ -101,8 +101,6 @@ class DownloadApp:
                     status_label.config(text="❌ 访问URL失败")
                     progress_bar['value'] = 0
                     return
-                finally:
-                    response.close() #type: ignore
                 
           
                 
