@@ -216,6 +216,8 @@ if __name__ == '__main__':
                         logging.info("上传图片")
 
                         subprocess.run(['uploadImage2.exe'])
+                        time.sleep(.2)
+                        pyautogui.hotkey('ctrl','v')
 
                         # click(sendImageActualSize[0]+((sendImageActualSize[2]-sendImageActualSize[0])//2),sendImageActualSize[1]+((sendImageActualSize[3]-sendImageActualSize[1])//2))
 
