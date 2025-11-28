@@ -1,30 +1,31 @@
-from typing import Any, Generator, Literal
-from random import randint
-
-from PIL import ImageGrab, Image,ImageDraw
-
 from colorama import Fore
-
-import logging
-logging.basicConfig(level=logging.INFO,format='%(asctime)s [%(levelname)s] %(message)s',datefmt='%Y-%m-%d %H:%M:%S')
 import load
 load.startLoading(Fore.GREEN,"正在初始化")
 
-from PIL.ImageFile import ImageFile
+from typing import Any, Generator, Literal
+from random import randint
+import subprocess
+
+
+import image
+
+import logging
+logging.basicConfig(level=logging.INFO,format='%(asctime)s [%(levelname)s] %(message)s',datefmt='%Y-%m-%d %H:%M:%S')
+
 
 import time
 import configparser
 from conversationStyleExtract import * 
-# import numpy as np
+
 import threading
 
 
 import positions
 import answer
-import enhance
+# import enhance
 import pyperclip
 
-from GUIOperation import click,goto,scrollUp,scrollDown,sendTextWithoutClick,uploadFile,focus,dragFromTo
+from GUIOperation import *
         
 
     
@@ -33,27 +34,28 @@ from GUIOperation import click,goto,scrollUp,scrollDown,sendTextWithoutClick,upl
 load.stopLoading()
 
 logging.info(f"{Fore.GREEN}初始化完成{Fore.RESET}")
-def containsRedDot(image: Image.Image):
-    size=image.size
-    RED_DOT_COLOR=(247,76,48)
-    for x in range(size[0]):
-        for y in range(size[1]):
-            pixel=image.getpixel((x,y))
-            if pixel==RED_DOT_COLOR:
-                return (x,y)
-    return False
-def containsBlue(image: Image.Image):
-    BLUE=(0, 153, 255)
-    for x in range(0,image.width,10):
-        for y in range(0,image.height,10):
-            pixel=image.getpixel((x,y))
-            if pixel==BLUE:
-                yield (x,y)
-    return False
-def screenshot(positionRect: tuple[int, int, int, int]) -> Image.Image:
-    logging.debug(f"screenshotting {ImageGrab.grab(bbox=positionRect)}")
-    return ImageGrab.grab(bbox=positionRect)
-logging.info(f"{Fore.GREEN}准备开始运行{Fore.RESET}")
+
+# def containsRedDot(image: Image.Image):
+#     size=image.size
+#     RED_DOT_COLOR=(247,76,48)
+#     for x in range(size[0]):
+#         for y in range(size[1]):
+#             pixel=image.getpixel((x,y))
+#             if pixel==RED_DOT_COLOR:
+#                 return (x,y)
+#     return False
+# def containsBlue(image: Image.Image):
+#     BLUE=(0, 153, 255)
+#     for x in range(0,image.width,10):
+#         for y in range(0,image.height,10):
+#             pixel=image.getpixel((x,y))
+#             if pixel==BLUE:
+#                 yield (x,y)
+#     return False
+# def screenshot(positionRect: tuple[int, int, int, int]) -> Image.Image:
+#     logging.debug(f"screenshotting {ImageGrab.grab(bbox=positionRect)}")
+#     return ImageGrab.grab(bbox=positionRect)
+# logging.info(f"{Fore.GREEN}准备开始运行{Fore.RESET}")
 
 autoFocusShouldRun=True
 def autoFocus():
@@ -92,12 +94,17 @@ if __name__ == '__main__':
             t.start()
         if autoLogin=='True':
             logging.info("自动登录功能已开启")
-            for i in range(4):
-                logging.info("正在尝试登录...")
-                for i in containsBlue(ImageGrab.grab()):
-                    click(*i)
-                    time.sleep(.01)
-                time.sleep(1)
+            logging.info("正在尝试登录...")
+            for _ in range(4):
+
+                image.fullScreenShot()
+                i=image.containsBlue()
+                if i==[0,0]:
+                    time.sleep(1)
+                    continue
+                click(*i)
+                time.sleep(2)
+            time.sleep(1)
                 
             
 
@@ -143,30 +150,39 @@ if __name__ == '__main__':
         copyButtonActualSize: tuple[int, int, int, int]=positions.toActualSize(positions.COPY_BUTTON_BBOX_RELATIVE_SIZE,size)
         logging.debug(f"复制按钮实际大小: {copyButtonActualSize}")
 
+        startDraggingAbsolutePosition=positions.toActualPoint(positions.START_DRAGGING_RELATIVE_POSITION,size)
+        endDraggingAbsolutePosition=positions.toActualPoint(positions.END_DRAGGING_RELATIVE_POSITION,size)
+        logging.debug(f"开始拖拽位置: {startDraggingAbsolutePosition}")
+        logging.debug(f"结束拖拽位置: {endDraggingAbsolutePosition}")
 
         while True:
             try:
-                im=screenshot(positionRect)
+                # im=image.screenshot(*positionRect)
                 
-                im.save("screenshot.png")
-                chatList: Image.Image=im.crop(chatListActualSize)
-                del im
+                # im.save("screenshot.png")
+                # chatList: Image.Image=im.crop(chatListActualSize)
+                chatList=image.fullScreenShot()
 
-                contain: tuple[int, int] | Literal[False]=containsRedDot(chatList)
+                # del im
 
-                if contain :
+                contain=image.containsRedDot(image.rect(*chatListActualSize))
+                print(contain)
+                if contain!=[0,0]:
                     logging.info(f"发现红点: {contain}")
 
-                    click(contain[0]+chatListActualSize[0],contain[1]+chatListActualSize[1])
+                    click(contain[0],contain[1])
                     time.sleep(2)
                     
 
-                    # conversation
-                    # goto(conversationActualSize[0]+((conversationActualSize[2]-conversationActualSize[0])//2),conversationActualSize[1]+((conversationActualSize[3]-conversationActualSize[1])//2))
                     conversationText=[]
-                    dragFromTo(*positions.startDraggingAbsolutePosition,*positions.endDraggingAbsolutePosition)
+                    dragFromTo(*startDraggingAbsolutePosition,*endDraggingAbsolutePosition)
 
-                    click(copyButtonActualSize[0]+((copyButtonActualSize[2]-copyButtonActualSize[0])//2),copyButtonActualSize[1]+((copyButtonActualSize[3]-copyButtonActualSize[1])//2))
+                    #七次tab找到复制按钮
+                    for i in range(7):
+                        tab()
+                        time.sleep(.1)
+                    pyautogui.press('enter')
+
                     
                     time.sleep(4)
                     
@@ -198,24 +214,28 @@ if __name__ == '__main__':
                     if withImage and randint(0,99)<sendImagePossibility:
                         
                         logging.info("上传图片")
-                        click(sendImageActualSize[0]+((sendImageActualSize[2]-sendImageActualSize[0])//2),sendImageActualSize[1]+((sendImageActualSize[3]-sendImageActualSize[1])//2))
 
-                        time.sleep(6)
+                        subprocess.run(['uploadImage2.exe'])
 
-                        uploadFile()
-                        time.sleep(2)
+                        # click(sendImageActualSize[0]+((sendImageActualSize[2]-sendImageActualSize[0])//2),sendImageActualSize[1]+((sendImageActualSize[3]-sendImageActualSize[1])//2))
+
+                        # time.sleep(6)
+
+                        # uploadFile()
+                        # time.sleep(2)
 
 
                     # click "send" button
                     logging.info("发送消息")
-                    click(sendButtonActualSize[0]+((sendButtonActualSize[2]-sendButtonActualSize[0])//2)
-                            ,sendButtonActualSize[1]+((sendButtonActualSize[3]-sendButtonActualSize[1])//2))
+                    pyautogui.hotkey('ctrl','enter')
+                    # click(sendButtonActualSize[0]+((sendButtonActualSize[2]-sendButtonActualSize[0])//2)
+                    #         ,sendButtonActualSize[1]+((sendButtonActualSize[3]-sendButtonActualSize[1])//2))
                     
                     time.sleep(.1)
 
                     # exit conversation
                     logging.info("退出会话")
-                    click(exitConversationActualSize[0],exitConversationActualSize[1])
+                    click(contain[0],contain[1])
                 # else:
                 #     if isVisionModel:
                 #         conversationImages.findImageBegin()

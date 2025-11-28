@@ -13,7 +13,8 @@ def click(x: int, y: int):
     pyautogui.click()
 def goto(x: int, y: int):
     pyautogui.moveTo(x, y,duration=.1, tween=pytweening.easeInOutQuad)
-
+def tab():
+    pyautogui.press('tab')
 def dragFromTo(x1: int, y1: int, x2: int, y2: int):
     pyautogui.moveTo(x1, y1)
     pyautogui.mouseDown()

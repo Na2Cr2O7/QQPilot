@@ -23,6 +23,9 @@ COMMENT_SECTION_BBOX_RELATIVE_SIZE=(commentSectionBBoxAbsoluteSize[0]/DEFAULT_SI
 EXIT_CONVERSATION_BBOX_RELATIVE_SIZE=(exitConversationBBoxAbsoluteSize[0]/DEFAULT_SIZE[0],exitConversationBBoxAbsoluteSize[1]/DEFAULT_SIZE[1],exitConversationBBoxAbsoluteSize[2]/DEFAULT_SIZE[0],exitConversationBBoxAbsoluteSize[3]/DEFAULT_SIZE[1])
 SEND_IMAGE_BBOX_RELATIVE_SIZE=(sendImageBBoxAbsoluteSize[0]/DEFAULT_SIZE[0],sendImageBBoxAbsoluteSize[1]/DEFAULT_SIZE[1],sendImageBBoxAbsoluteSize[2]/DEFAULT_SIZE[0],sendImageBBoxAbsoluteSize[3]/DEFAULT_SIZE[1])
 COPY_BUTTON_BBOX_RELATIVE_SIZE=(copyButtonBBoxAbsoluteSize[0]/DEFAULT_SIZE[0],copyButtonBBoxAbsoluteSize[1]/DEFAULT_SIZE[1],copyButtonBBoxAbsoluteSize[2]/DEFAULT_SIZE[0],copyButtonBBoxAbsoluteSize[3]/DEFAULT_SIZE[1])
+START_DRAGGING_RELATIVE_POSITION=(startDraggingAbsolutePosition[0]/DEFAULT_SIZE[0],startDraggingAbsolutePosition[1]/DEFAULT_SIZE[1])
+END_DRAGGING_RELATIVE_POSITION=(endDraggingAbsolutePosition[0]/DEFAULT_SIZE[0],endDraggingAbsolutePosition[1]/DEFAULT_SIZE[1])
+
 
 import logging
 logging.debug("chatListBBoxRelativeSize: "+str(CHAT_LIST_BBOX_RELATIVE_SIZE))

@@ -1,11 +1,9 @@
 import importlib
 import configparser
-import requests
 import load
 from colorama import Fore
 import base64
 import os
-import requests
 from typing import List, Optional
 import time
 from openai import OpenAI
