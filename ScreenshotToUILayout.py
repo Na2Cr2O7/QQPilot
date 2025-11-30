@@ -1,10 +1,14 @@
 from colorama import Fore
 import load
+import dockLog
 load.startLoading(Fore.GREEN,"正在初始化")
-
+floatingTextApp=dockLog.start_floating_window()
+dockLog.setText("正在初始化-按右键关闭浮窗")
 from typing import Any, Generator, Literal
 from random import randint
 import subprocess
+
+
 
 
 import image
@@ -34,7 +38,7 @@ from GUIOperation import *
 load.stopLoading()
 
 logging.info(f"{Fore.GREEN}初始化完成{Fore.RESET}")
-
+dockLog.setText("初始化完成")
 # def containsRedDot(image: Image.Image):
 #     size=image.size
 #     RED_DOT_COLOR=(247,76,48)
@@ -95,6 +99,7 @@ if __name__ == '__main__':
         if autoLogin=='True':
             logging.info("自动登录功能已开启")
             logging.info("正在尝试登录...")
+            dockLog.setText("正在尝试登录...")
             for _ in range(4):
 
                 image.fullScreenShot()
@@ -168,6 +173,7 @@ if __name__ == '__main__':
                 contain=image.containsRedDot(image.rect(*chatListActualSize))
                 print(contain)
                 if contain!=[0,0]:
+                    dockLog.setText("🚫🖱️发现新信息  ")
                     logging.info(f"发现红点: {contain}")
 
                     click(contain[0],contain[1])
@@ -175,9 +181,13 @@ if __name__ == '__main__':
                     
 
                     conversationText=[]
+                    
                     dragFromTo(*startDraggingAbsolutePosition,*endDraggingAbsolutePosition)
 
+
                     #七次tab找到复制按钮
+                    dockLog.setText("🚫🖱️ 请勿移动鼠标")
+
                     for i in range(7):
                         tab()
                         time.sleep(.1)
@@ -194,6 +204,7 @@ if __name__ == '__main__':
                                 images.append(imagePath)
                     conversationText=[str(text) for text in CharContents]
                     
+                    dockLog.setText("🚫🖱️等待语言模型生成答案")
                     #send answer
                     click(commentSectionActualSize[0]+((commentSectionActualSize[2]-commentSectionActualSize[0])//2),commentSectionActualSize[1]+((commentSectionActualSize[3]-commentSectionActualSize[1])//2))
 
@@ -204,6 +215,8 @@ if __name__ == '__main__':
                         result=answer.getAnswer(CharContents,images)
                     else:
                         result=answer.getAnswer(CharContents)
+
+                    click(commentSectionActualSize[0]+((commentSectionActualSize[2]-commentSectionActualSize[0])//2),commentSectionActualSize[1]+((commentSectionActualSize[3]-commentSectionActualSize[1])//2))
                     
                     if type(result)==str:
                         result+=indentificationString
@@ -214,6 +227,7 @@ if __name__ == '__main__':
                     if withImage and randint(0,99)<sendImagePossibility:
                         
                         logging.info("上传图片")
+                        dockLog.setText("🚫⌨️ 正在上传图片...")
 
                         subprocess.run(['uploadImage2.exe'])
                         time.sleep(.2)
@@ -230,6 +244,7 @@ if __name__ == '__main__':
                     # click "send" button
                     logging.info("发送消息")
                     pyautogui.hotkey('ctrl','enter')
+                    dockLog.setText("发送消息 🎉")
                     # click(sendButtonActualSize[0]+((sendButtonActualSize[2]-sendButtonActualSize[0])//2)
                     #         ,sendButtonActualSize[1]+((sendButtonActualSize[3]-sendButtonActualSize[1])//2))
                     
@@ -243,6 +258,7 @@ if __name__ == '__main__':
                 #         conversationImages.findImageBegin()
                 else:
                     time.sleep(2) # 防止截图过快对硬盘损伤大
+                    dockLog.setText("正在寻找新信息...")
             except KeyboardInterrupt:
                 logging.error(f"{Fore.RED}KeyboardInterrupt{Fore.RESET}")
                 autoFocusShouldRun=False
@@ -251,6 +267,8 @@ if __name__ == '__main__':
                     t.join()
     except KeyboardInterrupt:
         logging.error(f"{Fore.RED}KeyboardInterrupt{Fore.RESET}")
+        dockLog.stop_floating_window()
+        
         autoFocusShouldRun=False
         raise SystemExit
         if t:

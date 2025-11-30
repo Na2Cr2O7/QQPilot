@@ -226,7 +226,7 @@ def getAnswer(text:list[ChatContent], imageList: Optional[List[str]] = None) -> 
                             }
                         })
 
-                messages.append({"role": "user", "content": user_content if isVisionModel and imageList else text})
+                messages.append({"role": "user", "content": user_content if isVisionModel and imageList else text2})
 
                 response = client.chat.completions.create(
                     model=modelName,
@@ -236,10 +236,12 @@ def getAnswer(text:list[ChatContent], imageList: Optional[List[str]] = None) -> 
                 )
 
                 answer: str = response.choices[0].message.content.strip() # type: ignore
+                print(answer)
                 return answer
 
         except Exception as e:
             print(f"[ERROR] Failed to get answer: {e}")
+            # raise e
             return None
                 
 
@@ -266,6 +268,7 @@ if __name__ == '__main__':
         ownByMyself=False
     )
     answer=getAnswer([c,c2,c3] )
+    print(answer)
 # messages = _build_messages_OpenAI(
 #             text=text,
 #             system_prompt=system_prompt,
