@@ -16,7 +16,7 @@
 
 ---
 ## 📢 重要提示（1.5.2+ 版本）
-自 **VisionQQ v1.5 起，不再依赖 pillow**
+自 **VisionQQ v1.5.2 起，不再依赖 pillow**
 ✅ 升级后可安全卸载 `pillow`：
 
 ```bash
@@ -215,6 +215,7 @@ ollama pull huihui_ai/qwen3-vl-abliterated:latest
 
 
 让我们一起打造更安全、智能的视觉自动化工具！
+
 
 
 
