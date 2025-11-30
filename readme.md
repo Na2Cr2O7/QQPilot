@@ -25,7 +25,7 @@ PythonPath.cmd -m pip uninstall pillow
 
 ---
 
-## 🎉 新功能（1.5.2 Pre-release）
+## 1.5.2+
 
 引入了内置，开箱即用的语言模型TinyLangJaccard
 
@@ -215,6 +215,7 @@ ollama pull huihui_ai/qwen3-vl-abliterated:latest
 
 
 让我们一起打造更安全、智能的视觉自动化工具！
+
 
 
 
