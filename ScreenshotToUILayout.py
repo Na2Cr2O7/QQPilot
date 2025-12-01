@@ -171,7 +171,6 @@ if __name__ == '__main__':
                 # del im
 
                 contain=image.containsRedDot(image.rect(*chatListActualSize))
-                print(contain)
                 if contain!=[0,0]:
                     dockLog.setText("🚫🖱️发现新信息  ")
                     logging.info(f"发现红点: {contain}")
@@ -211,7 +210,12 @@ if __name__ == '__main__':
 
 
                     print(f"{Fore.CYAN}{'\n'.join(list(conversationText))}{Fore.RESET}")
-                    result=answer.getAnswer(ChatContents)
+                    try:
+                        result=answer.getAnswer(ChatContents)
+                    except Exception as e:
+                        logging.error(f"语言模型生成答案失败\n{e}")
+                        dockLog.setText("× 语言模型生成答案失败")
+                        result=""
 
                     click(commentSectionActualSize[0]+((commentSectionActualSize[2]-commentSectionActualSize[0])//2),commentSectionActualSize[1]+((commentSectionActualSize[3]-commentSectionActualSize[1])//2))
                     

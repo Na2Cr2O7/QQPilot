@@ -64,7 +64,7 @@ class FloatingTextApp:
         # 创建文字标签
         self.display_text = tk.Label(
             container,
-            text=":)",
+            text="VisionQQ",
             font=("微软雅黑", 11, "bold"),
             bg='#242424',
             fg='#ecf0f1',
@@ -90,7 +90,6 @@ class FloatingTextApp:
         self.running = True
         self.create_window()
         
-        print("🚀 浮窗服务已启动，等待消息...")
         
         try:
             while self.running:
@@ -120,7 +119,7 @@ class FloatingTextApp:
         """更新显示文字"""
         if self.display_text and self.running:
             self.display_text.config(text=str(text))
-            print(f"📝 文字已更新: {text}")
+            # print(f"📝 文字已更新: {text}")
             
     def cleanup(self):
         """清理资源"""

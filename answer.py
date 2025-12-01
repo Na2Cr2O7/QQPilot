@@ -86,6 +86,8 @@ def concatenateText(text:list[ChatContent],images):
             message.append({"role": "user", "content": str(t)})
         else:
             message.append({"role": "assistant", "content": str(t)})
+    if len(textList)<1:
+        textList=['']
     if isVisionModel and images:
         message.append({"role": "user", "content":str(textList[-1]), "images": [p for p in images if os.path.exists(p)]})
     else:
