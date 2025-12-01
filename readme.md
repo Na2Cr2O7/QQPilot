@@ -9,18 +9,20 @@
 
 # VisionQQ - 基于窗口自动化的 QQ 自动回复机器人
 
-[![示例截图](./VisionQQ.jpeg)](./VisionQQ.jpeg)
+<!-- [![示例截图](./VisionQQ.jpeg)](./VisionQQ.jpeg) -->
+<img alt="示例截图" src="VisionQQ.jpeg" width="500">
 
 > 使用纯视觉 + 窗口自动化实现 QQ 消息自动回复，**零 API 依赖、零注入、低封号风险**。  
 > ⚠️ **仅支持 Windows 系统（需桌面 GUI 环境）**
 
 ---
 ## 📢 重要提示（1.5.2+ 版本）
-自 **VisionQQ v1.5.2 起，不再依赖 pillow**
-✅ 升级后可安全卸载 `pillow`：
+自 **VisionQQ v1.5.2 起，不再依赖 pillow,numpy**
+✅ 升级后可安全卸载 `pillow`,`numpy`：
 
 ```bash
 PythonPath.cmd -m pip uninstall pillow
+PythonPath.cmd -m pip uninstall numpy
 ```
 
 ---
@@ -59,6 +61,41 @@ VisionQQ 是一个全自动的 QQ 聊天机器人，通过以下流程实现智�
 - **隐私可控**：支持完全本地运行，数据不出设备  
 - **灵活扩展**：可对接任意本地大模型（如 Ollama）或远程 HTTP API  
 - **开箱即用**：内置 Python 3.13 环境，无需手动配置依赖
+
+## 配置要求
+
+>  ⚠️该配置不包含QQ本体
+>  ⚠️该程序不支持无头模式（至少外接一台显示器）
+
+### 最低要求
+
+ - Windows 8.1 或更高版本 64位
+
+ - 单核处理器，主频800MHz以上
+
+ - 1GB RAM
+
+ - 150M 可用空间
+
+ - 1920x1080 sRGB 显示器
+
+### 推荐配置
+
+ - Windows 10 x64
+
+ - i3-2100
+
+ - 4GB RAM
+
+ - 2GB 可用空间
+
+- 1920x1080 sRGB 显示器
+ 
+
+
+
+
+
 
 ---
 
