@@ -196,13 +196,13 @@ if __name__ == '__main__':
                     
                     time.sleep(4)
                     
-                    CharContents=extract(pyperclip.paste())
+                    ChatContents=extract(pyperclip.paste())
                     images=[]
-                    for text in CharContents:
+                    for text in ChatContents:
                         for imagePath in text.imagePaths:
                             if os.path.exists(imagePath):
                                 images.append(imagePath)
-                    conversationText=[str(text) for text in CharContents]
+                    # conversationText=[str(text) for text iChatContentsts]
                     
                     dockLog.setText("🚫🖱️等待语言模型生成答案")
                     #send answer
@@ -211,10 +211,7 @@ if __name__ == '__main__':
 
 
                     print(f"{Fore.CYAN}{'\n'.join(list(conversationText))}{Fore.RESET}")
-                    if isVisionModel and images:
-                        result=answer.getAnswer(CharContents,images)
-                    else:
-                        result=answer.getAnswer(CharContents)
+                    result=answer.getAnswer(ChatContents)
 
                     click(commentSectionActualSize[0]+((commentSectionActualSize[2]-commentSectionActualSize[0])//2),commentSectionActualSize[1]+((commentSectionActualSize[3]-commentSectionActualSize[1])//2))
                     

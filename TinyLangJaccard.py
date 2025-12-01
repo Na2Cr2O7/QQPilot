@@ -1,44 +1,78 @@
-import json
-import os 
-if not os.path.exists('tokenizer.json'):
-    import prepareData
+import os
+import sqlite3
+from time import time
+from collections import defaultdict
+
+start = time()
+
+# === 第一步：确保 dataset.db 存在（可选：自动转换逻辑可放 compressDatasetSqlite）===
+if not os.path.exists('dataset.db'):
+    import compressDatasetSqlite
+# === 第二步：从 SQLite 加载全量问答对 ===
+import dbconnect
+questions, answers = dbconnect.questions, dbconnect.answers
+question_sets = [set(q) for q in questions]
+
+print(f"共加载 {len(questions)} 条问答对")
+
+# === 第三步：构建字符倒排索引（和原来一样）===
+char_to_questions = defaultdict(set)
+for idx, q in enumerate(questions):
+    for char in q:
+        char_to_questions[char].add(idx)
+
+# === 第四步：保留你的 Jaccard 匹配函数 ===
+def answer_fast(question):
+    q_set = set(question)
+    candidate_indices = set()
     
-# with open('tokenizer.json','r',encoding='utf8') as f:
-#     char_to_idx = json.load(f)
-with open('datasetTiny.jsonl','r',encoding='utf8') as f:
-    pair = json.load(f)
-questions=list(pair.keys())
-answers=list(pair.values())
-def jaccard_similarity(s1, s2):
-
-    """计算两个字符串的Jaccard相似度"""
-    # 将字符串转换为集合
-    set1 = set(s1)
-    set2 = set(s2)
+    # 收集所有包含任一字符的问题索引
+    for char in q_set:
+        candidate_indices |= char_to_questions.get(char, set())
     
-    # 计算交集和并集
-    intersection = len(set1.intersection(set2))
-    union = len(set1.union(set2))
+    if not candidate_indices:
+        candidate_indices = range(len(questions))
     
-    # 计算Jaccard相似度
-    jaccard_sim = intersection / union
-    return jaccard_sim
+    max_sim = -1
+    best_idx = 0
+    q_len = len(q_set)
+    
+    for idx in candidate_indices:
+        q_set_i = question_sets[idx]
+        inter = len(q_set & q_set_i)
+        union = q_len + len(q_set_i) - inter
+        sim = inter / union if union > 0 else 0.0
+        
+        if sim > max_sim:
+            max_sim = sim
+            best_idx = idx
+    
+    ans = answers[best_idx] 
+    print(ans)
+    return ans
 
+print(f'准备完成: {time() - start:.2f}s')
 
-def answer(question):
-    max_similarity = -1
-    best_match = None
-    for i in questions:
-        similarity = jaccard_similarity(question, i)
-
-        if similarity > max_similarity:
-            max_similarity = similarity
-            best_match = i
-    print(pair[best_match])
-    return pair[best_match]
 if __name__ == '__main__':
-    print('TinyLangJaccard 测试')
-    print('数据集:https://www.modelscope.cn/datasets/Moemuu/Muice-Dataset/files')
+    print('TinyLangJaccard-Swiftness-Sqlite 测试')
+    print('数据集:https://modelscope.cn/datasets/qiaojiedongfeng/qiaojiedongfeng')
     while True:
-        answer(input('请输入问题: '))
-    # print(answer("啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊"))
+        try:
+            question = input('请输入问题: ')
+            if not question.strip():
+                continue
+            start_time = time()
+            answer_fast(question)
+            print(f'耗时: {time() - start_time:.2f}s')
+        except (KeyboardInterrupt, EOFError):
+            print("\n再见！")
+            break
+
+
+
+
+
+
+
+
+#
