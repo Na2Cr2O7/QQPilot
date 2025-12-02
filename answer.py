@@ -82,6 +82,8 @@ def concatenateText(text:list[ChatContent],images):
     message=[]
     textList=text
     for t in textList[:-1]:
+        if str(t)=='':
+            continue
         if not t.ownByMyself:
             message.append({"role": "user", "content": str(t)})
         else:
@@ -92,6 +94,8 @@ def concatenateText(text:list[ChatContent],images):
         message.append({"role": "user", "content":str(textList[-1]), "images": [p for p in images if os.path.exists(p)]})
     else:
         message.append({"role": "user", "content":str(textList[-1])})
+    if len(message)<1:
+        message.append({"role": "user", "content":"_"})
     return message
 def getAnswer(text:list[ChatContent]) -> Optional[str]:
     """
@@ -104,6 +108,19 @@ def getAnswer(text:list[ChatContent]) -> Optional[str]:
     Returns:
         模型返回的文本，或 None（出错时）
     """
+
+    
+    if builtInLanguageModel:
+        for t in text[::-1]:
+            if t.text == '':
+                continue
+            if t.ownByMyself:
+                continue
+            return tinylm.answer(t.text)
+        return ''
+    
+
+
     # 获取系统提示
     system_prompt = config.get('general', 'system')
     if system_prompt == 'None':
@@ -125,14 +142,7 @@ def getAnswer(text:list[ChatContent]) -> Optional[str]:
         if imageCount>=maxImageCount:
             break
     # 构建消息
-    if builtInLanguageModel:
-        for t in text[::-1]:
-            if t.text == '':
-                continue
-            if t.ownByMyself:
-                continue
-            return tinylm.answer_fast(t.text)
-        return ''
+
     
     if useOllama:
         messages = []

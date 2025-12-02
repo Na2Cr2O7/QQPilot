@@ -1,4 +1,4 @@
-indentificationString=r'⨋'
+indentificationString='⨋'
 
 import re
 from dataclasses import dataclass
@@ -103,7 +103,7 @@ def parse_chat_log(chat_str: str) -> List[ChatContent]:
                 imagePaths=image_paths,
                 text=clean_text,
                 time=time_str,
-                ownByMyself=( indentificationString in clean_text)
+                ownByMyself=( indentificationString in raw_text)
             ))
         else:
             i += 1
