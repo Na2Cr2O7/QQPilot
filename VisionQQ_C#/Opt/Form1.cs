@@ -38,7 +38,7 @@ namespace Opt
             string isVisionModel = data["general"]["isVisionModel"];
             string nt_data = data["general"]["nt_data"];
             string maxImageCount = data["general"]["maxImageCount"];
-
+            string ATDetect = data["general"]["ATDetect"];
             Vs.Text = version;
 
             sendImagePossibly.Value = int.Parse(sendImagePossiblity);
@@ -84,6 +84,10 @@ namespace Opt
                 checkBox5.Checked = true;
 
             }
+            if (ATDetect == "True")
+            {
+                checkBox1.Checked = true;
+            }
 
         }
 
@@ -110,6 +114,9 @@ namespace Opt
             data["general"]["isVisionModel"] = checkBox5.Checked ? "True" : "False";
             data["general"]["nt_data"] = textBox8.Text;
             data["general"]["maxImageCount"] = textBox9.Text;
+            data["general"]["ATDetect"] = checkBox1.Checked ? "True" : "False";
+
+
 
             parser.WriteFile("config.ini", data, new System.Text.UTF8Encoding(false));
 
@@ -177,7 +184,7 @@ namespace Opt
         private void button4_Click(object sender, EventArgs e)
         {
             string currentWorkingDirectory = Directory.GetCurrentDirectory();
-            string[] deleteExt = {"*.bmp"};
+            string[] deleteExt = { "*.bmp" };
             foreach (string ext in deleteExt)
             {
                 string[] files = Directory.GetFiles(currentWorkingDirectory, ext);
@@ -250,6 +257,11 @@ namespace Opt
                 textBox5.Text = "builtin";
                 textBox4.Text = "None";
             }
+        }
+
+        private void checkBox1_CheckedChanged_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

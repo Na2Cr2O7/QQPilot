@@ -63,13 +63,14 @@
             label12 = new Label();
             label10 = new Label();
             builtin = new CheckBox();
+            checkBox1 = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)sendImagePossibly).BeginInit();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(56, 53);
+            label1.Location = new Point(31, 28);
             label1.Name = "label1";
             label1.Size = new Size(96, 28);
             label1.TabIndex = 0;
@@ -77,7 +78,7 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(158, 50);
+            textBox1.Location = new Point(133, 25);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(89, 34);
             textBox1.TabIndex = 1;
@@ -85,7 +86,7 @@
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(355, 50);
+            textBox2.Location = new Point(330, 22);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(92, 34);
             textBox2.TabIndex = 3;
@@ -94,7 +95,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(253, 50);
+            label2.Location = new Point(228, 31);
             label2.Name = "label2";
             label2.Size = new Size(96, 28);
             label2.TabIndex = 2;
@@ -102,7 +103,7 @@
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(158, 95);
+            textBox3.Location = new Point(133, 70);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(333, 34);
             textBox3.TabIndex = 5;
@@ -110,7 +111,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(56, 95);
+            label3.Location = new Point(31, 70);
             label3.Name = "label3";
             label3.Size = new Size(96, 28);
             label3.TabIndex = 4;
@@ -118,7 +119,7 @@
             // 
             // textBox4
             // 
-            textBox4.Location = new Point(158, 299);
+            textBox4.Location = new Point(133, 274);
             textBox4.Name = "textBox4";
             textBox4.PasswordChar = '·';
             textBox4.Size = new Size(333, 34);
@@ -127,7 +128,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(56, 302);
+            label4.Location = new Point(31, 277);
             label4.Name = "label4";
             label4.Size = new Size(84, 28);
             label4.TabIndex = 6;
@@ -135,7 +136,7 @@
             // 
             // textBox5
             // 
-            textBox5.Location = new Point(158, 346);
+            textBox5.Location = new Point(133, 321);
             textBox5.Name = "textBox5";
             textBox5.Size = new Size(220, 34);
             textBox5.TabIndex = 9;
@@ -144,7 +145,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(56, 349);
+            label5.Location = new Point(31, 324);
             label5.Name = "label5";
             label5.Size = new Size(75, 28);
             label5.TabIndex = 8;
@@ -153,7 +154,7 @@
             // ollama
             // 
             ollama.AutoSize = true;
-            ollama.Location = new Point(384, 348);
+            ollama.Location = new Point(359, 323);
             ollama.Name = "ollama";
             ollama.Size = new Size(107, 32);
             ollama.TabIndex = 10;
@@ -163,7 +164,7 @@
             // 
             // textBox6
             // 
-            textBox6.Location = new Point(529, 71);
+            textBox6.Location = new Point(504, 46);
             textBox6.Multiline = true;
             textBox6.Name = "textBox6";
             textBox6.Size = new Size(541, 429);
@@ -173,7 +174,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(529, 40);
+            label6.Location = new Point(504, 15);
             label6.Name = "label6";
             label6.Size = new Size(96, 28);
             label6.TabIndex = 11;
@@ -181,7 +182,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(529, 530);
+            button1.Location = new Point(670, 514);
             button1.Name = "button1";
             button1.Size = new Size(118, 42);
             button1.TabIndex = 13;
@@ -191,7 +192,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(653, 530);
+            button2.Location = new Point(794, 514);
             button2.Name = "button2";
             button2.Size = new Size(118, 42);
             button2.TabIndex = 14;
@@ -201,7 +202,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(777, 530);
+            button3.Location = new Point(918, 514);
             button3.Name = "button3";
             button3.Size = new Size(118, 42);
             button3.TabIndex = 15;
@@ -211,9 +212,9 @@
             // 
             // button4
             // 
-            button4.Location = new Point(235, 149);
+            button4.Location = new Point(159, 118);
             button4.Name = "button4";
-            button4.Size = new Size(242, 42);
+            button4.Size = new Size(307, 42);
             button4.TabIndex = 16;
             button4.Text = "清理图片缓存";
             button4.UseVisualStyleBackColor = true;
@@ -221,7 +222,7 @@
             // 
             // textBox7
             // 
-            textBox7.Location = new Point(200, 389);
+            textBox7.Location = new Point(175, 364);
             textBox7.Name = "textBox7";
             textBox7.Size = new Size(68, 34);
             textBox7.TabIndex = 18;
@@ -230,7 +231,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(56, 395);
+            label7.Location = new Point(31, 370);
             label7.Name = "label7";
             label7.Size = new Size(138, 28);
             label7.TabIndex = 17;
@@ -239,7 +240,7 @@
             // checkBox2
             // 
             checkBox2.AutoSize = true;
-            checkBox2.Location = new Point(56, 445);
+            checkBox2.Location = new Point(31, 420);
             checkBox2.Name = "checkBox2";
             checkBox2.Size = new Size(122, 32);
             checkBox2.TabIndex = 19;
@@ -250,7 +251,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(203, 445);
+            label8.Location = new Point(178, 420);
             label8.Name = "label8";
             label8.Size = new Size(274, 28);
             label8.TabIndex = 20;
@@ -259,7 +260,7 @@
             // checkBox3
             // 
             checkBox3.AutoSize = true;
-            checkBox3.Location = new Point(56, 545);
+            checkBox3.Location = new Point(31, 520);
             checkBox3.Name = "checkBox3";
             checkBox3.Size = new Size(181, 32);
             checkBox3.TabIndex = 21;
@@ -270,7 +271,7 @@
             // checkBox4
             // 
             checkBox4.AutoSize = true;
-            checkBox4.Location = new Point(253, 545);
+            checkBox4.Location = new Point(225, 520);
             checkBox4.Name = "checkBox4";
             checkBox4.Size = new Size(227, 32);
             checkBox4.TabIndex = 22;
@@ -279,7 +280,7 @@
             // 
             // sendImagePossibly
             // 
-            sendImagePossibly.Location = new Point(243, 492);
+            sendImagePossibly.Location = new Point(218, 467);
             sendImagePossibly.Maximum = 100;
             sendImagePossibly.Minimum = 1;
             sendImagePossibly.Name = "sendImagePossibly";
@@ -291,7 +292,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(56, 495);
+            label9.Location = new Point(31, 470);
             label9.Name = "label9";
             label9.Size = new Size(138, 28);
             label9.TabIndex = 24;
@@ -300,7 +301,7 @@
             // Vs
             // 
             Vs.AutoSize = true;
-            Vs.Location = new Point(812, 40);
+            Vs.Location = new Point(787, 15);
             Vs.Name = "Vs";
             Vs.Size = new Size(26, 28);
             Vs.TabIndex = 25;
@@ -309,7 +310,7 @@
             // checkBox5
             // 
             checkBox5.AutoSize = true;
-            checkBox5.Location = new Point(56, 149);
+            checkBox5.Location = new Point(31, 124);
             checkBox5.Name = "checkBox5";
             checkBox5.Size = new Size(122, 32);
             checkBox5.TabIndex = 26;
@@ -338,16 +339,16 @@
             // 
             // textBox9
             // 
-            textBox9.Location = new Point(179, 205);
+            textBox9.Location = new Point(154, 180);
             textBox9.Name = "textBox9";
-            textBox9.Size = new Size(89, 34);
+            textBox9.Size = new Size(312, 34);
             textBox9.TabIndex = 31;
             textBox9.TextChanged += textBox9_TextChanged;
             // 
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(56, 205);
+            label11.Location = new Point(31, 180);
             label11.Name = "label11";
             label11.Size = new Size(117, 28);
             label11.TabIndex = 30;
@@ -356,7 +357,7 @@
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(56, 249);
+            label12.Location = new Point(31, 224);
             label12.Name = "label12";
             label12.Size = new Size(334, 28);
             label12.TabIndex = 32;
@@ -365,7 +366,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(274, 395);
+            label10.Location = new Point(249, 370);
             label10.Name = "label10";
             label10.Size = new Size(22, 28);
             label10.TabIndex = 33;
@@ -374,7 +375,7 @@
             // builtin
             // 
             builtin.AutoSize = true;
-            builtin.Location = new Point(384, 391);
+            builtin.Location = new Point(359, 366);
             builtin.Name = "builtin";
             builtin.Size = new Size(122, 32);
             builtin.TabIndex = 34;
@@ -382,11 +383,23 @@
             builtin.UseVisualStyleBackColor = true;
             builtin.CheckedChanged += checkBox6_CheckedChanged;
             // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(472, 520);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(123, 32);
+            checkBox1.TabIndex = 35;
+            checkBox1.Text = "只检查@\r\n";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged_1;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(13F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1109, 598);
+            ClientSize = new Size(1058, 587);
+            Controls.Add(checkBox1);
             Controls.Add(builtin);
             Controls.Add(label10);
             Controls.Add(label12);
@@ -472,5 +485,6 @@
         private Label label12;
         private Label label10;
         private CheckBox builtin;
+        private CheckBox checkBox1;
     }
 }
