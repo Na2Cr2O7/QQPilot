@@ -8,7 +8,7 @@ from typing import List, Optional
 import time
 from openai import OpenAI
 import httpx
-from conversationStyleExtract import ChatContent
+from chatContent import ChatContent
 config = configparser.ConfigParser()
 config.read('config.ini', encoding='utf-8')
 modelName: str = config['general']['modelName']
@@ -97,7 +97,7 @@ def concatenateText(text:list[ChatContent],images):
     if len(message)<1:
         message.append({"role": "user", "content":"_"})
     return message
-def getAnswer(text:list[ChatContent]) -> Optional[str]:
+def getAnswer(text:list[ChatContent],useSystemPrompt=True) -> Optional[str]:
     """
     调用 AI 模型获取回答（支持纯文本或图文输入）。
     
@@ -123,7 +123,7 @@ def getAnswer(text:list[ChatContent]) -> Optional[str]:
 
     # 获取系统提示
     system_prompt = config.get('general', 'system')
-    if system_prompt == 'None':
+    if system_prompt == 'None' or not useSystemPrompt:
         system_prompt = ''
     imageList=[]
     imageCount=0
@@ -176,43 +176,24 @@ def getAnswer(text:list[ChatContent]) -> Optional[str]:
             
     else:
         try:
-                client = OpenAI(
-                    api_key=API_KEY,
-                    base_url=server_url,
-                    timeout=httpx.Timeout(30.0),
-                    max_retries=2
-                )
-
+            client = OpenAI(
+                api_key=API_KEY,
+                base_url=server_url,
+                timeout=httpx.Timeout(30.0),
+                max_retries=2
+            )
+            if not (isVisionModel and imageList):
                 messages = []
                 if system_prompt:
                     messages.append({"role": "system", "content": system_prompt})
-                text2=''
+
                 for t in text:
-                    if t.ownByMyself:
+                    role = "assistant" if t.ownByMyself else "user"
+                    messages.append({"role": role, "content": str(t)})
 
-                        text2+='[你]'+str(t)
-                    else:
-                        text2+=str(t)
-                user_content: List[dict] = [{"type": "text", "text":text2 }]
-
-                # 如果是 Vision 模型且提供了图像，则添加图像
-                if isVisionModel and imageList:
-                    for img_path in imageList:
-                        if not os.path.isfile(img_path):
-                            print(f"[ERROR] Image file not found: {img_path}")
-                            continue
-                        
-                        # 将图像转为 data URL（base64）
-                        b64_image = _imageToBase64(img_path)
-                        mime_type = "image/jpeg" if img_path.lower().endswith(('.jpg', '.jpeg')) else "image/png"
-                        user_content.append({
-                            "type": "image_url",
-                            "image_url": {
-                                "url": f"data:{mime_type};base64,{b64_image}"
-                            }
-                        })
-
-                messages.append({"role": "user", "content": user_content if isVisionModel and imageList else text2})
+                # 确保最后一条是 user 消息
+                if messages and messages[-1]["role"] == "assistant":
+                    messages.append({"role": "user", "content": ""})  # 或者 raise ValueError("对话不能以助手消息结尾")
 
                 response = client.chat.completions.create(
                     model=modelName,
@@ -220,8 +201,48 @@ def getAnswer(text:list[ChatContent]) -> Optional[str]:
                     max_tokens=MAX_LENGTH,
                     temperature=0.7,
                 )
+                answer: str = response.choices[0].message.content.strip()
+                print(answer)
+                return answer
+            else:
+                messages = []
+                if system_prompt:
+                    messages.append({"role": "system", "content": system_prompt})
 
-                answer: str = response.choices[0].message.content.strip() # type: ignore
+                # 所有历史消息（包括倒数第二条及之前）
+                for t in text[:-1]:
+                    role = "assistant" if t.ownByMyself else "user"
+                    messages.append({"role": role, "content": str(t)})
+
+                last_t = text[-1]
+
+                # 最后一条必须是用户输入（如果不是，强行视为用户输入可能有风险）
+                # 你可以选择报错，或自动转换（这里按你的逻辑转换）
+                # 但不要重复添加！
+
+                # 构建多模态 content
+                final_content:List = [{"type": "text", "text": str(last_t)}]
+
+                for img_path in imageList:
+                    if not os.path.isfile(img_path):
+                        print(f"[ERROR] Image file not found: {img_path}")
+                        continue
+                    b64_image = _imageToBase64(img_path)
+                    mime_type = "image/jpeg" if img_path.lower().endswith(('.jpg', '.jpeg')) else "image/png"
+                    final_content.append({
+                        "type": "image_url",
+                        "image_url": {"url": f"data:{mime_type};base64,{b64_image}"}
+                    })
+
+                messages.append({"role": "user", "content": final_content})
+
+                response = client.chat.completions.create(
+                    model=modelName,
+                    messages=messages,
+                    max_tokens=MAX_LENGTH,
+                    temperature=0.7,
+                )
+                answer: str = response.choices[0].message.content.strip()
                 print(answer)
                 return answer
 
@@ -230,7 +251,8 @@ def getAnswer(text:list[ChatContent]) -> Optional[str]:
             # raise e
             return None
                 
-
+def get_answer_as_string(text:str,use_system_prompt):
+    return getAnswer([ChatContent(username='',imagePaths=[],text=text,time='',ownByMyself=False)],use_system_prompt)
 if __name__ == '__main__':
     ollama=importlib.import_module('ollama')
     tinylm=importlib.import_module('TinyLangJaccard')

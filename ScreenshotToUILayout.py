@@ -11,6 +11,8 @@ import subprocess
 
 
 
+
+
 import image
 
 import logging
@@ -32,34 +34,14 @@ import pyperclip
 from GUIOperation import *
         
 
-    
+import extensionLoader
 
 
 load.stopLoading()
 
 logging.info(f"{Fore.GREEN}初始化完成{Fore.RESET}")
 dockLog.setText("初始化完成")
-# def containsRedDot(image: Image.Image):
-#     size=image.size
-#     RED_DOT_COLOR=(247,76,48)
-#     for x in range(size[0]):
-#         for y in range(size[1]):
-#             pixel=image.getpixel((x,y))
-#             if pixel==RED_DOT_COLOR:
-#                 return (x,y)
-#     return False
-# def containsBlue(image: Image.Image):
-#     BLUE=(0, 153, 255)
-#     for x in range(0,image.width,10):
-#         for y in range(0,image.height,10):
-#             pixel=image.getpixel((x,y))
-#             if pixel==BLUE:
-#                 yield (x,y)
-#     return False
-# def screenshot(positionRect: tuple[int, int, int, int]) -> Image.Image:
-#     logging.debug(f"screenshotting {ImageGrab.grab(bbox=positionRect)}")
-#     return ImageGrab.grab(bbox=positionRect)
-# logging.info(f"{Fore.GREEN}准备开始运行{Fore.RESET}")
+
 
 autoFocusShouldRun=True
 def autoFocus():
@@ -87,6 +69,7 @@ if __name__ == '__main__':
         autoFocusing=config.get('general','autoFocusing')
         sendImagePossibility=config.get('general','sendImagePossibility')
         isVisionModel=config.getboolean('general','isVisionModel')
+        ATDetect=config.getboolean('general','ATDetect')
 
         print(f"{Fore.YELLOW}{config.get('general','version')}{Fore.RESET}")
         sendImagePossibility=int(sendImagePossibility)
@@ -152,14 +135,17 @@ if __name__ == '__main__':
         sendImageActualSize: tuple[int, int, int, int]=positions.toActualSize(positions.SEND_IMAGE_BBOX_RELATIVE_SIZE,size)
         logging.debug(f"发送图片按钮实际大小: {sendImageActualSize}")
 
-        copyButtonActualSize: tuple[int, int, int, int]=positions.toActualSize(positions.COPY_BUTTON_BBOX_RELATIVE_SIZE,size)
-        logging.debug(f"复制按钮实际大小: {copyButtonActualSize}")
+
+        atPlaceActualSize: tuple[int, int, int, int]=positions.toActualSize(positions.AT_PLACE_BBOX_RELATIVE_SIZE,size)
+        logging.debug(f"@位置实际大小: {atPlaceActualSize}")
 
         startDraggingAbsolutePosition=positions.toActualPoint(positions.START_DRAGGING_RELATIVE_POSITION,size)
         endDraggingAbsolutePosition=positions.toActualPoint(positions.END_DRAGGING_RELATIVE_POSITION,size)
         logging.debug(f"开始拖拽位置: {startDraggingAbsolutePosition}")
         logging.debug(f"结束拖拽位置: {endDraggingAbsolutePosition}")
 
+
+        cancelButtonActualPosition=positions.toActualPoint(positions.CANCEL_BUTTON_RELATIVE_POSITION,size)
         while True:
             try:
                 # im=image.screenshot(*positionRect)
@@ -168,9 +154,13 @@ if __name__ == '__main__':
                 # chatList: Image.Image=im.crop(chatListActualSize)
                 chatList=image.fullScreenShot()
 
-                # del im
+                extensionLoader.callEveryExtension("after_screenshot")
 
-                contain=image.containsRedDot(image.rect(*chatListActualSize))
+                # del im
+                if ATDetect:
+                    contain=image.containsRedDot(image.rect(*atPlaceActualSize))
+                else:
+                    contain=image.containsRedDot(image.rect(*chatListActualSize))   
                 if contain!=[0,0]:
                     dockLog.setText("🚫🖱️发现新信息  ")
                     logging.info(f"发现红点: {contain}")
@@ -186,18 +176,33 @@ if __name__ == '__main__':
 
                     #七次tab找到复制按钮
                     dockLog.setText("🚫🖱️ 请勿移动鼠标")
+                    time.sleep(.1)
+                    goto(conversationActualSize[0]+((conversationActualSize[2]-conversationActualSize[0])//2),conversationActualSize[1]+((conversationActualSize[3]-conversationActualSize[1])//2))
+                    
+                    for i in range(scrollTries):
+                        scrollDown()
 
                     for i in range(7):
                         tab()
-                        time.sleep(.1)
+                        time.sleep(.2)
                     pyautogui.press('enter')
 
                     
-                    time.sleep(4)
                     
+                    time.sleep(2)
+                    
+                    click(cancelButtonActualPosition[0],cancelButtonActualPosition[1])
+
                     ChatContents=extract(pyperclip.paste())
+
+                    ChatContentsList=extensionLoader.callEveryExtension("after_receiving_messages",ChatContents) 
+                    ChatContents=[]
+                    for i in ChatContentsList:  # type: ignore 
+                        ChatContents+=i
+
+
                     images=[]
-                    for text in ChatContents:
+                    for text in ChatContents:  # type: ignore 
                         for imagePath in text.imagePaths:
                             if os.path.exists(imagePath):
                                 images.append(imagePath)
@@ -216,6 +221,8 @@ if __name__ == '__main__':
                         logging.error(f"语言模型生成答案失败\n{e}")
                         dockLog.setText("× 语言模型生成答案失败")
                         result=""
+                    
+                    result=extensionLoader.callEveryExtension("before_sending_the_message_by_AI_generated",result)
 
                     click(commentSectionActualSize[0]+((commentSectionActualSize[2]-commentSectionActualSize[0])//2),commentSectionActualSize[1]+((commentSectionActualSize[3]-commentSectionActualSize[1])//2))
                     
@@ -253,7 +260,7 @@ if __name__ == '__main__':
 
                     # exit conversation
                     logging.info("退出会话")
-                    click(contain[0],contain[1])
+                    click(chatListActualSize[0]+int(100*scale),chatListActualSize[1]+int(20*scale))
                 # else:
                 #     if isVisionModel:
                 #         conversationImages.findImageBegin()

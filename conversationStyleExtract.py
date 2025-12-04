@@ -6,23 +6,8 @@ from typing import List
 import os
 from urllib.parse import unquote
 
-class ChatContent:
-    username=''
-    imagePaths=[]
-    text=''
-    time=''
-    ownByMyself=False
-    def __init__(self, username: str, imagePaths: List[str], text: str, time: str,ownByMyself: bool):
-        self.username = username
-        self.imagePaths = imagePaths
-        self.text = text
-        self.time = time
-        self.ownByMyself = ownByMyself
-    def report(self) -> str:
-        return f'{'[你]' if self.ownByMyself else ''}{self.username}: {self.text if self.text else "【空】"}\n{self.time}\n 图片：{[image for image in self.imagePaths if os.path.exists(image)] if [image for image in self.imagePaths if os.path.exists(image)] != [] else "无" }'
-    # 
-    def __str__(self) -> str:
-        return f'{self.username}[{self.time}]:{self.text if self.text else "【空】"}'
+from chatContent import ChatContent
+
 
 
 

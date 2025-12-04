@@ -27,8 +27,7 @@ def scrollUp(length: int = 120):
     for i in range(scroll):
         pyautogui.scroll(length)
         time.sleep(.1)
-def scrollDown(length: int = 120):
-    Warning("deprecated")
+def scrollDown(length: int = 240):
     for i in range(scroll):
         pyautogui.scroll(-length)
         time.sleep(.1)
