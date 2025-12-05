@@ -10,12 +10,38 @@
 # VisionQQ - 基于窗口自动化的 QQ 自动回复机器人
 
 <!-- [![示例截图](./VisionQQ.jpeg)](./VisionQQ.jpeg) -->
-<img alt="示例截图" src="VisionQQ.jpeg" width="500">
+<div align="center">
+
+<img alt="示例截图" src="./assets/VisionQQNewIcon.png" width="400" >
+
+</div>
+
+
+<br>
+
+<style>
+   img
+   
+   {
+      transition: all 0.2s ease-in-out;
+      border-radius: 5px;
+   }
+   img:hover
+   {
+     box-shadow: 0 0 10px rgba(128, 185, 255, 1);
+   }
+</style>
 
 > 使用纯视觉 + 窗口自动化实现 QQ 消息自动回复，**零 API 依赖、零注入、低封号风险**。  
 > ⚠️ **仅支持 Windows 系统（需桌面 GUI 环境）**
 
 ---
+## 1.5.4 更新
+
+> 可以编写扩展模块
+详情见[ExtensionTemplate.py](Test/Extensions/template/ExtensionTemplate.py)
+
+
 ## 📢 重要提示（1.5.2+ 版本）
 自 **VisionQQ v1.5.2 起，不再依赖 pillow,numpy**
 ✅ 升级后可安全卸载 `pillow`,`numpy`：
