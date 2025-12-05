@@ -4,7 +4,8 @@
     <Platform Name="x86" />
   </Configurations>
   <Project Path="FocusQQWindow2/FocusQQWindow2.vcxproj" Id="92a5f2dc-82d6-4511-995d-853d782b1c7a" />
+  <Project Path="InputEvent/InputEvent.vcxproj" Id="b59a5f55-dc63-4cae-aa81-a9c6219a174e" />
   <Project Path="ScaleToINI/ScaleToINI.vcxproj" Id="0c76a433-d76d-456b-9b4f-d24f05845967" />
-  <Project Path="uploadFile/uploadFile.vcxproj" Id="7bf54da3-9781-4781-ad30-2e0df178f894" />
+  <Project Path="uploadImage2/uploadImage2.vcxproj" Id="2cc22cc3-616e-4be1-84f9-a3a575c22b05" />
   <Project Path="Vimage/Vimage.vcxproj" Id="ac512d12-3665-49ac-afd1-149b900bcc3d" />
 </Solution>
