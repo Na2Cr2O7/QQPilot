@@ -8,30 +8,56 @@ extensions=[]
 extension_names=[]
 warn=False
 os.makedirs('Extensions',exist_ok=True)
+
+print()
+print()
+print()
+print()
 for mod in os.listdir('Extensions'):
     if mod.endswith('.py'):
         if not warn:
             warn=True
-            print(f"{Fore.YELLOW}随意加载扩展可能导致运行缓慢，报错，甚至有可能破坏文件{Fore.RESET}")
+            print(f"{Fore.YELLOW}随意加载扩展可能导致运行缓慢，程序故障，甚至有可能破坏文件{Fore.RESET}")
         print(f"正在加载\t{mod}",end='\r')
         try:
             extension_names.append(mod[:-3])
             extensions.append(importlib.import_module('Extensions.'+mod[:-3]))
-            print(f"{Fore.GREEN}_已加载\t\t{mod}{Fore.RESET}")
+            print(f"{Fore.GREEN}_已加载\t\t{mod}{Fore.RESET}\t{extensions[-1].description.replace('\n','')}")
         except Exception as e:
             print(f'{Fore.YELLOW}加载错误\t{mod}\t{e}{Fore.RESET}')
+print()
+print()
+print()
+print()
+
+
 
 def callEveryExtension(func_name,*args,**kwargs)->Any:
-    result=[]
+    result=args
     for mod_name,mod in zip(extension_names,extensions):
         try:
             func=getattr(mod,func_name)
-            result.append(func(*args,**kwargs))
-            logging.debug(f'{mod_name}.{func_name}',args,kwargs)
+            # 检查获取的对象是否为可调用函数
+            if callable(func):
+                # 判断result是否可以解包
+                if isinstance(result, (list, tuple)):
+                    result2=func(*result,**kwargs)
+                else:
+                    result2=func(result,**kwargs)
+                if result2 is not None:
+                    result=result2
+                logging.debug(f'{mod_name}.{func_name} called successfully')
+            else:
+                logging.warning(f'{mod_name}.{func_name} is not callable')
+        except AttributeError as e:
+            # 忽略没有该函数的模块，这不是错误情况
+            logging.debug(f'Function {func_name} not found in {mod_name}, skipping')
         except Exception as e:
-            logging.debug(f'{e}:{mod_name}.{func_name}',exc_info=True)
-    new_result=[i for i in result if i is not None]
-    return new_result if len(new_result)>0 else None
+            logging.error(f'Error calling {mod_name}.{func_name}: {e}',exc_info=True)
+    return result
+
+
+
 if __name__=='__main__':
     callEveryExtension('after_receiving_messages',[ChatContent('',[],'','',True)])
     callEveryExtension('after_screenshot')

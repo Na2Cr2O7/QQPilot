@@ -41,21 +41,21 @@
 > 可以编写扩展模块
 详情见[ExtensionTemplate.py](Test/Extensions/template/ExtensionTemplate.py)
 
-
-## 📢 重要提示（1.5.2+ 版本）
-自 **VisionQQ v1.5.2 起，不再依赖 pillow,numpy**
-✅ 升级后可安全卸载 `pillow`,`numpy`：
+## 📢 重要提示（1.5.4+ 版本）
+自 **VisionQQ v1.5.4 起，不再依赖 pillow,numpy,pyautogui**
+✅ 升级后可安全卸载 `pillow`,`numpy`,`pyautogui`：
 
 ```bash
 PythonPath.cmd -m pip uninstall pillow
 PythonPath.cmd -m pip uninstall numpy
+PythonPath.cmd -m pip uninstall pyautogui
 ```
 
 ---
 
 ## 1.5.2+
 
-引入了内置，开箱即用的语言模型TinyLangJaccard
+内置，开箱即用的语言模型TinyLangJaccard
 
 [详细信息](tinyLangJaccardReadme.md)
 
@@ -90,7 +90,6 @@ VisionQQ 是一个全自动的 QQ 聊天机器人，通过以下流程实现智�
 
 ## 配置要求
 
->  ⚠️该配置不包含QQ本体
 >  ⚠️该程序不支持无头模式（至少外接一台显示器）
 
 ### 最低要求
@@ -104,6 +103,8 @@ VisionQQ 是一个全自动的 QQ 聊天机器人，通过以下流程实现智�
  - 350M 可用空间
 
  - 1920x1080 显示器
+
+> 对于windows7 可以尝试安装 [VkKex](https://github.com/YuZhouRen86/VxKex-NEXT)
  
 <img src="success.png" />
 
@@ -190,8 +191,8 @@ VisionQQ在最低配置上成功运行，使用内置语言模型进行回复
 ### 步骤 2：安装依赖
 双击运行 `install.cmd`（需联网）：
 - 自动部署内置 Python 3.13 环境
-- 安装必要依赖：`pillow`, `pyautogui`, `pyperclip`, `requests`, `ollama`, `colorama` 等
-- 总体积 ≤ 150MB
+- 安装必要依赖：`pillow`, `pyperclip`, `requests`, `ollama`, `colorama` 等
+- 总体积 ≤ 140MB
 
 ### 步骤 3：配置大模型（推荐使用 Ollama）
 
@@ -249,7 +250,9 @@ ollama pull huihui_ai/qwen3-vl-abliterated:latest
 还需编译以下原生组件（位于 `VisionQQ_C/` 目录）：
 - `FocusqqWindow2.dll`
 - `ScaleToINI.exe`
-- `uploadFile.dll`
+- `uploadFile2.exe`
+- `Vimage.dll`
+- `InputEvent.dll`
 
 使用 **Visual Studio 2022 或 2026** 打开并编译以下解决方案：
 - `Opt.sln`

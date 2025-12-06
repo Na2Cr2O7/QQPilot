@@ -31,7 +31,7 @@ import answer
 # import enhance
 import pyperclip
 
-from GUIOperation import *
+from GUIOperations2 import *
         
 
 import extensionLoader
@@ -55,7 +55,7 @@ t=None
 
 if __name__ == '__main__':
     try:
-        focus()
+
         time.sleep(1)
 
         config=configparser.ConfigParser()
@@ -154,6 +154,7 @@ if __name__ == '__main__':
                 # chatList: Image.Image=im.crop(chatListActualSize)
                 chatList=image.fullScreenShot()
 
+                dockLog.setText("等待扩展完成操作")
                 extensionLoader.callEveryExtension("after_screenshot")
 
                 # del im
@@ -184,31 +185,36 @@ if __name__ == '__main__':
 
                     for i in range(7):
                         tab()
-                        time.sleep(.2)
-                    pyautogui.press('enter')
+                        time.sleep(.4)
+                    press('enter')
 
                     
                     
                     time.sleep(2)
                     
-                    click(cancelButtonActualPosition[0],cancelButtonActualPosition[1])
+                    for _ in range(4):
+                        click(cancelButtonActualPosition[0],cancelButtonActualPosition[1])
+                        time.sleep(.2)
+                    # click(cancelButtonActualPosition[0],cancelButtonActualPosition[1])
+
 
                     ChatContents=extract(pyperclip.paste())
 
-                    ChatContentsList=extensionLoader.callEveryExtension("after_receiving_messages",ChatContents) 
-                    ChatContents=[]
-                    for i in ChatContentsList:  # type: ignore 
-                        ChatContents+=i
+                    dockLog.setText("等待扩展完成操作")
+                    ChatContentsList=extensionLoader.callEveryExtension("after_receiving_messages",ChatContents)
+
+                    # print(ChatContents,ChatContentsList) 
+                    if isinstance(ChatContents,List):
+                        ChatContents_=ChatContents.copy() 
+                    else:
+                        ChatContents_=[]  
+                    if ChatContentsList!=None:  # type: ignore 
+                        ChatContents=list(ChatContentsList)
 
 
-                    images=[]
-                    for text in ChatContents:  # type: ignore 
-                        for imagePath in text.imagePaths:
-                            if os.path.exists(imagePath):
-                                images.append(imagePath)
                     # conversationText=[str(text) for text iChatContentsts]
                     
-                    dockLog.setText("🚫🖱️等待语言模型生成答案")
+                    dockLog.setText("等待语言模型生成答案")
                     #send answer
                     click(commentSectionActualSize[0]+((commentSectionActualSize[2]-commentSectionActualSize[0])//2),commentSectionActualSize[1]+((commentSectionActualSize[3]-commentSectionActualSize[1])//2))
 
@@ -216,16 +222,30 @@ if __name__ == '__main__':
 
                     print(f"{Fore.CYAN}{'\n'.join(list(conversationText))}{Fore.RESET}")
                     try:
-                        result=answer.getAnswer(ChatContents)
+                        result=answer.getAnswer(ChatContents_)
                     except Exception as e:
                         logging.error(f"语言模型生成答案失败\n{e}")
                         dockLog.setText("× 语言模型生成答案失败")
                         result=""
                     
-                    result=extensionLoader.callEveryExtension("before_sending_the_message_by_AI_generated",result)
+                    dockLog.setText("等待扩展完成操作")
+                    result2=extensionLoader.callEveryExtension("before_sending_the_message_by_AI_generated",result)
+
+
+
+                    if result2!=None and result2!="":  
+                        result=''.join(list(result2))
 
                     click(commentSectionActualSize[0]+((commentSectionActualSize[2]-commentSectionActualSize[0])//2),commentSectionActualSize[1]+((commentSectionActualSize[3]-commentSectionActualSize[1])//2))
                     
+                    time.sleep(.1)
+                    
+                    # 清空消息框
+                    # hotkey('ctrl','a')
+                    # time.sleep(.1)
+                    # press('backspace')
+                    # time.sleep(.1)
+
                     if type(result)==str:
                         result+=indentificationString
                         # logging.info(f"{Fore.GREEN}回答: {result}{Fore.RESET}")
@@ -239,19 +259,20 @@ if __name__ == '__main__':
 
                         subprocess.run(['uploadImage2.exe'])
                         time.sleep(.2)
-                        pyautogui.hotkey('ctrl','v')
+                        hotkey('ctrl','v')
 
                         # click(sendImageActualSize[0]+((sendImageActualSize[2]-sendImageActualSize[0])//2),sendImageActualSize[1]+((sendImageActualSize[3]-sendImageActualSize[1])//2))
 
-                        time.sleep(6)
+                        time.sleep(4)
 
                         # uploadFile()
                         # time.sleep(2)
 
 
                     # click "send" button
+                    time.sleep(2)
                     logging.info("发送消息")
-                    pyautogui.hotkey('ctrl','enter')
+                    hotkey('ctrl','enter')
                     dockLog.setText("发送消息 🎉")
                     # click(sendButtonActualSize[0]+((sendButtonActualSize[2]-sendButtonActualSize[0])//2)
                     #         ,sendButtonActualSize[1]+((sendButtonActualSize[3]-sendButtonActualSize[1])//2))
@@ -261,6 +282,7 @@ if __name__ == '__main__':
                     # exit conversation
                     logging.info("退出会话")
                     click(chatListActualSize[0]+int(100*scale),chatListActualSize[1]+int(20*scale))
+                    time.sleep(1)
                 # else:
                 #     if isVisionModel:
                 #         conversationImages.findImageBegin()
@@ -268,13 +290,13 @@ if __name__ == '__main__':
                     time.sleep(2) # 防止截图过快对硬盘损伤大
                     dockLog.setText("正在寻找新信息...")
             except KeyboardInterrupt:
-                logging.error(f"{Fore.RED}KeyboardInterrupt{Fore.RESET}")
+                logging.error(f"{Fore.RED}结束运行{Fore.RESET}")
                 autoFocusShouldRun=False
                 raise SystemExit
                 if t:
                     t.join()
     except KeyboardInterrupt:
-        logging.error(f"{Fore.RED}KeyboardInterrupt{Fore.RESET}")
+        logging.error(f"{Fore.RED}结束运行{Fore.RESET}")
         dockLog.stop_floating_window()
         
         autoFocusShouldRun=False

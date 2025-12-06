@@ -97,7 +97,7 @@ def concatenateText(text:list[ChatContent],images):
     if len(message)<1:
         message.append({"role": "user", "content":"_"})
     return message
-def getAnswer(text:list[ChatContent],useSystemPrompt=True) -> Optional[str]:
+def getAnswer(text:list[ChatContent],systemPrompt:str='') -> Optional[str]:
     """
     调用 AI 模型获取回答（支持纯文本或图文输入）。
     
@@ -123,8 +123,10 @@ def getAnswer(text:list[ChatContent],useSystemPrompt=True) -> Optional[str]:
 
     # 获取系统提示
     system_prompt = config.get('general', 'system')
-    if system_prompt == 'None' or not useSystemPrompt:
+    if system_prompt == 'None' or systemPrompt=='':
         system_prompt = ''
+    else:
+        system_prompt = systemPrompt
     imageList=[]
     imageCount=0
     for t in text:
@@ -251,8 +253,8 @@ def getAnswer(text:list[ChatContent],useSystemPrompt=True) -> Optional[str]:
             # raise e
             return None
                 
-def get_answer_as_string(text:str,use_system_prompt):
-    return getAnswer([ChatContent(username='',imagePaths=[],text=text,time='',ownByMyself=False)],use_system_prompt)
+def get_answer_as_string(text:str,system_prompt):
+    return getAnswer([ChatContent(username='',imagePaths=[],text=text,time='',ownByMyself=False)],system_prompt)
 if __name__ == '__main__':
     ollama=importlib.import_module('ollama')
     tinylm=importlib.import_module('TinyLangJaccard')
