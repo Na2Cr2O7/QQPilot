@@ -201,16 +201,9 @@ if __name__ == '__main__':
                     ChatContents=extract(pyperclip.paste())
 
                     dockLog.setText("等待扩展完成操作")
-                    ChatContentsList=extensionLoader.callEveryExtension("after_receiving_messages",ChatContents)
+                    extensionLoader.callEveryExtension("after_receiving_messages",ChatContents)
 
                     # print(ChatContents,ChatContentsList) 
-                    if isinstance(ChatContents,List):
-                        ChatContents_=ChatContents.copy() 
-                    else:
-                        ChatContents_=[]  
-                    if ChatContentsList!=None:  # type: ignore 
-                        ChatContents=list(ChatContentsList)
-
 
                     # conversationText=[str(text) for text iChatContentsts]
                     
@@ -222,7 +215,7 @@ if __name__ == '__main__':
 
                     print(f"{Fore.CYAN}{'\n'.join(list(conversationText))}{Fore.RESET}")
                     try:
-                        result=answer.getAnswer(ChatContents_)
+                        result=answer.getAnswer(ChatContents)
                     except Exception as e:
                         logging.error(f"语言模型生成答案失败\n{e}")
                         dockLog.setText("× 语言模型生成答案失败")
