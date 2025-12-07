@@ -8,4 +8,5 @@
   <Project Path="ScaleToINI/ScaleToINI.vcxproj" Id="0c76a433-d76d-456b-9b4f-d24f05845967" />
   <Project Path="uploadImage2/uploadImage2.vcxproj" Id="2cc22cc3-616e-4be1-84f9-a3a575c22b05" />
   <Project Path="Vimage/Vimage.vcxproj" Id="ac512d12-3665-49ac-afd1-149b900bcc3d" />
+  <Project Path="wxInstall/wxInstall.vcxproj" Id="7d74c4a6-5311-4a6b-b1a9-5406d0587879" />
 </Solution>
