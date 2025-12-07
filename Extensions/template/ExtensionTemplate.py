@@ -7,14 +7,11 @@ from extensionAPIs import *
 # 在这里编写自定义的代码
 ###################
 
-def after_receiving_messages(messages: List[ChatContent])  -> List[ChatContent]:
+def after_receiving_messages(messages: List[ChatContent])  -> None:
     # 信息被处理后调用
     # 参数
     # messages : 收到的信息
-    # 返回值
-    # 消息列表
     print(f'after_receiving_messages({messages})')
-    return messages
 
 def before_sending_the_message_by_AI_generated(answer:str) -> str:
     # 信息被发送前调用
