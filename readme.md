@@ -7,7 +7,9 @@
      \/     |_| |___/ |_|  \___/  |_| |_|  \___\_\  \___\_\                                                          
 ```
 
-# VisionQQ - 基于窗口自动化的 QQ 自动回复机器人
+# VisionEyeSightAutoGhostPhantomScreenPixelMateWhispererBotQQFlow - 基于窗口自动化的 QQ 自动回复机器人
+
+>以下简称VisionQQ
 
 <!-- [![示例截图](./VisionQQ.jpeg)](./VisionQQ.jpeg) -->
 <div align="center">
@@ -285,6 +287,7 @@ ollama pull huihui_ai/qwen3-vl-abliterated:latest
 
 
 让我们一起打造更安全、智能的视觉自动化工具！
+
 
 
 
