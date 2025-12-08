@@ -97,7 +97,7 @@ def concatenateText(text:list[ChatContent],images):
     if len(message)<1:
         message.append({"role": "user", "content":"_"})
     return message
-def getAnswer(text:list[ChatContent],systemPrompt:str='') -> Optional[str]:
+def getAnswer(text:list[ChatContent],systemPrompt:str='auto') -> Optional[str]:
     """
     调用 AI 模型获取回答（支持纯文本或图文输入）。
     
@@ -123,10 +123,13 @@ def getAnswer(text:list[ChatContent],systemPrompt:str='') -> Optional[str]:
 
     # 获取系统提示
     system_prompt = config.get('general', 'system')
-    if system_prompt == 'None' or systemPrompt=='':
-        system_prompt = ''
-    else:
-        system_prompt = systemPrompt
+    if systemPrompt!='auto':
+        if system_prompt == 'None' or systemPrompt=='':
+            system_prompt = ''
+        else:
+            system_prompt = systemPrompt
+
+        
     imageList=[]
     imageCount=0
     for t in text:

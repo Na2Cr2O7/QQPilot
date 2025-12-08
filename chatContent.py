@@ -21,6 +21,7 @@ class ChatContent:
     # 
     def __str__(self) -> str:
         if not self.ownByMyself:
-            return f'{self.username}[{self.time}]:{self.text if self.text else "【空】"}'
+            return f'{self.username}:{self.text if self.text else "【空】"}'
+        #[{self.time}]
         else:
             return f'{self.text if self.text else "【空】"}'

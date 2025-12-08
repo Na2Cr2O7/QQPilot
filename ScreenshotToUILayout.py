@@ -66,7 +66,7 @@ if __name__ == '__main__':
         scrollTries=int(config.get('general','scroll'))
         withImage=config.get('general','withImage')
         autoLogin=config.get('general','autoLogin')
-        autoFocusing=config.get('general','autoFocusing')
+        # autoFocusing=config.get('general','autoFocusing')
         sendImagePossibility=config.get('general','sendImagePossibility')
         isVisionModel=config.getboolean('general','isVisionModel')
         ATDetect=config.getboolean('general','ATDetect')
@@ -75,10 +75,9 @@ if __name__ == '__main__':
         sendImagePossibility=int(sendImagePossibility)
 
 
-        if autoFocusing=='True':
-            logging.info("自动聚焦功能已开启")
-            t=threading.Thread(target=autoFocus)
-            t.start()
+        logging.info("自动聚焦功能已开启")
+        t=threading.Thread(target=autoFocus)
+        t.start()
         if autoLogin=='True':
             logging.info("自动登录功能已开启")
             logging.info("正在尝试登录...")
