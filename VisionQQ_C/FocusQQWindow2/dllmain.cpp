@@ -25,7 +25,7 @@ std::vector<HWND> hwnds;
 
 using namespace inicpp;
 
-extern "C" int __declspec(dllexport) focus()
+extern "C" int __declspec(dllexport) focus(bool alwaysOnTop)
 {
 
     if (not fileExists(L"config.ini"))
@@ -65,7 +65,18 @@ extern "C" int __declspec(dllexport) focus()
     {
         //SetWindowPos(*phwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE);
         //SetWindowPos(*phwnd, HWND_TOPMOST, 0, 0, width,height, SWP_NOMOVE);
-        auto success = SetWindowPos(*phwnd, HWND_TOPMOST, 0, 0, width, height, 0);
+        bool success = false;
+        if (alwaysOnTop)
+        {
+           success= SetWindowPos(*phwnd, HWND_TOPMOST, 0, 0, width, height, 0);
+        }
+        else
+
+        {
+            success = SetWindowPos(*phwnd, HWND_NOTOPMOST, 0, 0, width, height, 0);
+
+        }
+    
         if (not success)
         {
             continue;
@@ -83,6 +94,7 @@ extern "C" int __declspec(dllexport) focus()
 
     /*  std::cout << "Hello World!\n";*/
 }
+
 static BOOL CALLBACK addToListIfIsQQ(HWND hwnd, LPARAM lparam)
 {
     //wchar_t windowName[MAX_PATH]{};
