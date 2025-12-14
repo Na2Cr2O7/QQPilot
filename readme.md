@@ -1,17 +1,17 @@
 
 ```plain text
-   ____    _____    _   _           _   
-  / __ \  |  __ \  (_) | |         | |  
- | |  | | | |__) |  _  | |   ___   | |_ 
- | |  | | |  ___/  | | | |  / _ \  | __|
- | |__| | | |      | | | | | (_) | | |_ 
-  \___\_\ |_|      |_| |_|  \___/   \__|
+   ____     ____    _____    _   _           _   
+  / __ \   / __ \  |  __ \  (_) | |         | |  
+ | |  | | | |  | | | |__) |  _  | |   ___   | |_ 
+ | |  | | | |  | | |  ___/  | | | |  / _ \  | __|
+ | |__| | | |__| | | |      | | | | | (_) | | |_ 
+  \___\_\  \___\_\ |_|      |_| |_|  \___/   \__|
                                         
 ```
-# QPilot - 基于窗口自动化的 QQ 自动回复机器人
+# QQPilot - 基于窗口自动化的 QQ 自动回复机器人
 
 
-<!-- [![示例截图](./QPilot.jpeg)](./QPilot.jpeg) -->
+<!-- [![示例截图](./QQPilot.jpeg)](./QQPilot.jpeg) -->
 <div align="center">
 
 <img alt="示例截图" src="./assets/VisionQQNewIcon.png" width="400" >
@@ -46,7 +46,7 @@
 
 ## 🌟 项目简介
 
-QPilot 是一个全自动的 QQ 聊天机器人，通过以下流程实现智能回复：
+QQPilot 是一个全自动的 QQ 聊天机器人，通过以下流程实现智能回复：
 
 > **复制聊天内容 → 解析消息（含图片/表情包）→ 调用 LLM 生成回复 → 模拟输入并发送**
 
@@ -66,7 +66,7 @@ QPilot 是一个全自动的 QQ 聊天机器人，通过以下流程实现智能
 ## 📦 安装指南
 
 ### 步骤 1：下载项目
-前往 [Releases 页面](https://github.com/Na2Cr2O7/QPilot/releases) 下载最新压缩包并解压。
+前往 [Releases 页面](https://github.com/Na2Cr2O7/QQPilot/releases) 下载最新压缩包并解压。
 
 ### 步骤 2：安装依赖
 双击运行 `安装.exe`（需联网）：
@@ -141,7 +141,7 @@ ollama pull huihui_ai/qwen3-vl-abliterated:latest
  
 <img src="success.png" />
 
-QPilot在最低配置上成功运行，使用内置语言模型进行回复
+QQPilot在最低配置上成功运行，使用内置语言模型进行回复
 
 ### 推荐配置
 
@@ -221,7 +221,7 @@ QPilot在最低配置上成功运行，使用内置语言模型进行回复
 
 本项目基于 **Python 3.13** 开发，依赖见 `requirements.txt`。
 
-还需编译以下原生组件（位于 `QPilot_C/` 目录）：
+还需编译以下原生组件（位于 `QQPilot_C/` 目录）：
 - `FocusqqWindow2.dll`
 - `ScaleToINI.exe`
 - `uploadFile2.exe`
@@ -253,7 +253,7 @@ QPilot在最低配置上成功运行，使用内置语言模型进行回复
 
 ## 🙌 贡献与反馈
 
-- 🐞 发现 Bug？ → 提交 [Issue](https://github.com/Na2Cr2O7/QPilot/issues)  
+- 🐞 发现 Bug？ → 提交 [Issue](https://github.com/Na2Cr2O7/QQPilot/issues)  
 - 💡 想改进功能？ → 提交 Pull Request  
 - 🌍 有新语言/模型建议？ → 欢迎讨论！
 
