@@ -10,5 +10,5 @@
   <Project Path="uploadImage2/uploadImage2.vcxproj" Id="2cc22cc3-616e-4be1-84f9-a3a575c22b05" />
   <Project Path="Vimage/Vimage.vcxproj" Id="ac512d12-3665-49ac-afd1-149b900bcc3d" />
   <Project Path="wxInstall/wxInstall.vcxproj" Id="7d74c4a6-5311-4a6b-b1a9-5406d0587879" />
-  <Project Path="wxOption/wxoption.vcxproj" />
+  <Project Path="wxOption/wxoption.vcxproj" Id="6eaaa917-0a94-406d-a623-138a0bb1af36" />
 </Solution>
