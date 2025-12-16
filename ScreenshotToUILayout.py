@@ -224,9 +224,11 @@ if __name__ == '__main__':
                     result2=extensionLoader.callEveryExtension("before_sending_the_message_by_AI_generated",result)
 
 
-
-                    if result2!=None and result2!="":  
-                        result=''.join(list(result2))
+                    try:
+                        if result2!=None and result2!="":  
+                            result=''.join(list(result2))
+                    except:
+                        result=""
 
                     click(commentSectionActualSize[0]+((commentSectionActualSize[2]-commentSectionActualSize[0])//2),commentSectionActualSize[1]+((commentSectionActualSize[3]-commentSectionActualSize[1])//2))
                     

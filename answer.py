@@ -199,13 +199,16 @@ def getAnswer(text:list[ChatContent],systemPrompt:str='auto') -> Optional[str]:
                 # 确保最后一条是 user 消息
                 if messages and messages[-1]["role"] == "assistant":
                     messages.append({"role": "user", "content": ""})  # 或者 raise ValueError("对话不能以助手消息结尾")
-
+                print(f"openAI request{messages}")
+                startTime=time.time()
+ 
                 response = client.chat.completions.create(
                     model=modelName,
                     messages=messages,
                     max_tokens=MAX_LENGTH,
                     temperature=0.7,
                 )
+                print(f'用时{time.time()-startTime:.2f}s')
                 answer: str = response.choices[0].message.content.strip()
                 print(answer)
                 return answer
@@ -240,14 +243,17 @@ def getAnswer(text:list[ChatContent],systemPrompt:str='auto') -> Optional[str]:
                     })
 
                 messages.append({"role": "user", "content": final_content})
-
+                print(f"openAI request{messages}")
+                startTime=time.time()
                 response = client.chat.completions.create(
                     model=modelName,
                     messages=messages,
                     max_tokens=MAX_LENGTH,
                     temperature=0.7,
                 )
-                answer: str = response.choices[0].message.content.strip()
+                answer: str = response.choices[0].message.content.strip() #type: ignore
+                print(f'用时{time.time()-startTime:.2f}s')
+
                 print(answer)
                 return answer
 
