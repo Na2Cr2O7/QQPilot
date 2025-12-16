@@ -81,13 +81,13 @@ extern "C" int __declspec(dllexport) focus(bool alwaysOnTop)
         {
             continue;
         }
-        RECT rect{};
-        if (GetWindowRect(*phwnd, &rect))
-        {
-            std::wcout << L"Window 0x" << std::hex << reinterpret_cast<uintptr_t>(*phwnd)
-                << L": (" << std::dec << rect.left << L"," << rect.top
-                << L") -> (" << (rect.left + width) << L"," << (rect.top + height) << L")\n";
-        }
+        //RECT rect{};
+        //if (GetWindowRect(*phwnd, &rect))
+        //{
+        //    std::wcout << L"Window 0x" << std::hex << reinterpret_cast<uintptr_t>(*phwnd)
+        //        << L": (" << std::dec << rect.left << L"," << rect.top
+        //        << L") -> (" << (rect.left + width) << L"," << (rect.top + height) << L")\n";
+        //}
         //std::wcout << *phwnd << ":" << rect.left << "," << rect.top << "," << rect.left << "," << rect.right << std::endl;
     }
     return 0;
