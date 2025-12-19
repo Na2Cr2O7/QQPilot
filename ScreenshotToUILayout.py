@@ -64,8 +64,8 @@ if __name__ == '__main__':
 
         scale=float(config.get('general','scale'))
         scrollTries=int(config.get('general','scroll'))
-        withImage=config.get('general','withImage')
-        autoLogin=config.get('general','autoLogin')
+        withImage=config.getboolean('general','withImage')
+        autoLogin=config.getboolean('general','autoLogin')
         # autoFocusing=config.get('general','autoFocusing')
         sendImagePossibility=config.get('general','sendImagePossibility')
         isVisionModel=config.getboolean('general','isVisionModel')
@@ -78,7 +78,7 @@ if __name__ == '__main__':
         logging.info("自动聚焦功能已开启")
         t=threading.Thread(target=autoFocus)
         t.start()
-        if autoLogin=='True':
+        if autoLogin:
             logging.info("自动登录功能已开启")
             logging.info("正在尝试登录...")
             dockLog.setText("正在尝试登录...")
@@ -93,15 +93,6 @@ if __name__ == '__main__':
                 time.sleep(2)
             time.sleep(1)
                 
-            
-
-
-
-        
-        if withImage=='True':
-            withImage=True
-        else:
-            withImage=False
 
         
         

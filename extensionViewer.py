@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, font, messagebox
+import download.HighDPIPrologue  as HighDPIPrologue
 import configparser
 parser=configparser.ConfigParser()
 parser.read("config.ini",encoding="utf-8")
@@ -24,11 +25,16 @@ class ExtensionViewer:
         main_frame.columnconfigure(0, weight=1)
         main_frame.rowconfigure(1, weight=1)
 
+        style = ttk.Style()
+        default_font = font.nametofont("TkDefaultFont")
+        row_height = int((default_font.metrics("linespace") + 6) * scale)
+        style.configure("Treeview", rowheight=row_height)
+
         columns = ('名称', '描述', '状态')
         self.tree = ttk.Treeview(main_frame, columns=columns, show='headings', height=15)
         for col in columns:
             self.tree.heading(col, text=col)
-            self.tree.column(col, width=180 if col == '描述' else 120)
+            self.tree.column(col, width=int((180 if col == '描述' else 120) * scale)) 
 
         scrollbar = ttk.Scrollbar(main_frame, orient=tk.VERTICAL, command=self.tree.yview)
         self.tree.configure(yscrollcommand=scrollbar.set)
@@ -36,12 +42,12 @@ class ExtensionViewer:
         self.tree.grid(row=1, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
         scrollbar.grid(row=1, column=1, sticky=(tk.N, tk.S))
 
-        # 右键菜单
+        # 右键菜单...
         self.context_menu = tk.Menu(self.tree, tearoff=0)
         self.context_menu.add_command(label="启用", command=self.enable_extension)
         self.context_menu.add_command(label="禁用", command=self.disable_extension)
-        self.tree.bind("<Button-3>", self.show_context_menu)  # Windows/Linux 右键
-        self.tree.bind("<Button-2>", self.show_context_menu)  # macOS 右键（部分系统）
+        self.tree.bind("<Button-3>", self.show_context_menu)
+        self.tree.bind("<Button-2>", self.show_context_menu)
 
         self.status_var = tk.StringVar(value="就绪")
         status_bar = ttk.Label(main_frame, textvariable=self.status_var, relief=tk.SUNKEN, anchor=tk.W)
@@ -91,8 +97,11 @@ class ExtensionViewer:
             base_name = disabled_file.stem.replace('.disabled', '')
             self.tree.insert('', tk.END, values=(base_name, "该扩展当前被禁用", "禁用"), tags=('disabled',))
             count += 1
+        if count !=2:
+            self.status_var.set(f"已加载{count}个扩展 - 请右键点击扩展进行操作")
+        else:
+            self.status_var.set(f"已加载两个扩展 - 请右键点击扩展进行操作")
 
-        self.status_var.set(f"已加载 {count} 个扩展 - 请右键点击扩展进行操作")
 
     def get_selected_item(self):
         selection = self.tree.selection()
@@ -155,5 +164,7 @@ class ExtensionViewer:
 
 if __name__ == "__main__":
     root = tk.Tk()
+    if os.path.exists("Extension.ico"):
+        root.iconbitmap("Extension.ico")
     app = ExtensionViewer(root)
     root.mainloop()

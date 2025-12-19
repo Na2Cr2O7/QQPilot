@@ -28,7 +28,7 @@ ollama=None
 
 MAX_LENGTH=5000
 
-if server_url=='Ollama':
+if server_url.lower()=='ollama':
     ollama=importlib.import_module('ollama')
     useOllama=True
 if server_url=='builtin':
@@ -108,7 +108,8 @@ def getAnswer(text:list[ChatContent],systemPrompt:str='auto') -> Optional[str]:
     Returns:
         模型返回的文本，或 None（出错时）
     """
-
+    if len(text)==0:
+        return ""
     
     if builtInLanguageModel:
         for t in text[::-1]:
