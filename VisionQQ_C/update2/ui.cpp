@@ -64,7 +64,7 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 
 	bSizer41->Add(0, 0, 1, wxEXPAND, 5);
 
-	m_SelectPath = new wxButton(this, wxID_ANY, _("选择旧版本目录"), wxDefaultPosition, wxDefaultSize, 0);
+	m_SelectPath = new wxButton(this, wxID_ANY, _("选择旧版本data目录"), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer41->Add(m_SelectPath, 0, wxALL, 5);
 
 

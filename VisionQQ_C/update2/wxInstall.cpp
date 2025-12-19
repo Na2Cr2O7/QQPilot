@@ -27,9 +27,56 @@
 #include <string>
 #include "inicpp.hpp"
 #include<fstream>
+#include<direct.h>
+
+bool copyFolder(const wxString& src, const wxString& dest)
+{
+	// 1. 检查源目录是否存在
+	if (!wxDirExists(src))
+	{
+		wxLogError("Source directory does not exist: %s", src);
+		return false;
+	}
+
+	// 2. 获取源文件夹名称（最后一级目录名）
+	wxFileName srcPath(src);
+	wxString folderName = srcPath.GetDirs().Last(); // 或者用 srcPath.GetFullName() 如果 src 是完整路径
+
+	// 更稳健的方式：使用 GetBaseName 如果路径末尾无分隔符，但推荐使用：
+	// 实际上 GetDirs().Last() 可能出错如果路径格式异常，所以改用：
+	wxString srcNormalized = wxFileName::GetPathSeparator() == wxT('\\')
+		? src.AfterLast('\\')
+		: src.AfterLast('/');
+	if (srcNormalized.empty())
+	{
+		wxLogError("Invalid source path format: %s", src);
+		return false;
+	}
+
+	// 3. 构造目标完整路径：dest + 文件夹名
+	wxString newDest = dest + wxFileName::GetPathSeparator() + srcNormalized;
+
+	// 4. 如果目标已存在，可以选择删除或报错
+	if (wxDirExists(newDest))
+	{
+		wxLogError("Destination already exists: %s", newDest);
+		return false; // 或者你可以调用 wxRmdirRecursive 删除它（需自定义递归删除）
+	}
+
+	// 6. 执行移动（重命名）
+	if (!wxCopyFile(src, newDest))
+	{
+		wxLogError("Failed to move folder from '%s' to '%s'", src, newDest);
+		return false;
+	}
+
+	return true;
+}
 using namespace inicpp;
 bool DPIAwarenessPrologue()
-{
+
+{					  
+	_chdir(".\\data");
 	// 尝试 Windows 8.1+ 方法
 	HMODULE shcore = LoadLibraryW(L"shcore.dll");
 	if (shcore) {
@@ -213,14 +260,14 @@ void Mainwin::m_transfer_Click(wxCommandEvent& event)
 
 	std::vector<wxString> oldFiles;
 	std::vector<wxString> newFiles;
+	std::vector<wxString> oldOptionFiles;
 	listEveryFileAsVector(wxGetCwd(), &newFiles);
 	listEveryFileAsVector(oldPath, &oldFiles);
+	wxString oldOption = oldPath + "\\option";
 	for (auto& w : oldFiles)
 	{
 		bool ok=wxRemoveFile(oldPath+"\\"+w);
 		this->m_richText1->SetValue(this->m_richText1->GetValue()+w + (ok ? "删除成功\n\n" : "删除失败\n\n"));
-
-
 	}
 	for (const wxString& fn : newFiles)
 	{
@@ -248,6 +295,8 @@ void Mainwin::m_transfer_Click(wxCommandEvent& event)
 		}
 		this->m_richText1->SetValue(this->m_richText1->GetValue() + fn + "移动成功\n\n");
 	}
+	;
+	//this->m_richText1->SetValue(this->m_richText1->GetValue() + (copyFolder(wxGetCwd() + "\\option", oldPath) ? "\\option移动成功\n\n" : "\\option移动失败\n\n"));
 	std::ofstream ofs((oldPath + "\\update.cmd").ToStdString());
 	ofs << "PythonPath.cmd -m pip install -r requirements.txt";
 	ofs.close();
