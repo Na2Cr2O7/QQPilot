@@ -1,6 +1,7 @@
 ollama
 colorama
-pyautogui
 pyperclip
 flask
 openai
+pillow; sys_platform == "Linux"
+pyautogui; sys_platform == "Linux"
