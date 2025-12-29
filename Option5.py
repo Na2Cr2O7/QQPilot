@@ -1,10 +1,14 @@
-import ctypes
-awareness = ctypes.c_int()
-errorCode = ctypes.windll.shcore.GetProcessDpiAwareness(0, ctypes.byref(awareness))
-# print(awareness.value)
-errorCode = ctypes.windll.shcore.SetProcessDpiAwareness(1)
-if errorCode!= 0:
-    print("SetProcessDpiAwareness failed with error code %d" % errorCode)
+import sysDetect
+import platform
+if not sysDetect.isLinux():
+
+    import ctypes
+    awareness = ctypes.c_int()
+    errorCode = ctypes.windll.shcore.GetProcessDpiAwareness(0, ctypes.byref(awareness))
+    # print(awareness.value)
+    errorCode = ctypes.windll.shcore.SetProcessDpiAwareness(1)
+    if errorCode!= 0:
+        print("SetProcessDpiAwareness failed with error code %d" % errorCode)
 
 import tkinter as tk
 from tkinter import ttk, messagebox
@@ -110,7 +114,7 @@ class ConfigGUI:
 
         frame0=createFrame(row)
         tk.Label(frame0, text="版本:",bg=BG).grid(row=0, column=0, sticky=tk.W, pady=40,padx=40)
-        tk.Label(frame0, text=self.config['general']['version'], font=("微软雅黑", 9),bg=BG).grid(row=0, column=1, sticky=tk.W, pady=40,padx=40)
+        tk.Label(frame0, text=self.config['general']['version']+platform.system(),bg=BG).grid(row=0, column=1, sticky=tk.W, pady=40,padx=40)
         row += 1
 
         # width
@@ -230,15 +234,15 @@ class ConfigGUI:
         auto_focus_check = tk.Checkbutton(frame0,bg=BG, text="持续将窗口置于最前", variable=self.autoFocusing_var)
         auto_focus_check.grid(row=row, column=2, sticky=tk.W, pady=40,padx=40)
         row += 1
-
-        # sendImagePossibility - Slider
-        frame0=createFrame(row)
-        tk.Label(frame0, text="发送图片概率 (%):",bg=BG).grid(row=row, column=0, sticky=tk.W, pady=40,padx=40)
         self.sendImagePossibility_var = tk.IntVar(value=int(self.config['general']['sendImagePossibility']))
-        self.slider = ttk.Scale(frame0, from_=0, to=100, orient=tk.HORIZONTAL,
-                                variable=self.sendImagePossibility_var, length=800)
-        self.slider.grid(row=row, column=1, sticky=tk.W,pady=40,padx=40)
-        row += 1
+        if not sysDetect.isLinux():
+            # sendImagePossibility - Slider
+            frame0=createFrame(row)
+            tk.Label(frame0, text="发送图片概率 (%):",bg=BG).grid(row=row, column=0, sticky=tk.W, pady=40,padx=40)
+            self.slider = ttk.Scale(frame0, from_=0, to=100, orient=tk.HORIZONTAL,
+                                    variable=self.sendImagePossibility_var, length=800)
+            self.slider.grid(row=row, column=1, sticky=tk.W,pady=40,padx=40)
+            row += 1
 
         # ATDetect
         frame0=createFrame(row)
@@ -345,7 +349,10 @@ class ConfigGUI:
 def main():
     root = tk.Tk()
     if os.path.exists('option.ico'):
-        root.iconbitmap('option.ico')
+        try:
+            root.iconbitmap('option.ico')
+        except:
+            pass
     app = ConfigGUI(root)
     root.mainloop()
 

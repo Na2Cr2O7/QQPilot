@@ -18,7 +18,8 @@ class RECT(object):
         self.top = top
         self.right = right
         self.bottom = bottom
-    
+def rect(x, y, width, height):
+    return RECT(x,y,width+x,height+y)
 def screenshot(x, y, width, height):
     img =  ImageGrab.grab()
     img = img.crop((x, y, x + width, y + height))
@@ -43,6 +44,7 @@ def containsRedDot(rect):
 
 def containsBlue():
     BLUE=(0,153,255)
+    fullScreenShot()
     image=Image.open(SCREENSHOT_NAME)
     width=image.width
     height=image.height

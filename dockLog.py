@@ -3,14 +3,16 @@ import threading
 import queue
 import time
 from tkinter import font
+import sysDetect
 
-import ctypes
-awareness = ctypes.c_int()
-errorCode = ctypes.windll.shcore.GetProcessDpiAwareness(0, ctypes.byref(awareness))
-# print(awareness.value)
-errorCode = ctypes.windll.shcore.SetProcessDpiAwareness(1)
-if errorCode!= 0:
-    print("SetProcessDpiAwareness failed with error code %d" % errorCode)
+if not sysDetect.isLinux():
+    import ctypes
+    awareness = ctypes.c_int()
+    errorCode = ctypes.windll.shcore.GetProcessDpiAwareness(0, ctypes.byref(awareness))
+    # print(awareness.value)
+    errorCode = ctypes.windll.shcore.SetProcessDpiAwareness(1)
+    if errorCode!= 0:
+        print("SetProcessDpiAwareness failed with error code %d" % errorCode)
 
 
 

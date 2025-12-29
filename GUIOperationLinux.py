@@ -3,13 +3,34 @@ import pytweening
 import pyperclip
 import configparser
 import time
-
+import os
+import subprocess
 config = configparser.ConfigParser()
 config.read('config.ini',encoding='utf-8')
 scroll=config.getint('general','scroll')
+autoFocusing=config.getboolean('general','autoFocusing')
+width=config.getint('general','width')
+height=config.getint('general','height')
+wmctrlsh='''#!/bin/bash
+
+while IFS= read -r line; do
+    [[ -n "$line" ]] || continue
+    win_id=${line%% *}
+    wmctrl -i -r "$win_id" -e 0,0,0,WIDTH,HEIGHT
+done < <(wmctrl -l | grep -i 'qq')
+'''
+sh=wmctrlsh.replace('WIDTH',str(width))
+sh=sh.replace('HEIGHT',str(height))
+with open('left.sh', 'w',encoding='utf8') as f:
+    f.write(sh)
+subprocess.run(['chmod','+x','left.sh'])
 
 def focus():
-    print('未实现')
+    global wmctrlsh
+    if autoFocusing:
+        subprocess.run(['sh','focus.sh'])
+    subprocess.run(['sh','left.sh'])
+
 def mouse_move(x: int, y: int) -> bool:
     pyautogui.moveTo(x, y)
     return True

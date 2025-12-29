@@ -1,4 +1,7 @@
 from colorama import Fore
+import sysDetect
+if sysDetect.isLinux():
+    import scaleToiniLinux
 import load
 import dockLog
 load.startLoading(Fore.GREEN,"正在初始化")
@@ -7,7 +10,7 @@ dockLog.setText("正在初始化-按右键关闭浮窗")
 from typing import Any, Generator, Literal
 from random import randint
 import subprocess
-
+import platform
 
 
 
@@ -72,6 +75,7 @@ if __name__ == '__main__':
         ATDetect=config.getboolean('general','ATDetect')
 
         print(f"{Fore.YELLOW}{config.get('general','version')}{Fore.RESET}")
+        print(f"{Fore.CYAN}{platform.platform()}{Fore.RESET}")
         sendImagePossibility=int(sendImagePossibility)
 
 

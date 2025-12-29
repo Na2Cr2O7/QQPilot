@@ -3,7 +3,10 @@ import os
 from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, font, messagebox
-import download.HighDPIPrologue  as HighDPIPrologue
+import sysDetect
+if not sysDetect.isLinux():
+    import download.HighDPIPrologue  as HighDPIPrologue
+    
 import configparser
 parser=configparser.ConfigParser()
 parser.read("config.ini",encoding="utf-8")
@@ -13,7 +16,7 @@ class ExtensionViewer:
         self.root = root
         self.root.title("扩展管理器")
         self.root.geometry(f"{int(650*scale)}x{int(450*scale)}")
-        self.extensions_dir = Path("extensions")
+        self.extensions_dir = Path("Extensions")
         self.setup_ui()
         self.load_extensions()
 
@@ -164,7 +167,10 @@ class ExtensionViewer:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    if os.path.exists("Extension.ico"):
-        root.iconbitmap("Extension.ico")
+    if os.path.exists("extension.ico"):
+        try:
+            root.iconbitmap("extension.ico")
+        except:
+            pass
     app = ExtensionViewer(root)
     root.mainloop()
