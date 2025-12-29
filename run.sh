@@ -1,1 +1,0 @@
-./PythonPath.sh ScreenshotToUILayout.py
