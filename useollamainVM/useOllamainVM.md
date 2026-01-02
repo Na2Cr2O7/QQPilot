@@ -13,7 +13,7 @@
 
 ## 第一步：配置主机以允许外部访问 Ollama
 
-每次需要从虚拟机访问 Ollama 前，请在 **Windows 主机** 上执行以下操作：
+每次需要从虚拟机访问 Ollama 前，请在 **主机** 上执行以下操作：
 
 1. **关闭正在运行的 Ollama 进程**  
    以管理员身份打开 **命令提示符 (CMD)**，依次执行：
@@ -22,6 +22,10 @@
    taskkill /F /IM ollama.exe
    taskkill /F /IM "ollama app.exe"
    ```
+   或者打开终端
+   ```bash
+   sudo systemctl stop ollama
+   ```
 
 2. **设置环境变量并启动服务**  
    在同一个 CMD 窗口中继续输入：
@@ -29,6 +33,12 @@
    ```cmd
    set OLLAMA_HOST=0.0.0.0
    set OLLAMA_ORIGINS=*
+   ollama serve
+   ```
+   或者在 Linux 上执行：
+   ```bash
+   export OLLAMA_HOST=0.0.0.0
+   export OLLAMA_ORIGINS=*
    ollama serve
    ```
 
@@ -45,6 +55,10 @@
    ```cmd
    ipconfig
    ```
+   ```bash
+   ifconfig
+   #如果找不到ifconfig，请安装  net-tools
+   ```
 
 2. 找到当前活动的以太网或 Wi-Fi 适配器，记录其 **IPv4 地址**，例如：
 
@@ -60,7 +74,7 @@
    http://192.168.31.233:11434
    ```
 
-   或在 CMD 中执行：
+   或在 CMD / Bash 中执行：
 
    ```cmd
    curl http://192.168.31.233:11434
@@ -89,14 +103,15 @@
    ```
    http://192.168.31.233:11434/v1/
    ```
-
-    <img src="image.png" />
-
+   
+<!-- ![alt text]() -->
+    <img src="image-3.png" />
+![alt text](image-5.png)
    > 🔑 注意：OpenAI-Python要求填写 API Key，即使 Ollama 本身不需要。此时可随意填写非空值（如 `dummy-key`），只要不为 `None` 或留空即可。
    
 
 3. **查看可用模型名称**  
-   回到主机的 CMD（非虚拟机），运行：
+   回到主机的 CMD / Bash 中（非虚拟机），运行：
 
    ```cmd
    ollama ls
@@ -110,8 +125,9 @@
    ```
 
    复制你想要使用的完整 `NAME`（包括命名空间和标签），填入虚拟机客户端的“模型名称”字段。
-   <img src="image-1.png" />
+![alt text](image-4.png)
 
+![alt text](image-6.png)
 
 * 使用时你应该可以看到
 ```bash
