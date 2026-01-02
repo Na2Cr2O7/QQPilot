@@ -16,13 +16,23 @@ IDOK = 1
 IDRETRY = 4
 IDTRYAGAIN = 10
 IDYES = 6
+import subprocess
+import os
+import sysDetect
 
 def MessageBox(text, title="提示", style=MB_OK | MB_ICONINFO):
-    """
-    跨平台消息框函数，根据平台和可用库显示消息框
-    """
-    return _show_tk_message_box(text, title, style)
-
+    # """
+    # 跨平台消息框函数，根据平台和可用库显示消息框
+    # """
+    # return _show_tk_message_box(text, title, style)
+    dir=os.path.dirname(os.path.abspath(__file__))
+    fn=os.path.basename(os.path.abspath(__file__))
+    os.chdir(dir)
+    if sysDetect.isLinux():
+        return subprocess.run(['./PythonPath.sh',fn,text,title,str(style)])
+    else:
+        return subprocess.run(['PythonPath.cmd',fn,text,title,str(style)])
+    
 def _show_tk_message_box(text, title, style):
     """
     当没有wxPython时，使用tkinter作为备选方案（主要在Linux上）
@@ -78,17 +88,20 @@ def _show_tk_message_box(text, title, style):
         # 如果连tkinter都没有，则打印到控制台
         print(f"{title}: {text}")
         return IDOK
+import sys
+def main():
+    if len(sys.argv) > 1:  # 运行时指定参数
+        text = sys.argv[1]
+        title = "提示"
+        style = MB_OK | MB_ICONINFO
+        if len(sys.argv) > 2:
+            title = sys.argv[2]
+        if len(sys.argv) > 3:
+            style = int(sys.argv[3])
+        result = _show_tk_message_box(text, title, style)
+        sys.exit(result)
+    sys.exit( _show_tk_message_box("这是一个测试消息框",'',''))
 
-# 使用示例
 if __name__ == "__main__":
-    # 初始化wx应用（如果使用wxPython）
-
-    # app = wx.App()
+    main()
     
-    MessageBox("你好，世界！", "信息", MB_OK | MB_ICONINFO)
-    
-    result = MessageBox("继续吗？", "确认", MB_YESNO | MB_ICONQUESTION)
-    if result == IDYES:
-        print("用户点了 是")
-    else:
-        print("用户点了 否")
