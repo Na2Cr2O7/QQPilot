@@ -33,7 +33,7 @@
 ## 1.5.4 更新
 
 > 可以编写扩展模块
-详情见[ExtensionTemplate.py](Test/Extensions/template/ExtensionTemplate.py)
+详情见[ExtensionTemplate.py](/Extensions/template/ExtensionTemplate.py)
 
 ---
 
@@ -249,6 +249,7 @@ QQPilot在最低配置上成功运行，使用内置语言模型进行回复
 
 
 让我们一起打造更安全、智能的视觉自动化工具！
+
 
 
 
