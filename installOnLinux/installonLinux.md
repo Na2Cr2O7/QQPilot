@@ -13,9 +13,17 @@
 - ⚠️ 对高 DPI 缩放兼容性有限
 
 ## ⚠️ 注意
->WSL版本不支持，你完全可以用Windows版的QQPilot。
+> WSL版本不支持，你完全可以用Windows版的QQPilot。
 
 ---
+## 推荐配置
+
+ - 1920x1080 分辨率
+ - 8GB RAM
+ - 4GB ROM
+ - 至少一个桌面环境(Xfce4 、KDE 、Gnome 、Cinnamon 、Mate 、LXQt 等)
+
+> 纯窗口管理器（如 i3、dwm）未经测试，可能无法正常运行。
 
 ## 📦 准备工作
 
