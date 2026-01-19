@@ -5,10 +5,10 @@
   </Configurations>
   <Project Path="FocusQQWindow2/FocusQQWindow2.vcxproj" Id="92a5f2dc-82d6-4511-995d-853d782b1c7a" />
   <Project Path="InputEvent/InputEvent.vcxproj" Id="b59a5f55-dc63-4cae-aa81-a9c6219a174e" />
+  <Project Path="mfcinstall2/mfcinstall2.vcxproj" />
   <Project Path="ScaleToINI/ScaleToINI.vcxproj" Id="0c76a433-d76d-456b-9b4f-d24f05845967" />
   <Project Path="update2/wxupdate3.vcxproj" Id="063b4332-2dad-43dd-b5c2-96f83fc21454" />
   <Project Path="uploadImage2/uploadImage2.vcxproj" Id="2cc22cc3-616e-4be1-84f9-a3a575c22b05" />
   <Project Path="Vimage/Vimage.vcxproj" Id="ac512d12-3665-49ac-afd1-149b900bcc3d" />
   <Project Path="wxInstall/wxInstall.vcxproj" Id="7d74c4a6-5311-4a6b-b1a9-5406d0587879" />
-  <Project Path="wxOption/wxoption.vcxproj" Id="6eaaa917-0a94-406d-a623-138a0bb1af36" />
 </Solution>
