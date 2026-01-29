@@ -15,7 +15,7 @@ modelName: str = config['general']['modelName']
 server_url: str=config['general']['server_url']
 isVisionModel: bool=config.getboolean('general', 'isVisionModel')
 maxImageCount=config.getint('general', 'maxImageCount')
-
+remoteServerTimeout=config.getint('general', 'remote_server_timeout')
 
 API_KEY=config['general']['API_KEY']
 
@@ -185,7 +185,7 @@ def getAnswer(text:list[ChatContent],systemPrompt:str='auto') -> Optional[str]:
             client = OpenAI(
                 api_key=API_KEY,
                 base_url=server_url,
-                timeout=httpx.Timeout(30.0),
+                timeout=httpx.Timeout(remoteServerTimeout),
                 max_retries=2
             )
             if not (isVisionModel and imageList):

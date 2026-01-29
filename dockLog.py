@@ -4,6 +4,9 @@ import queue
 import time
 from tkinter import font
 import sysDetect
+import configparser
+config=configparser.ConfigParser()
+config.read('config.ini',encoding='utf-8')
 
 if not sysDetect.isLinux():
     import ctypes
@@ -13,7 +16,7 @@ if not sysDetect.isLinux():
     errorCode = ctypes.windll.shcore.SetProcessDpiAwareness(1)
     if errorCode!= 0:
         print("SetProcessDpiAwareness failed with error code %d" % errorCode)
-
+scale=config.getfloat('general', 'scale')
 
 
 class FloatingTextApp:
@@ -37,9 +40,11 @@ class FloatingTextApp:
         self.root.attributes('-alpha', 0.7)
         
         # 窗口大小
-        window_width = 600
-        window_height = 80
-        
+        window_width = 500
+        window_height = 60
+        window_width = int(window_width * scale)
+        window_height = int(window_height * scale)
+
         # 获取屏幕尺寸
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
@@ -66,7 +71,7 @@ class FloatingTextApp:
         # 创建文字标签
         self.display_text = tk.Label(
             container,
-            text="VisionQQ",
+            text="The quick brown fox jumps over the lazy dog.",
             font=("微软雅黑", 11, "bold"),
             bg='#242424',
             fg='#ecf0f1',

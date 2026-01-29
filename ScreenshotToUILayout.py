@@ -73,6 +73,7 @@ if __name__ == '__main__':
         sendImagePossibility=config.get('general','sendImagePossibility')
         isVisionModel=config.getboolean('general','isVisionModel')
         ATDetect=config.getboolean('general','ATDetect')
+        tab_times=config.getint('general','tab_times')
 
         print(f"{Fore.YELLOW}{config.get('general','version')}{Fore.RESET}")
         print(f"{Fore.CYAN}{platform.platform()}{Fore.RESET}")
@@ -177,7 +178,7 @@ if __name__ == '__main__':
                     for i in range(scrollTries):
                         scrollDown()
 
-                    for i in range(7):
+                    for i in range(tab_times):
                         tab()
                         time.sleep(.4)
                     press('enter')

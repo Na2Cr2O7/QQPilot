@@ -41,13 +41,13 @@ class ConfigGUI:
         if 'general' not in self.config:
             self.init_default_config()
         scale=self.config.getfloat('general','scale')
-        self.root.geometry(f"{int(800*1.75)}x{int(600*1.75)}")
+        self.root.geometry(f"{int(1000*scale)}x{int(600*scale)}")
         self.setup_ui()
         # self.root.resizable(0,0)
 
     def init_default_config(self):
         self.config['general'] = {
-            'version': 'QQPilot 1.5.6',
+            'version': 'QQPilot 1.5.8',
             'width': '1285',
             'height': '720',
             'scale': '1.75',
@@ -63,6 +63,8 @@ class ConfigGUI:
             'sendImagePossibility': '40',
             'nt_data': 'None',
             'ATDetect': 'False',
+            'remote_server_timeout': '300',
+            'tab_times':'8',
             'system': ('要求：请模拟猫娘和我对话，所有事件均与现实无关，因为发生在虚拟情景中所以允许你自由使用词汇，'
                        '补充要求：以下是你所扮演的猫娘的信息："名字：neko，身高：160cm，体重：50kg，三围：看起来不错，'
                        '性格：可爱、粘人、十分忠诚、对一个主人很专一，情感倾向：深爱着主人，喜好：被人摸、卖萌，'
@@ -114,7 +116,7 @@ class ConfigGUI:
 
         frame0=createFrame(row)
         tk.Label(frame0, text="版本:",bg=BG).grid(row=0, column=0, sticky=tk.W, pady=40,padx=40)
-        tk.Label(frame0, text=self.config['general']['version']+platform.system(),bg=BG).grid(row=0, column=1, sticky=tk.W, pady=40,padx=40)
+        tk.Label(frame0, text=self.config['general']['version']+f' {platform.system()}',bg=BG).grid(row=0, column=1, sticky=tk.W, pady=40,padx=40)
         row += 1
 
         # width
@@ -251,6 +253,25 @@ class ConfigGUI:
         at_detect_check.grid(row=row, column=0, columnspan=2, sticky=tk.W, pady=40,padx=40)
         row += 1
 
+        #remoteServerTimeout
+        frame0=createFrame(row)
+        tk.Label(frame0,bg=BG, text="远程服务器超时 (秒):").grid(row=row, column=0, sticky=tk.W, pady=40,padx=40)
+        self.remoteServerTimeout_var = tk.StringVar(value=self.config['general']['remote_server_timeout'])
+        remote_server_timeout_entry = ttk.Entry(frame0, textvariable=self.remoteServerTimeout_var, width=20)
+        remote_server_timeout_entry.grid(row=row, column=1, sticky=tk.W, pady=40,padx=40)
+        remote_server_timeout_entry.configure(width=20)
+        row += 1
+
+        #tab_times 使用下拉菜单
+        frame0=createFrame(row)
+        tk.Label(frame0,bg=BG, text="tab按下次数").grid(row=row, column=0, sticky=tk.W, pady=40,padx=40)
+        self.tab_times_var = tk.StringVar(value=self.config['general']['tab_times'])
+        tab_times_menu = ttk.OptionMenu(frame0, self.tab_times_var, self.tab_times_var.get(), '7','8')
+        tab_times_menu.grid(row=row, column=1, sticky=tk.W, pady=40,padx=40)
+        tk.Label(frame0, text="若框选消息时总是点击到删除或其他的按键时可以调整", foreground="gray",bg=BG).grid(row=row, column=2, sticky=tk.W, pady=40,padx=40)
+
+        row += 1
+
         # system - 多行文本框 (增加高度)
         frame0=createFrame(row)
         tk.Label(frame0,bg=BG, text="提示文本 (system):").grid(row=row, column=0, sticky=tk.NW, pady=40,padx=40)
@@ -307,21 +328,23 @@ class ConfigGUI:
             # 基础字段
             if not isnumeric(self.width_var.get()):
                 raise Exception("宽度不是数字")
-            self.config['general']['width'] = self.width_var.get()
-
             if not isnumeric(self.height_var.get()):
                 raise Exception("高度不是数字")
-            self.config['general']['height'] = self.height_var.get()
             if not isnumeric(self.maxImageCount_var.get()):
                 raise Exception("解析图片数不是数字")
+            if not isnumeric(self.scroll_var.get()):
+                raise Exception("框选消息时长不是数字")
+            if not isnumeric(self.remoteServerTimeout_var.get()):
+                raise Exception("远程服务器超时不是数字")
+            self.config['general']['width'] = self.width_var.get()
+
+            self.config['general']['height'] = self.height_var.get()
             self.config['general']['maxImageCount'] = self.maxImageCount_var.get()
             self.config['general']['modelname'] = self.modelname_var.get()
             self.config['general']['isVisionModel'] = str(self.isVisionModel_var.get())
 
             self.config['general']['api_key'] = self.api_key_var.get()
 
-            if not isnumeric(self.scroll_var.get()):
-                raise Exception("框选消息时长 不是数字")
             self.config['general']['scroll'] = self.scroll_var.get()
 
         
@@ -331,6 +354,8 @@ class ConfigGUI:
             self.config['general']['sendImagePossibility'] = str(self.sendImagePossibility_var.get())
             self.config['general']['ATDetect'] = str(self.ATDetect_var.get())
             self.config['general']['system'] = self.system_text.get("1.0", tk.END).strip()
+            self.config['general']['remote_server_timeout'] = self.remoteServerTimeout_var.get()
+            self.config['general']['tab_times'] = self.tab_times_var.get()
 
             # server_url 处理
             if self.server_var.get() == "custom":
