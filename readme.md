@@ -14,7 +14,7 @@
 <!-- [![示例截图](./QQPilot.jpeg)](./QQPilot.jpeg) -->
 <div align="center">
 
-<img alt="示例截图" src="./assets/VisionQQNewIcon.png" width="400" >
+<img alt="示例截图" src="./assets/VisionQQNewIcon.png" width="200" >
 </div>
 
 
@@ -24,19 +24,6 @@
 > 使用纯视觉 + 窗口自动化实现 QQ 消息自动回复，**零 API 依赖、零注入、低封号风险**。  
 
 
----
-## 1.5.7 更新
-
-> 测试对Linux平台的支持
-详情见[教程](installOnLinux/installonLinux.md)
-
----
-## 1.5.4 更新
-
-> 可以编写扩展模块
-详情见[ExtensionTemplate.py](Test/Extensions/template/ExtensionTemplate.py)
-
----
 
 ## 🌟 项目简介
 
@@ -250,6 +237,7 @@ QQPilot在最低配置上成功运行，使用内置语言模型进行回复
 
 
 让我们一起打造更安全、智能的视觉自动化工具！
+
 
 
 
