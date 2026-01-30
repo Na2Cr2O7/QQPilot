@@ -49,8 +49,8 @@ QQPilot 是一个全自动的 QQ 聊天机器人，通过以下流程实现智�
 安装 [Ollama](https://ollama.com/) 并拉取模型：
 
 ```bash
-# 推荐主力模型（7B，性能与效果平衡）
-ollama pull huihui_ai/deepseek-r1-abliterated:7b
+# 推荐主力模型（8B，性能与效果平衡）
+ollama pull huihui_ai/deepseek-r1-abliterated:8b
 
 # 低配设备可选（1.5B，轻量快速）
 ollama pull huihui_ai/deepseek-r1-abliterated:1.5b
