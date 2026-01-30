@@ -14,7 +14,7 @@
 <!-- [![示例截图](./QQPilot.jpeg)](./QQPilot.jpeg) -->
 <div align="center">
 
-<img alt="示例截图" src="./assets/VisionQQNewIcon.png" width="200" >
+<img alt="示例截图" src="./assets/qqpilot.png" width="300" >
 </div>
 
 
@@ -23,8 +23,6 @@
 
 > 使用纯视觉 + 窗口自动化实现 QQ 消息自动回复，**零 API 依赖、零注入、低封号风险**。  
 
-
-
 ## 🌟 项目简介
 
 QQPilot 是一个全自动的 QQ 聊天机器人，通过以下流程实现智能回复：
@@ -32,15 +30,6 @@ QQPilot 是一个全自动的 QQ 聊天机器人，通过以下流程实现智�
 > **复制聊天内容 → 解析消息（含图片/表情包）→ 调用 LLM 生成回复 → 模拟输入并发送**
 
 全程 **不调用 QQ 内部接口、不 Hook 进程、不注入 DLL**，极大降低账号封禁风险。
-
----
-
-## ✅ 核心优势
-
-- **安全无痕**：纯视觉操作，零注入、零 Hook，几乎无封号风险  
-- **隐私可控**：支持完全本地运行，数据不出设备  
-- **灵活扩展**：可对接任意本地大模型（如 Ollama）或远程 HTTP API  
-- **开箱即用**：内置 Python 3.13 环境，无需手动配置依赖
 
 ---
 
@@ -53,7 +42,7 @@ QQPilot 是一个全自动的 QQ 聊天机器人，通过以下流程实现智�
 双击运行 `安装.exe`（需联网）：
 - 自动部署内置 Python 3.13 环境
 - 安装必要依赖： `pyperclip`, `requests`, `ollama`, `colorama` 等
-- 总体积 ≤ 140MB
+- 总体积 ≤ 150MB
 
 ### 步骤 3：配置大模型（推荐使用 Ollama）
 
@@ -70,6 +59,8 @@ ollama pull huihui_ai/deepseek-r1-abliterated:1.5b
 ollama pull huihui_ai/qwen3-vl-abliterated:latest
 ```
 
+* 可以在虚拟机上使用，详情见[教程](useollamainVM/useOllamainVM.md)
+
 > 💡 **强烈建议使用纯文本模型**。当前本地视觉模型对表情包/截图理解能力有限，易出错。
 
 > 如需使用自定义 API（如 OpenAI、Claude、自建 LLM），请在 `设置.exe` 中配置。
@@ -77,7 +68,6 @@ ollama pull huihui_ai/qwen3-vl-abliterated:latest
 ### 步骤 4：初始化设置
 运行 `设置.exe` 配置模型类型、API 地址、截图区域等参数。
 
----
 
 ## ▶️ 使用方法
 
@@ -89,7 +79,7 @@ ollama pull huihui_ai/qwen3-vl-abliterated:latest
 
 > 📌 **关键提醒**：运行期间请勿移动 QQ 窗口或更改 DPI/分辨率！
 
-* 可以在虚拟机上使用，详情见[教程](useollamainVM/useOllamainVM.md)
+
 
 ---
 
@@ -103,10 +93,28 @@ ollama pull huihui_ai/qwen3-vl-abliterated:latest
 | 字体大小           | 设为“**最小**”            |
 | 聊天背景           | 使用**默认白色背景**       |
 | 系统显示缩放       | **100% 或 125%**（避免 150%+）|
+|群                 | 关闭右边栏                    |
 
 > 📷 参考图示：
 ![注意事项说明](./notice1.jpeg)
 ![alt text](image.png)
+
+---
+
+## ✅ 核心优势
+
+- **安全无痕**：纯视觉操作，零注入、零 Hook，几乎无封号风险  
+- **隐私可控**：支持完全本地运行，数据不出设备  
+- **灵活扩展**：可对接任意本地大模型（如 Ollama）或远程 HTTP API  
+- **开箱即用**：内置 Python 3.13 环境，无需手动配置依赖
+
+
+
+---
+
+
+
+
 ## 配置要求
 
 >  ⚠️该程序不支持无头模式（至少外接一台显示器）
@@ -115,9 +123,9 @@ ollama pull huihui_ai/qwen3-vl-abliterated:latest
 
  - Windows 8.1 或更高版本 64位
 
- - 单核处理器，主频800MHz以上
+ - 单核处理器，主频1GHz以上
 
- - 2GB RAM
+ - 1GB RAM
 
  - 350M 可用空间
 
@@ -138,6 +146,8 @@ QQPilot在最低配置上成功运行，使用内置语言模型进行回复
  - 4GB RAM
 
  - 8GB 可用空间(用于Ollama)
+
+ - 支持CUDA的GPU
 
 - 1920x1080 显示器
  
@@ -237,7 +247,6 @@ QQPilot在最低配置上成功运行，使用内置语言模型进行回复
 
 
 让我们一起打造更安全、智能的视觉自动化工具！
-
 
 
 
