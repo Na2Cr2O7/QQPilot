@@ -209,6 +209,8 @@
   <ItemGroup>
     <Image Include="..\..\..\output\VisionQQNewIcon.ico" />
     <Image Include="..\..\..\output\VisionQQNewIcon.png" />
+    <Image Include="..\..\assets\qqpilot.ICO" />
+    <Image Include="qqpilot.ICO" />
     <Image Include="res\mfcinstall2.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

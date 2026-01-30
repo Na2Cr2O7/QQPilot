@@ -65,5 +65,11 @@
     <Image Include="..\..\..\output\VisionQQNewIcon.ico">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="..\..\assets\qqpilot.ICO">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="qqpilot.ICO">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>
