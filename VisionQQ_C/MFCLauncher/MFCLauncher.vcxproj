@@ -210,6 +210,7 @@
     <Image Include="..\..\assets\menu.ico" />
     <Image Include="..\..\assets\menu.png" />
     <Image Include="..\..\assets\UPDATE.png" />
+    <Image Include="menu.ico" />
     <Image Include="res\MFCLauncher.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
