@@ -38,7 +38,7 @@
 ### 2. 安装 `uv`（Python 包 & 版本管理工具）
 
 `uv` 是由 Astral 开发的超快 Python 工具链，用于替代 `pip` + `pyenv`。
-[国内加速脚本](uv-installer2.sh)
+[国内加速脚本]在release下的zip文件夹的uv-installer2.sh
 
 ```bash
 # 官方安装（可能较慢）
@@ -125,6 +125,7 @@ sudo apt install python3-tk python3-xlib
 
 | 脚本 | 功能 |
 |------|------|
+| `menu.sh` | 启动台 |
 | `option.sh` | 配置模型类型、API 地址、截图区域等 |
 | `ExtensionManager.sh` | 管理自定义扩展模块 |
 | `run.sh` | 启动主程序 |
