@@ -1,8 +1,12 @@
 <Solution>
   <Configurations>
+    <Platform Name="ARM64" />
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Project Path="batWrapperARM64/batWrapperARM64.vcxproj" Id="b88f1ecf-1813-456f-961c-e1d0040e09f6">
+    <Platform Solution="Debug|ARM64" Project="x64" />
+  </Project>
   <Project Path="FocusQQWindow2/FocusQQWindow2.vcxproj" Id="92a5f2dc-82d6-4511-995d-853d782b1c7a" />
   <Project Path="ImageImport/ImageImport.vcxproj" />
   <Project Path="InputEvent/InputEvent.vcxproj" Id="b59a5f55-dc63-4cae-aa81-a9c6219a174e" />
