@@ -4,6 +4,7 @@
 //#include "screenscale.cpp"
 #include "inicpp.hpp"
 #include<iostream>
+#include <set>
 
 using namespace inicpp;
 
@@ -217,7 +218,7 @@ int fullScreenshot()
 	{
 		scale = float(getWidth()) / getScreenW();
 	}
-	CaptureAnImage(GetDesktopWindow(),scale, L"screenshot.bmp");
+	CaptureAnImage(GetDesktopWindow(), scale, L"screenshot.bmp");
 	if (not fileExists(L"screenshot.bmp"))
 	{
 		return 1;
@@ -256,7 +257,8 @@ Point containsRedDot(RECT rect)
 	{
 		for (int y = rect.top; y < rect.bottom; ++y)
 		{
-			if (screenshot(x, y, 0) == RED_DOT.r and screenshot(x, y, 1) == RED_DOT.g and screenshot(x, y, 2) == RED_DOT.b)
+			//if (screenshot(x, y, 0) == RED_DOT.r and screenshot(x, y, 1) == RED_DOT.g and screenshot(x, y, 2) == RED_DOT.b)
+			if (std::tie(screenshot(x, y, 0), screenshot(x, y, 1), screenshot(x, y, 2)) == std::tie(RED_DOT.r, RED_DOT.g, RED_DOT.b))
 			{
 				return { static_cast<unsigned>(x), static_cast<unsigned>(y) };
 			}
@@ -276,8 +278,7 @@ Point containsBlue()
 	{
 		for (int y = 0; y < screenshot.height(); y += 10)
 		{
-			//std::cout << x << ',' << y << std::endl;
-			if (screenshot(x, y, 0) == RED_DOT.r and screenshot(x, y, 1) == RED_DOT.g and screenshot(x, y, 2) == RED_DOT.b)
+			if (std::tie(screenshot(x, y, 0), screenshot(x, y, 1), screenshot(x, y, 2)) == std::tie(RED_DOT.r, RED_DOT.g, RED_DOT.b))
 			{
 				return { static_cast<unsigned>(x), static_cast<unsigned>(y) };
 			}
@@ -300,4 +301,76 @@ RECT rect(unsigned left, unsigned top, unsigned right, unsigned bottom)
 	r.right = right;
 	r.bottom = bottom;
 	return r;
+}
+template<typename T>
+bool inRange(T number,T upper,T lower)
+{
+	if (upper < lower)
+	{
+		return false;
+	}
+	return ((upper - number) > 0) and ((lower - number) < 0);
+}
+
+extern "C" __declspec(dllexport)
+int matchTemplate(
+	const char* image,
+	const char* templateImage,
+	int threshold,
+	int* outX,
+	int* outY
+) {
+	if (!image || !templateImage || !outX || !outY) {
+		return 0; // 无效参数
+	}
+
+	try {
+		CImg<unsigned char> background(image);
+
+		//CImg<unsigned char> background = background.resize(1920,1080);
+
+		CImg<unsigned char> foreground(templateImage);
+
+		const int bg_w = background.width();
+		const int bg_h = background.height();
+		const int fg_w = foreground.width();
+		const int fg_h = foreground.height();
+
+		// 模板不能比背景大
+		if (fg_w > bg_w || fg_h > bg_h) {
+			return 0;
+		}
+
+		const int channels = min(background.spectrum(), foreground.spectrum());
+
+		for (int bx = 0; bx <= bg_w - fg_w; ++bx) {
+			for (int by = 0; by <= bg_h - fg_h; ++by) {
+				bool match = true;
+				for (int fx = 0; fx < fg_w && match; ++fx) {
+					for (int fy = 0; fy < fg_h && match; ++fy) {
+						for (int c = 0; c < channels; ++c) {
+							int diff = background(bx + fx, by + fy, c) -
+								foreground(fx, fy, c);
+							if (diff < 0) diff = -diff;
+							if (diff > threshold) {
+								match = false;
+								break;
+							}
+						}
+					}
+				}
+				if (match) {
+					*outX = bx;
+					*outY = by;
+					return 1; // 找到
+				}
+			}
+		}
+	}
+	catch (...) {
+		// CImg 可能抛异常（如文件不存在）
+		return 0;
+	}
+
+	return 0; // 未找到
 }

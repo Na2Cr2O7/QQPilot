@@ -1,13 +1,9 @@
 cmake_minimum_required(VERSION 3.24)
 project(ScaleToINI LANGUAGES CXX)
 
+
 add_executable(ScaleToINI
     ScaleToINI.cpp
-)
-
-target_compile_features(ScaleToINI
-    PUBLIC
-        cxx_std_20
 )
 
 target_compile_definitions(ScaleToINI
@@ -24,3 +20,4 @@ target_compile_options(ScaleToINI
     PUBLIC
         /W3
 )
+

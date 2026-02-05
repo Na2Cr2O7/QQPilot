@@ -19,6 +19,9 @@ def on_settings():
 def on_extension_manager():
     run_script('ExtensionViewer.sh')
 
+def on_lupgrade():
+    run_script("LUpgrade.sh")
+
 def on_exit():
     root.destroy()
     sys.exit()
@@ -26,7 +29,7 @@ def on_exit():
 # 创建主窗口
 root = tk.Tk()
 root.title("启动台")
-root.geometry("300x250")
+root.geometry("300x300")
 root.resizable(False, False)
 
 # 配色
@@ -48,6 +51,7 @@ btn_exit = tk.Button(root, text="关闭", command=on_exit,
 btn_launch.pack(pady=10)
 btn_settings.pack(pady=10)
 btn_ext_mgr.pack(pady=10)
+tk.Button(root, text="升级助手", command=on_lupgrade, bg=button_bg, fg=button_fg, font=button_font, width=20, height=1).pack(pady=10)
 btn_exit.pack(pady=10)
 
 # 启动 GUI 主循环

@@ -1,0 +1,1 @@
+cd .\data\ && PythonPath.cmd option5.py

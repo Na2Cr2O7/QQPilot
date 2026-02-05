@@ -1,1 +1,1 @@
-PythonPath.cmd extensionViewer.py
+cd .\data\ && PythonPath.cmd extensionViewer.py

@@ -1,1 +1,1 @@
-PythonPath.cmd .\download\download.py
+cd .\data\ && PythonPath.cmd .\download\download.py

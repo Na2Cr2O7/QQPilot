@@ -67,11 +67,12 @@ bool MyApp::OnInit()
 }
 void Mainwin::Install_Click(wxCommandEvent& event)
 {
-	/*	   install.exe
-	system("7z.exe x WinPython64-3.13.7.0dot.7z -oPython\\");
-	system("PythonPath.cmd -m pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/");
-	system("下载助手.bat");
-	*/
+
+	wchar_t path[MAX_PATH];
+	GetCurrentDirectoryW(MAX_PATH-1,path);
+	std::wcscat(path, L"\\data");
+	SetCurrentDirectoryW(path);
+
 	LPCWSTR lpApplicationName = L"install.exe";
 	LPWSTR lpCommandLine = const_cast<LPWSTR>(L"");
 	STARTUPINFOW si;

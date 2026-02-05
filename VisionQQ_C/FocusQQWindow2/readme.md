@@ -3,6 +3,13 @@
 
 ### 使用方法
 
+```Python
+import ctypes
 
-[focus.py](../../focus.py)
+def focus():
+    dll=ctypes.CDLL(os.path.abspath('FocusQQWindow2.dll'))
+    # extern "C" int __declspec(dllexport) focus()
+    dll.focus()
 
+focus()
+```
