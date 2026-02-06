@@ -121,6 +121,9 @@ ollama pull huihui_ai/qwen3-vl-abliterated:latest
 
 ### 最低要求
 
+### AMD64
+
+#### Windows
  - Windows 8.1 或更高版本 64位
 
  - 单核处理器，主频1GHz以上
@@ -132,6 +135,28 @@ ollama pull huihui_ai/qwen3-vl-abliterated:latest
  - 1920x1080 显示器
 
 > 对于windows7 可以尝试安装 [VkKex](https://github.com/YuZhouRen86/VxKex-NEXT)
+
+
+#### Linux:
+
+ - 具有桌面（Gnome，Cinnamon等）环境的Linux发行版 64位系统(系统架构不限)
+ - 1GB RAM
+ - 600M 可用空间
+ - 1920x1080 显示器
+
+>详情见[教程](installOnLinux/installonLinux.md)
+
+### ARM64
+
+ - Windows 10ARM64 及以上
+
+ - 1GB RAM
+
+ - 350M 可用空间
+
+ - 1920x1080 显示器
+
+
  
 <img src="success.png" />
 
