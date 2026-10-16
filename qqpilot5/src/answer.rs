@@ -129,7 +129,7 @@ impl Answer {
 
         // extra.json 里的顶层键会整体合并进请求体
         let extra = &config::get().extra;
-        log::print(serde_json::to_string(extra).unwrap_or_else(|_| "{}".to_string()));
+        // log::print(serde_json::to_string(extra).unwrap_or_else(|_| "{}".to_string()));
 
         let final_system_prompt = match system_prompt {
             "auto" => self.system_prompt.clone(),
