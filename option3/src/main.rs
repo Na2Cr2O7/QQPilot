@@ -13,10 +13,9 @@ use winapi::um::winuser::{
 
 use config::{NULLSTR, Settings};
 
-use crate::config::MAX_TOKENS_DEFAULT;
 
 const CLIENT_WIDTH: u32 = 1075;
-const CLIENT_HEIGHT: u32 = 530;
+const CLIENT_HEIGHT: u32 = 500;
 
 const MARGIN_RIGHT: i32 = 20;
 const MARGIN_BOTTOM: i32 = 50;
@@ -150,8 +149,8 @@ pub struct SettingsApp {
     #[nwg_control(text: localization::text("option.auto.focusing"), size: (170,30), position: (336,330), flags: "VISIBLE|TAB_STOP")]
     auto_focusing: nwg::CheckBox,
 
-    #[nwg_control(text: localization::text("option.enable.thinking"), size: (170,30), position: (350, 475), flags: "VISIBLE|TAB_STOP")]
-    enable_thinking: nwg::CheckBox,
+    // #[nwg_control(text: localization::text("option.enable.thinking"), size: (170,30), position: (350, 475), flags: "VISIBLE|TAB_STOP")]
+    // enable_thinking: nwg::CheckBox,
 
     // ---- 发送图片概率 ----
     #[nwg_control(text: localization::text("option.send.image.possibility"), size: (118, 20), position: (9, 378))]
@@ -178,11 +177,6 @@ pub struct SettingsApp {
     #[nwg_control(size: (84, 34), position: (174, 439), flags: "VISIBLE|TAB_STOP|NUMBER")]
     remote_server_timeout: nwg::TextInput,
 
-    #[nwg_control(text: localization::text("option.max.tokens"), size: (190, 20), position: (11, 475))]
-    label_max_tokens: nwg::Label,
-
-    #[nwg_control(size: (84, 34), position: (204, 475), flags: "VISIBLE|TAB_STOP|NUMBER")]
-    max_tokens: nwg::TextInput,
 
     #[nwg_control(text: localization::text("option.tab.times"), size: (134, 20), position: (290, 446))]
     label_tab_times: nwg::Label,
@@ -296,8 +290,6 @@ impl SettingsApp {
             .set_text(&settings.remote_server_timeout.to_string());
         self.force_ollama_api
             .set_check_state(check_state(settings.force_ollama_api));
-        self.enable_thinking
-            .set_check_state(check_state(settings.enable_thinking));
 
         self.send_image_possibility
             .set_pos(settings.send_image_possibility.clamp(0, 100) as usize);
@@ -327,7 +319,6 @@ impl SettingsApp {
                 None => config::reset_token_count().unwrap_or_else(|_| "0".to_string()),
             });
         self.sleep.set_text(&settings.sleep.to_string());
-    self.max_tokens.set_text(&settings.max_tokens.to_string());
     }
 
     /// 对应 `Form1.SaveConfig`：把界面上的值攒成 [`Settings`] 并写回文件。
@@ -364,8 +355,6 @@ impl SettingsApp {
                 8
             },
             sleep: read_uint(&self.sleep, 0),
-            enable_thinking: self.enable_thinking.check_state() == nwg::CheckBoxState::Checked,
-            max_tokens: read_uint(&self.max_tokens, MAX_TOKENS_DEFAULT),
         };
 
         if let Err(e) = settings.save(&self.system_text.text()) {
