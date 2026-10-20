@@ -50,6 +50,7 @@ pub struct Settings {
     pub tab_times: i32,
 
     pub sleep: u32,
+    pub mouse_smooth_move:bool
 }
 
 impl Default for Settings {
@@ -75,6 +76,7 @@ impl Default for Settings {
             force_ollama_api: false,
             tab_times: 8,
             sleep: 0,
+            mouse_smooth_move:true
         }
     }
 }
@@ -126,9 +128,9 @@ impl Settings {
             remote_server_timeout: get_i32("remote_server_timeout", d.remote_server_timeout),
             force_ollama_api: get_bool("forceollamaapi", d.force_ollama_api),
             tab_times: get_i32("tab_times", d.tab_times),
-            // 负值会让 `as u32` 回绕，夹到 0；默认值原本误抄成了 d.tab_times。
-            // 另外原来写的是 .min(0)，会让 sleep 永远是 0（配置里的 20 存不进去）。
             sleep: get_i32("sleep", d.sleep as i32).max(0) as u32,
+            mouse_smooth_move: get_bool("mouse_smooth_move", d.mouse_smooth_move),
+
         }
     }
 
@@ -157,7 +159,7 @@ impl Settings {
             ));
         }
 
-        let values: [(&str, String); 19] = [
+        let values: [(&str, String); 20] = [
             ("version", self.version.clone()),
             ("name", self.name.clone()),
             ("width", self.width.to_string()),
@@ -183,6 +185,7 @@ impl Settings {
             ("forceollamaapi", bool_text(self.force_ollama_api)),
             ("tab_times", self.tab_times.to_string()),
             ("sleep", self.sleep.to_string()),
+            ("mouse_smooth_move",bool_text(self.mouse_smooth_move))
         ];
         for (key, value) in values {
             ini.set(SECTION, key, Some(value));

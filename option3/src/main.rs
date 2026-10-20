@@ -13,7 +13,6 @@ use winapi::um::winuser::{
 
 use config::{NULLSTR, Settings};
 
-
 const CLIENT_WIDTH: u32 = 1075;
 const CLIENT_HEIGHT: u32 = 500;
 
@@ -170,13 +169,16 @@ pub struct SettingsApp {
     #[nwg_control(text: localization::text("option.at.detect"), size: (130,30), position: (11, 400), flags: "VISIBLE|TAB_STOP")]
     at_detect: nwg::CheckBox,
 
+    #[nwg_control(text: localization::text("option.mouse.smooth"), size: (160,30), position: (11, 470), flags: "VISIBLE|TAB_STOP")]
+    mouse_smooth_move: nwg::CheckBox,
+
+
     // ---- 超时 / tab 次数 ----
     #[nwg_control(text: localization::text("option.timeout"), size: (150, 20), position: (11, 446))]
     label_timeout: nwg::Label,
 
     #[nwg_control(size: (84, 34), position: (174, 439), flags: "VISIBLE|TAB_STOP|NUMBER")]
     remote_server_timeout: nwg::TextInput,
-
 
     #[nwg_control(text: localization::text("option.tab.times"), size: (134, 20), position: (290, 446))]
     label_tab_times: nwg::Label,
@@ -355,6 +357,7 @@ impl SettingsApp {
                 8
             },
             sleep: read_uint(&self.sleep, 0),
+            mouse_smooth_move:self.mouse_smooth_move.check_state()==nwg::CheckBoxState::Checked
         };
 
         if let Err(e) = settings.save(&self.system_text.text()) {

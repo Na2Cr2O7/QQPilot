@@ -183,3 +183,12 @@ fn paste_text_to_section(text: &str, section: RectI) {
     hot_key("ctrl", "v");
     thread::sleep(Duration::from_millis(800));
 }
+#[cfg(test)]
+mod tests {
+    use crate::native;
+    #[test]
+    fn move_test() {
+        native::input_event().smooth_mouse_goto(100 ,100);
+        native::input_event().mouse_goto(50,800);
+    }
+}

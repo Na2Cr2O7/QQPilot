@@ -28,6 +28,7 @@
     "option.max.tokens": "Max tokens:",
     "option.tab.times": "Tab presses",
     "option.system.text": "System prompt",
+    "option.mouse.smooth": "Smooth mouse movement",
     "option.server.builtin": "Built-in model",
     "option.server.custom": "Custom",
     "error.config.read": "Could not read the config",

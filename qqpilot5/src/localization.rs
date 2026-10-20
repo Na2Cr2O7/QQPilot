@@ -77,6 +77,9 @@ mod tests {
     ///
     /// 这是不带锁的裸版本：`Mutex` 不可重入，加锁交给 [`with_default_cfg`]
     /// 和下面那个 `default_cfg` 测试，这里再拿一次会死锁。
+    /// 
+    /// 
+    #[test]
     fn write_default_cfg() {
         let value: serde_json::Value = serde_json::from_str(
             r#"{
@@ -182,6 +185,7 @@ mod tests {
     "option.system.text": "提示文本",
     "option.server.builtin": "内置模型",
     "option.server.custom": "自定义",
+    "option.mouse.smooth":"平滑鼠标移动",
     "error.config.read": "读取配置失败",
     "error.config.write": "写入配置失败",
     "error.token.reset": "重置计数器失败",
