@@ -280,6 +280,7 @@ impl VisionDll {
     }
 
     /// 对应 `NativeMethods.matchTemplatesMultiScaleBegin`。
+    #[allow(dead_code)]
     pub fn match_multi_scale_begin(
         &self,
         image_path: &str,

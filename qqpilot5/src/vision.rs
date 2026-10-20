@@ -123,30 +123,30 @@ pub fn find_templates(
 ) -> Result<Vec<(u32, u32)>, String> {
     let results =
         find_templates_by_nearing_d_scale(image_path, template_path, tolerance, max_count)?;
-    if results.len() >= max_count.max(0) as usize {
-        return Ok(results);
-    }
+    // if results.len() >= max_count.max(0) as usize {
+    //     return Ok(results);
+    // }
 
-    let vision = native::vision_dll();
-    let count = vision.match_multi_scale_begin(image_path, template_path, tolerance, max_count);
-    if count < 0 {
-        vision.match_end();
-        return Err(error_message(count, image_path, template_path));
-    }
+    // let vision = native::vision_dll();
+    // let count = vision.match_multi_scale_begin(image_path, template_path, tolerance, max_count);
+    // if count < 0 {
+    //     vision.match_end();
+    //     return Err(error_message(count, image_path, template_path));
+    // }
 
-    let limit = if max_count > 0 {
-        max_count as usize
-    } else {
-        usize::MAX
-    };
-    let mut results = results;
-    for index in 0..count {
-        let Point { x, y } = vision.match_next(index);
-        results.push((x, y));
-        if results.len() >= limit {
-            break;
-        }
-    }
-    vision.match_end();
+    // let limit = if max_count > 0 {
+    //     max_count as usize
+    // } else {
+    //     usize::MAX
+    // };
+    // let mut results = results;
+    // for index in 0..count {
+    //     let Point { x, y } = vision.match_next(index);
+    //     results.push((x, y));
+    //     if results.len() >= limit {
+    //         break;
+    //     }
+    // }
+    // vision.match_end();
     Ok(results)
 }
