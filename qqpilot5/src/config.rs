@@ -90,6 +90,7 @@ pub struct Config {
     pub extra: Map<String, Value>,
 
     pub sleep: u32,
+    pub mouse_smooth_move:bool
 }
 
 impl Default for Config {
@@ -118,6 +119,7 @@ impl Default for Config {
             system_prompt: String::new(),
             extra: Map::new(),
             sleep: 0,
+            mouse_smooth_move:true
         }
     }
 }
@@ -171,6 +173,7 @@ impl Config {
             system_prompt: load_system_prompt(SYSTEM_PROMPT_FILE),
             extra: load_extra(EXTRA_FILE),
             sleep: get_uint(&ini, "sleep", 0),
+            mouse_smooth_move:get_bool(&ini, "mouse_smooth_move", true)
 
         }
     }

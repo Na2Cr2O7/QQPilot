@@ -14,6 +14,7 @@ use crate::native;
 use crate::positions::{PointI, RectI};
 use crate::sleep;
 
+// static config:std::sync::OnceLock<config::Config> T;
 /// 对应 `GUIOperation.Init()`：设置 DPI 感知并按需加载 DLL。
 pub fn init() -> bool {
     let l = localization::load();
@@ -32,9 +33,15 @@ pub fn clear_input_section() {
     sleep::ms(200);
 }
 
+fn mouse_move_selector(x: u32, y: u32) {
+    if config::get().mouse_smooth_move {
+        native::input_event().smooth_mouse_goto(x, y);
+    } else {
+        native::input_event().mouse_goto(x, y);
+    }
+}
 /// 对应 `GUIOperation.Click(x, y)`：先平滑移动再左键单击。
 pub fn click(x: i32, y: i32) -> bool {
-    native::input_event().smooth_mouse_goto(x as u32, y as u32);
     native::input_event().l_click(x as u32, y as u32)
 }
 
@@ -54,7 +61,7 @@ pub fn click_center(area: RectI) -> bool {
 
 /// 对应 `GUIOperation.Goto`。
 pub fn goto(x: i32, y: i32) {
-    native::input_event().smooth_mouse_goto(x as u32, y as u32);
+    mouse_move_selector(x as u32, y as u32);
 }
 
 /// 对应 `GUIOperation.GotoCenter`。
@@ -71,26 +78,31 @@ pub fn scroll_down(delta: i32) -> bool {
 /// 对应 `GUIOperation.DragFromToSimple`：按下 -> 移动到终点 -> 等待 `scroll` 秒 -> 抬起。
 pub fn drag_from_to_simple(x1: i32, y1: i32, x2: i32, y2: i32) {
     let input = native::input_event();
-    input.smooth_mouse_goto(x1 as u32, y1 as u32);
+    mouse_move_selector(x1 as u32, y1 as u32);
     thread::sleep(Duration::from_millis(100));
     input.mouse_down();
     thread::sleep(Duration::from_millis(100));
-    input.smooth_mouse_goto(x2 as u32, y2 as u32);
+    mouse_move_selector(x2 as u32, y2 as u32);
     thread::sleep(Duration::from_secs(config::get().scroll.max(0) as u64));
     input.mouse_up();
 }
 
 // --- 键盘 ---
 
-/// 对应 `GUIOperation.PressKey`：键名找不到时与 C# 一样直接中断。
 pub fn press_key(key_name: &str) {
     let translate = localization::load();
     let vk = native::input_event().get_vk_key(&key_name.to_uppercase());
-    assert!(
-        vk != 0,
-        "{}: {key_name}",
-        localization::get(&translate, "error.key.unknown")
-    );
+    if vk == 0 {
+        log::error(format!(
+            "{}: {key_name}",
+            localization::get(&translate, "error.key.modifier")
+        ));
+    }
+    // assert!(
+    //     vk != 0,
+    //     "{}: {key_name}",
+    //     localization::get(&translate, "error.key.unknown")
+    // );
     native::input_event().press(vk);
 }
 
@@ -100,16 +112,28 @@ pub fn hot_key(modifier: &str, key: &str) {
     let input = native::input_event();
     let mod_vk = input.get_vk_key(&modifier.to_uppercase());
     let key_vk = input.get_vk_key(&key.to_uppercase());
-    assert!(
-        mod_vk != 0,
-        "{}: {modifier}",
-        localization::get(&translate, "error.key.modifier")
-    );
-    assert!(
-        key_vk != 0,
-        "{}: {key}",
-        localization::get(&translate, "error.key.press")
-    );
+    // assert!(
+    //     mod_vk != 0,
+    //     "{}: {modifier}",
+    //     localization::get(&translate, "error.key.modifier")
+    // );
+    if mod_vk == 0 {
+        log::error(format!(
+            "{}: {modifier}",
+            localization::get(&translate, "error.key.modifier")
+        ));
+    }
+    // assert!(
+    //     key_vk != 0,
+    //     "{}: {key}",
+    //     localization::get(&translate, "error.key.press")
+    // );
+    if key_vk == 0 {
+        log::error(format!(
+            "{}: {key}",
+            localization::get(&translate, "error.key.modifier")
+        ));
+    }
     input.hot_key(mod_vk, key_vk);
 }
 

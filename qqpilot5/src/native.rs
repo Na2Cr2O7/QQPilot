@@ -97,6 +97,7 @@ unsafe fn load_fn<T: Copy>(lib: &Library, dll: &str, name: &str) -> Result<T, St
 // --- InputEvent.dll ---
 
 type SmoothMouseGotoFn = unsafe extern "C" fn(u32, u32) -> bool;
+type MouseGotoFn = unsafe extern "C" fn(u32, u32) -> bool;
 type LClickFn = unsafe extern "C" fn(u32, u32) -> bool;
 type ScrollFn = unsafe extern "C" fn(i32) -> bool;
 type GetVkKeyFn = unsafe extern "C" fn(*const std::ffi::c_char) -> u16;
@@ -116,6 +117,7 @@ pub struct InputEvent {
     mouse_down: SimpleActionFn,
     mouse_up: SimpleActionFn,
     dpi_awareness: DpiAwarenessFn,
+    mouse_goto:MouseGotoFn,
     /// 必须最后析构：上面的函数指针都指向这块库的代码段。
     _lib: Library,
 }
@@ -135,6 +137,7 @@ impl InputEvent {
                 mouse_down: load_fn(&lib, "InputEvent.dll", "LmouseDown")?,
                 mouse_up: load_fn(&lib, "InputEvent.dll", "LmouseUp")?,
                 dpi_awareness: load_fn(&lib, "InputEvent.dll", "DPIAwarenessPrologue")?,
+                mouse_goto:load_fn(&lib, "InputEvent.dll", "Mousegoto")?,
                 _lib: lib,
             })
         }
@@ -145,7 +148,11 @@ impl InputEvent {
         // SAFETY: 函数指针在构造时已解析，签名与 C 侧一致。
         unsafe { (self.smooth_mouse_goto)(x, y) }
     }
-
+    
+   pub fn mouse_goto(&self, x: u32, y: u32) -> bool {
+        // SAFETY: 函数指针在构造时已解析，签名与 C 侧一致。
+        unsafe { (self.mouse_goto)(x, y) }
+    }
     /// 对应 `GUIOperation.Lclick`。
     pub fn l_click(&self, x: u32, y: u32) -> bool {
         // SAFETY: 同上。
