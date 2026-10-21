@@ -147,8 +147,6 @@ pub fn parse_chat_log(chat: &str, character_name: &str) -> Vec<ChatContent> {
             own_by_myself,
         ));
 
-        log::print(messages.last().map(|m| m.report()).unwrap_or_default());
-        log::print("");
     }
 
     messages
