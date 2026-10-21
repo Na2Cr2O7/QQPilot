@@ -1,11 +1,11 @@
 //! 单条聊天消息（对应 C# 的 `ChatContent.cs`）。
 
 use std::fmt;
-use std::path::Path;
+// use std::path::Path;
 
 use chrono::Local;
 
-use crate::localization;
+// use crate::localization;
 
 /// 一条从聊天记录里解析出来的消息。
 pub struct ChatContent {
@@ -34,42 +34,42 @@ impl ChatContent {
         }
     }
 
-    /// 对应 `ChatContent.Report()`：带图片存在性检查的可读摘要。
-    pub fn report(&self) -> String {
-        let translate = localization::load();
-        let t = |key: &str| localization::get(&translate, key);
+    // 对应 `ChatContent.Report()`：带图片存在性检查的可读摘要。
+    // pub fn report(&self) -> String {
+    //     let translate = localization::load();
+    //     let t = |key: &str| localization::get(&translate, key);
 
-        let prefix = if self.own_by_myself {
-            t("chat.self.prefix")
-        } else {
-            String::new()
-        };
-        let content = &self.text;
+    //     let prefix = if self.own_by_myself {
+    //         t("chat.self.prefix")
+    //     } else {
+    //         String::new()
+    //     };
+    //     let content = &self.text;
 
-        let valid_images: Vec<&String> = self
-            .image_paths
-            .iter()
-            .filter(|path| Path::new(path.as_str()).exists())
-            .collect();
+    //     let valid_images: Vec<&String> = self
+    //         .image_paths
+    //         .iter()
+    //         .filter(|path| Path::new(path.as_str()).exists())
+    //         .collect();
 
-        let image_part = if valid_images.is_empty() {
-            t("chat.noimage")
-        } else {
-            let joined = valid_images
-                .iter()
-                .map(|p| format!("\"{p}\""))
-                .collect::<Vec<_>>()
-                .join(", ");
-            format!("[ {joined} ]")
-        };
+    //     let image_part = if valid_images.is_empty() {
+    //         t("chat.noimage")
+    //     } else {
+    //         let joined = valid_images
+    //             .iter()
+    //             .map(|p| format!("\"{p}\""))
+    //             .collect::<Vec<_>>()
+    //             .join(", ");
+    //         format!("[ {joined} ]")
+    //     };
 
-        format!(
-            "{prefix}{username}: {content}\n{time}\n {label}{image_part}",
-            username = self.username,
-            time = self.time,
-            label = t("chat.image.label"),
-        )
-    }
+    //     format!(
+    //         "{prefix}{username}: {content}\n{time}\n {label}{image_part}",
+    //         username = self.username,
+    //         time = self.time,
+    //         label = t("chat.image.label"),
+    //     )
+    // }
 }
 
 /// C# 的 `content[..^1]`：去掉最后一个字符（C# 按 UTF-16 单元，这里按 Unicode 标量）。

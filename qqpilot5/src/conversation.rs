@@ -6,7 +6,6 @@ use std::sync::OnceLock;
 use regex::Regex;
 
 use crate::chat_content::ChatContent;
-use crate::log;
 
 /// 形如 `用户名: 08-10 17:18:30` 的消息头。
 const HEADER_PATTERN: &str = r"^(.+?):\s+(\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2})$";
