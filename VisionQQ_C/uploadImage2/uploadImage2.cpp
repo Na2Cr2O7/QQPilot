@@ -1,4 +1,5 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+﻿//命令行程序，直接复制图片到剪贴板
+#define _CRT_SECURE_NO_WARNINGS
 #include <Windows.h>
 #include <GdiPlus.h>
 #include <iostream>
@@ -75,10 +76,6 @@ static int select()
 	} while (FindNextFile(hFind, &findFileData));
 
 
-	for (auto& image : images)
-	{
-		std::wcout << image << std::endl;
-	}
 	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
 	std::shuffle(images.begin(), images.end(), std::default_random_engine(seed));
 	if (images.size() == 0)

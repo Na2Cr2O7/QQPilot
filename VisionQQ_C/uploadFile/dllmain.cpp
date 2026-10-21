@@ -69,8 +69,6 @@ extern "C" int __declspec(dllexport) upload()
 		{
 			const wchar_t* ext = imageExts[i];
 			size_t length = std::wcslen(ext);
-			//std::wcout << ext << length;
-			//std::cout << std::endl;
 			size_t fileNameLength = std::wcslen(findFileData.cFileName);
 			if (std::wcscmp(findFileData.cFileName + fileNameLength + 1 - length, ext) == 0)
 			{
@@ -86,10 +84,7 @@ extern "C" int __declspec(dllexport) upload()
 	} while (FindNextFile(hFind, &findFileData));
 
 
-	for (auto& image : images)
-	{
-		std::wcout << image << std::endl;
-	}
+
 	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
 	std::shuffle(images.begin(), images.end(), std::default_random_engine(seed));
 	if (images.size() == 0)
@@ -98,7 +93,8 @@ extern "C" int __declspec(dllexport) upload()
 		return -1;
 	}
 	selectedImage = std::wstring(path, std::wcslen(pathwithastar) - 1) + images.at(0);
-
+	
+	std::wprintf(L"->%s", images.at(0).c_str());
 	// 上传文件
 	EnumWindows(uploadFile, NULL);
 	return 0;
@@ -106,7 +102,8 @@ extern "C" int __declspec(dllexport) upload()
 extern "C" int __declspec(dllexport) uploadSelectedImage(wchar_t* src)
 {
 	selectedImage = src;
-	std::wcout << "selected " << src << std::endl;
+	std::wprintf(L"->%s", src);
+
 	EnumWindows(uploadFile, NULL);
 	return 0;
 }
