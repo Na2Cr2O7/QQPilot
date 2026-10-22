@@ -321,6 +321,7 @@ impl SettingsApp {
                 None => config::reset_token_count().unwrap_or_else(|_| "0".to_string()),
             });
         self.sleep.set_text(&settings.sleep.to_string());
+        self.mouse_smooth_move.set_check_state(check_state(settings.mouse_smooth_move));
     }
 
     /// 对应 `Form1.SaveConfig`：把界面上的值攒成 [`Settings`] 并写回文件。

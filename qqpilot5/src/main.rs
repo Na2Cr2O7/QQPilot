@@ -25,6 +25,8 @@ use std::process::Command;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::thread;
 
+mod job_guard;
+
 use windows_sys::Win32::System::Console::SetConsoleCtrlHandler;
 
 use answer::Answer;

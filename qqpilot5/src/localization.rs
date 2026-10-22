@@ -52,13 +52,8 @@ pub(crate) fn get(localization: &Translation, src: &str) -> String {
     String::from("X") + src
 }
 
-// ⚠️ 警告: DPI 感知设置失败（可能影响高分屏坐标精度）
-
 #[cfg(test)]
-
 mod tests {
-
-
     use super::*;
 
     /// 几个测试共用同一批 locale 文件，而 `fs::write` 会先截断再写，
@@ -77,9 +72,9 @@ mod tests {
     ///
     /// 这是不带锁的裸版本：`Mutex` 不可重入，加锁交给 [`with_default_cfg`]
     /// 和下面那个 `default_cfg` 测试，这里再拿一次会死锁。
-    /// 
-    /// 
-    #[test]
+    ///
+    /// 因此它**不是**测试用例：加了 `#[test]` 就会绕过锁并发截断 `zh-CN.json`，
+    /// 让其它用例读到空文件或半截 JSON 而随机失败。
     fn write_default_cfg() {
         let value: serde_json::Value = serde_json::from_str(
             r#"{
@@ -190,6 +185,11 @@ mod tests {
     "error.config.write": "写入配置失败",
     "error.token.reset": "重置计数器失败",
     "error.extra.json.open": "打开 extra.json 失败",
+    "error.subprocess.launch": "启动子进程失败",
+    "error.jobobjects.create": "创建 Job 对象失败",
+    "error.jobobjects.limit": "设置 Job 对象限制失败",
+    "error.jobobjects.subprocess.handle": "无法打开子进程句柄",
+    "error.jobobjects.attach": "无法将子进程加入 Job 对象",
     "error.ui.init": "初始化界面失败",
     "error.ui.build": "构建界面失败"
 }"#,
