@@ -88,7 +88,8 @@ fn main() {
     // `--parent` 只是兜底：万一 Job 没生效，浮窗也会盯着本进程自己退出。
     let overlay = job_guard::JobGuard::create_and_assign(
         &job_guard::resolve_program("InfoRunning2.exe"),
-        &["--parent", &std::process::id().to_string()],
+        &[]
+        // &["--parent", &std::process::id().to_string()],
     );
     let _overlay_guard = match overlay {
         Ok(guard) => Some(guard),

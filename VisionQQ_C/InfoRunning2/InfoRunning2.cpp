@@ -390,27 +390,7 @@ namespace
 		SetTimer(g_window, kFadeTimer, kFadeIntervalMs, nullptr);
 	}
 
-	DWORD ParentProcessId()
-	{
-		int argc = 0;
-		LPWSTR* argv = CommandLineToArgvW(GetCommandLineW(), &argc);
-		if (argv == nullptr)
-		{
-			return 0;
-		}
 
-		DWORD pid = 0;
-		for (int index = 1; index + 1 < argc; ++index)
-		{
-			if (_wcsicmp(argv[index], L"--parent") == 0)
-			{
-				pid = static_cast<DWORD>(_wtoi(argv[index + 1]));
-				break;
-			}
-		}
-		LocalFree(argv);
-		return pid;
-	}
 
 	/// Job 对象已经能保证随 QQPilot 退出；这里再盯一眼父进程，方便单独调试时也能自己关掉。
 	void WatchParent(HWND window, DWORD parent_pid)
@@ -533,7 +513,7 @@ INT WINAPI WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT)
 		return 1;
 	}
 
-	WatchParent(g_window, ParentProcessId());
+	//WatchParent(g_window, ParentProcessId());
 	ShowOverlay();
 
 	MSG message{};
