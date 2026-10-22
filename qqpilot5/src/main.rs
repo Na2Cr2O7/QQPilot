@@ -211,6 +211,7 @@ fn main() {
     let copy_button_possible =
         positions::to_actual_size(positions::COPY_BUTTON_POSSIBLE_BBOX_RELATIVE_SIZE, size);
 
+    
     // SAFETY: 传入的是本文件里 'static 的合法处理函数。
     unsafe { SetConsoleCtrlHandler(Some(console_ctrl_handler), 1) };
 
@@ -223,10 +224,13 @@ fn main() {
         );
         let _ = std::io::stdout().flush();
 
-        vision::full_screenshot();
         let mut contain = if settings.at_detect {
+            // vision::screenshot(at_place);
+            vision::screenshot((0,0,at_place.2,at_place.3));
+            // panic!();
             vision::contains_red_dot(vision::rect(at_place))
         } else {
+            vision::screenshot((0,0,chat_list.2,chat_list.3));
             vision::contains_red_dot(vision::rect(chat_list))
         };
 
