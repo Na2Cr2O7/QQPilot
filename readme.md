@@ -31,6 +31,8 @@
 [工作原理](documentation/工作原理.md)
 
 [不同平台的版本差异](documentation/diff.md)
+
+[TinyLangJaccard](documentation/TinyLangJaccardReadme.md)
 ## 🛡️ 免责声明
 
 本软件 **仅限技术学习与研究用途**，严禁用于：
