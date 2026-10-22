@@ -362,18 +362,18 @@ namespace
 	}
 
 	/// QQPilot 会全屏截图做模板匹配，浮窗不能被拍进去，否则会盖住聊天区域。
-	void ExcludeFromCapture(HWND window)
-	{
-		return;
-		using SetWindowDisplayAffinityFn = BOOL(WINAPI*)(HWND, DWORD);
-		static const auto set_affinity = reinterpret_cast<SetWindowDisplayAffinityFn>(
-			GetProcAddress(GetModuleHandleW(L"user32.dll"), "SetWindowDisplayAffinity"));
-		if (set_affinity != nullptr)
-		{
-			// WDA_EXCLUDEFROMCAPTURE：Win10 2004+；老系统返回失败，忽略即可。
-			set_affinity(window, 0x00000011);
-		}
-	}
+	//void ExcludeFromCapture(HWND window)
+	//{
+	//	return;
+	//	using SetWindowDisplayAffinityFn = BOOL(WINAPI*)(HWND, DWORD);
+	//	static const auto set_affinity = reinterpret_cast<SetWindowDisplayAffinityFn>(
+	//		GetProcAddress(GetModuleHandleW(L"user32.dll"), "SetWindowDisplayAffinity"));
+	//	if (set_affinity != nullptr)
+	//	{
+	//		// WDA_EXCLUDEFROMCAPTURE：Win10 2004+；老系统返回失败，忽略即可。
+	//		set_affinity(window, 0x00000011);
+	//	}
+	//}
 
 	void ShowOverlay()
 	{
@@ -384,10 +384,6 @@ namespace
 		}
 		UpdatePosition();
 		RenderCard();
-		if (GetEnvironmentVariableW(L"QQPILOT_OVERLAY_CAPTURE", nullptr, 0) == 0)
-		{
-			ExcludeFromCapture(g_window);
-		}
 		g_alpha = 0;
 		PushLayer();
 		ShowWindow(g_window, SW_SHOWNOACTIVATE);
