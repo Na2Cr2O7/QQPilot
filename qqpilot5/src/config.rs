@@ -119,7 +119,7 @@ impl Default for Config {
             system_prompt: String::new(),
             extra: Map::new(),
             sleep: 0,
-            mouse_smooth_move:true
+            mouse_smooth_move:false
         }
     }
 }

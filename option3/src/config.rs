@@ -76,7 +76,7 @@ impl Default for Settings {
             force_ollama_api: false,
             tab_times: 8,
             sleep: 0,
-            mouse_smooth_move:true
+            mouse_smooth_move:false
         }
     }
 }
