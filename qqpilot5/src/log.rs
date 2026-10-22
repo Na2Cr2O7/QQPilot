@@ -42,6 +42,7 @@ pub enum Color {
 /// 对应 C# 的 `Log.Stat`。
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Level {
+    Debug,
     Normal,
     Warn,
     Error,
@@ -132,13 +133,20 @@ pub fn error(message: impl AsRef<str>) {
     print_with(message, Level::Error);
 }
 
-/// 对应 `Log.Print`：打时间戳、按等级变色、写控制台并追加到 log.txt，最后恢复默认色。
+pub fn debug(message: impl AsRef<str>)
+{
+    print_with(message, Level::Debug);
+}
 pub fn print_with(message: impl AsRef<str>, level: Level) {
     let timestamp = Local::now().format("%H:%M:%S");
     let mut output = format!("[{timestamp}]{}", message.as_ref());
 
     match level {
-        Level::Normal => {}
+        Level::Debug=>
+        {
+            output = format!("[DEBUG]{output}");
+        }
+        Level::Normal   => {}
         Level::Warn => {
             output = format!("[WARN]{output}");
             set_color(Color::Yellow);
@@ -148,12 +156,15 @@ pub fn print_with(message: impl AsRef<str>, level: Level) {
             set_color(Color::Red);
         }
     }
-
-    println!("{output}");
-
     if let Ok(mut file) = OpenOptions::new().create(true).append(true).open("log.txt") {
         let _ = writeln!(file, "{output}");
     }
+    if level==Level::Debug && !cfg!(debug_assertions)
+    {
+        return;
+    }
+    println!("{output}");
+
 
     reset();
 }
