@@ -60,7 +60,7 @@ bool SmoothMousegoto(unsigned x, unsigned y)
 	int waitbefore = 0;
 	for (auto point : p)
 	{
-		Mousegoto(point.x, point.y);					  s
+		Mousegoto(point.x, point.y);					  
 		std::this_thread::sleep_for(std::chrono::milliseconds(point.wait-waitbefore));
 		waitbefore = point.wait;
 		//std::cout <<

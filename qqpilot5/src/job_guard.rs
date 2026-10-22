@@ -86,19 +86,44 @@ impl JobGuard {
         }
         Ok(())
     }
-    pub fn create_and_assign_process(process_name: String) -> Result<Self, String> {
-        let tr = localization::load();
-        let child = Command::new(process_name).spawn().map_err(|e| {
+    /// 拉起一个子进程并把它放进 Job：返回的 guard 一释放，子进程就跟着结束。
+    pub fn create_and_assign(program: &std::path::Path, args: &[&str]) -> Result<Self, String> {
+        let translate = localization::load();
+        // 先建 Job 再拉起进程：Job 建不出来时不会留下一个没人管的子进程。
+        let job = JobGuard::new()?;
+        let mut child = Command::new(program).args(args).spawn().map_err(|e| {
             format!(
-                "{}: {}",
-                localization::get(&tr, "error.subprocess.launch"),
-                e
+                "{}: {}: {e}",
+                localization::get(&translate, "error.subprocess.launch"),
+                program.display()
             )
         })?;
-        let job = JobGuard::new()?;
-        job.assign_process(&child)?;
+        if let Err(error) = job.assign_process(&child) {
+            let _ = child.kill();
+            let _ = child.wait();
+            return Err(error);
+        }
         Ok(job)
     }
+}
+
+/// 找可执行文件：先可执行文件目录，再当前工作目录；都找不到就原样返回，
+/// 让 `Command::new` 按 PATH 找（也能给出更直观的错误）。
+pub fn resolve_program(name: &str) -> std::path::PathBuf {
+    let mut candidates: Vec<std::path::PathBuf> = Vec::new();
+    if let Some(dir) = std::env::current_exe()
+        .ok()
+        .and_then(|path| path.parent().map(std::path::PathBuf::from))
+    {
+        candidates.push(dir.join(name));
+    }
+    if let Ok(dir) = std::env::current_dir() {
+        candidates.push(dir.join(name));
+    }
+    candidates
+        .into_iter()
+        .find(|candidate| candidate.is_file())
+        .unwrap_or_else(|| std::path::PathBuf::from(name))
 }
 
 use crate::{localization, log};
@@ -128,7 +153,7 @@ mod tests {
     #[test]
     fn create_process() {
         let _guard = lock();
-        JobGuard::create_and_assign_process("notepad.exe".to_string()).unwrap();
+        JobGuard::create_and_assign(std::path::Path::new("notepad.exe"), &[]).unwrap();
     }
 
     /// Job 句柄全部关闭时，已经分配进去的子进程必须一起结束。

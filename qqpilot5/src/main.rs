@@ -84,6 +84,23 @@ fn main() {
 
     gui_operation::init();
 
+    // 右下角的运行状态浮窗。放进 Job 里，QQPilot 退出（包括 Ctrl+C）时一起结束。
+    // `--parent` 只是兜底：万一 Job 没生效，浮窗也会盯着本进程自己退出。
+    let overlay = job_guard::JobGuard::create_and_assign(
+        &job_guard::resolve_program("InfoRunning2.exe"),
+        &["--parent", &std::process::id().to_string()],
+    );
+    let _overlay_guard = match overlay {
+        Ok(guard) => Some(guard),
+        Err(error) => {
+            log::warn(format!(
+                "{}: {error}",
+                localization::get(&translate, "error.overlay.launch")
+            ));
+            None
+        }
+    };
+
     let character_name = settings.name.clone();
 
     let mut token_count: i64 = match fs::read_to_string("tokencount.txt") {

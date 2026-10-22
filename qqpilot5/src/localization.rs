@@ -190,6 +190,7 @@ mod tests {
     "error.jobobjects.limit": "设置 Job 对象限制失败",
     "error.jobobjects.subprocess.handle": "无法打开子进程句柄",
     "error.jobobjects.attach": "无法将子进程加入 Job 对象",
+    "error.overlay.launch": "启动运行浮窗失败",
     "error.ui.init": "初始化界面失败",
     "error.ui.build": "构建界面失败"
 }"#,
