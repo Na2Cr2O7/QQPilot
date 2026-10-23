@@ -1,4 +1,4 @@
-# 在虚拟机中调用主机上的 Ollama 服务（Windows 主机）
+# 在虚拟机中调用主机上的 Ollama 服务
 
 本教程将指导你如何在虚拟机（如 VMware、VirtualBox 等）中访问运行在 **主机** 上的 Ollama 服务，从而避免在虚拟机中重复部署模型。
 
@@ -22,7 +22,7 @@
    taskkill /F /IM ollama.exe
    taskkill /F /IM "ollama app.exe"
    ```
-   或者打开终端
+   或者在 Linux 上执行：
    ```bash
    sudo systemctl stop ollama
    ```
