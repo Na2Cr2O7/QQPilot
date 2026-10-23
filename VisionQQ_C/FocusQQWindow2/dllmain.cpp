@@ -127,7 +127,7 @@ static bool stringInString(const std::wstring& text, const std::wstring& search)
 }
 static bool correct(const std::wstring_view& text)
 {
-    std::wstring correct2 = L"[#] QQ [#]";
+    const std::wstring correct2 = L"[#] QQ [#]"; //Sandboxie沙盒的QQ
     return (text == correct2 or text == QQ);
 
 }
