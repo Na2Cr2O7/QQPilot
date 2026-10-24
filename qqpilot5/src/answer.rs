@@ -53,10 +53,7 @@ impl std::fmt::Display for Answer {
         write!(
             f,
             "Answer(backend={backend}, model={}, vision={}, total_tokens={})",
-            self.model_name,
-
-            self.is_vision_model,
-            self.total_tokens
+            self.model_name, self.is_vision_model, self.total_tokens
         )
     }
 }
@@ -399,13 +396,17 @@ impl Answer {
             .pointer("/choices/0/message/reasoning_content")
             .and_then(Value::as_str);
         if let Some(reason) = reason {
-            if !windows8(){
-
+            log::set_color(log::Color::DarkCyan);
+            log::print("============================");
+            log::reset();
+            if !windows8() {
                 log::print(format!("\033[2m<think>\n{reason}\n</think>"));
-            }
-            else {
+            } else {
                 log::print(format!("<think>\n{reason}\n</think>"));
             }
+            log::set_color(log::Color::DarkCyan);
+            log::print("============================");
+            log::reset();
         }
     }
 }
@@ -415,8 +416,6 @@ impl Drop for Answer {
         self.cleanup_temp();
     }
 }
-
-
 
 /// 把 `extra.json` 的顶层键合并进请求体。
 ///
@@ -558,8 +557,6 @@ mod tests {
 
     use super::*;
 
-
-
     /// `Display` 要能安全地打出后端/参数摘要（这里只是别 panic）。
     #[test]
     fn display_summarizes_the_backend() {
@@ -618,9 +615,8 @@ mod tests {
         let body: Value = serde_json::from_str(&dest).expect("dest.json 不是合法 JSON");
         assert_eq!(body.get("model"), Some(&json!("Qwen/Qwen3-8B")));
     }
-     #[test]
-     fn darken_text()
-     {
+    #[test]
+    fn darken_text() {
         println!("\033[2m<think>\n123123124214\n</think>");
-     }
+    }
 }
