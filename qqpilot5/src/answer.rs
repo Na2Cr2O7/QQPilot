@@ -170,8 +170,8 @@ impl Answer {
             return None;
         }
 
-        log::print("\n\nResponse:\n");
-        log::print(&response_body);
+        log::Debug("\n\nResponse:\n");
+        log::Debug(&response_body);
 
         let document: Value = match serde_json::from_str(&response_body) {
             Ok(value) => value,
